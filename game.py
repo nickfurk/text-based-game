@@ -11,14 +11,6 @@ from time import sleep
 import doctest
 
 
-def RUN_AWAY_AMOUNT():
-    """Set the maximum run away amount as 3.
-
-    :return: an integer
-    """
-    return 3
-
-
 def PLAYER_STARTING_POSITION():
     """Set the player's starting position as [0, 0].
 
@@ -226,8 +218,7 @@ def player():
                    "hp": player_hp,
                    "position": player_position,
                    "level": {"level": 1, "exp": 0},
-                   "damage": player_damage,
-                   "run_away_chance": RUN_AWAY_AMOUNT()}
+                   "damage": player_damage}
     return player_info
 
 
@@ -492,7 +483,7 @@ def combat_round(player_info):
     while user_choice not in battle_decision_options:
         print(f"{user_choice} is not a valid choice!, Please choose again: ")
         user_choice = input_checker(user_battle_decision)
-    if user_choice == "Yes" or (user_choice == "No" and player_info["run_away_chance"] < 1):
+    if user_choice == "Yes":
         while player_info["hp"] > 0 and monster_info["hp"] > 0:
             battle_start(player_info, monster_info, battle_attack_order())
     else:
@@ -525,7 +516,6 @@ def run_away(player_info, monster_info):
     >>> players["hp"] == 14
     True
     """
-    player_info["run_away_chance"] -= 1
     run_away_number = roll_die(1, RUN_AWAY_PROBABILITY())
     if run_away_number == 1:
         run_away_damage = roll_die(1, RUN_AWAY_DAMAGE_PROBABILITY())
