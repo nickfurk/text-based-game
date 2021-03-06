@@ -19,5 +19,6 @@
 | List comprehension ||
 | Dictionary comprehension |  |
 | Enumerate |  |
+| Map function | | 
 Amazing day! Testing merge conflict. See what happens. THis is april's line
 #### ** Add any comments for me above this line **
