@@ -11,13 +11,12 @@
 | List |  |
 | Dictionary or list comprehension |  |
 | Selection using the if-statement |  |
-
+| For or while loop |  |
 | Membership operator (in) |  |
-| Random module |  |
 | Range function |  |
 | itertools function(s) |  |
-| List comprehension ||
-| Dictionary comprehension |  |
-| Enumerate |  |
+| Enumerate ||
+| Filter or map |  |
+| Random module |  |
 Amazing day! Testing merge conflict. See what happens. THis is april's line
 #### ** Add any comments for me above this line **
