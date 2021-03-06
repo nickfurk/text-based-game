@@ -5,5 +5,18 @@
 ### Your student numbers: <br> Paul: A00990811 <br> April: A01261858
 
 #### ** Add any comments for me below this line **
+| Required element | Location (line number) |
+| ---------------- | ---------------------- |
+| Tuple |  |
+| List |  |
+| Dictionary or list comprehension |  |
+| Selection using the if-statement |  |
 
+| Membership operator (in) |  |
+| Random module |  |
+| Range function |  |
+| itertools function(s) |  |
+| List comprehension ||
+| Dictionary comprehension |  |
+| Enumerate |  |
 #### ** Add any comments for me above this line **
