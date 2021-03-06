@@ -1,8 +1,8 @@
 # 1510-A4-Text-based-adventure-game
 
-### Your names:
+### Your names: <br>Paul Seong Uk Yeon <br> April Cheng
 
-### Your student numbers:
+### Your student numbers: <br> Paul: A00990811 <br> April: 
 
 #### ** Add any comments for me below this line **
 
