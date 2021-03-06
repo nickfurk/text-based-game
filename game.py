@@ -134,6 +134,10 @@ def DUNGEON_LIST():
     return dungeon_list
 
 
+def BATTLE_CHANCE():
+    return 5
+
+
 def input_checker(list_of_options):
     """Generate user choice from provided dictionary.
 
@@ -334,23 +338,23 @@ def game_over():
     quit()
 
 
-def move_character(player_info):
+def move_character(player):
     """Change the position of the player to a new position based on user input.
 
-    :param player_info: a dictionary
+    :param player: a dictionary
     :precondition: player_info must be a proper dictionary with correct character and information
     :postcondition: the player's position will correctly change according to user input
     :return: a changed player's new position in a list or "quit" as a string
     """
-    if player_info["hp"] > 0:
+    if player["hp"] > 0:
         direction_list = ["W", "E", "S", "N", "quit"]
         new_direction_list = {str(keys): jobs for keys, jobs in enumerate(direction_list, 1)}
         user_input = input_checker(new_direction_list)
-        while user_input not in direction_list or validate_move(player_info['position'], user_input):
+        while user_input not in direction_list or validate_move(player['position'], user_input):
             print("\nYou can't go that way! Choose again wisely.")
             user_input = input_checker(new_direction_list)
-        player_movement_change(player_info["position"], user_input)
-        return player_info["position"]
+        player_movement_change(player["position"], user_input)
+        return player["position"]
 
 
 def dungeon_description(player_info):
@@ -407,8 +411,8 @@ def battle_chance(player_info):
     :precondition: player_info must be a proper dictionary with correct character and information
     :postcondition: correctly lead to corresponding functions depending on situation
     """
-    battle_chance_number = roll_die(1, 10)
-    if battle_chance_number <= 4:
+    battle_chance_number = roll_die(1, BATTLE_CHANCE())
+    if battle_chance_number <= 1:
         delayed_message("There's someone lurking in the dark!", 1)
         combat_round(player_info)
     else:
