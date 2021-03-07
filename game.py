@@ -447,32 +447,6 @@ def display_info(player, board):
 # print(display_info(player_test, make_board()))
 
 
-# def dungeon(player_info):
-#     """Print the map of the player's current position.
-#
-#     The map will be a 5x5 dungeon, where "#" will represent the player's current position within the map. The function
-#     will print the map based on the player's current position.
-#
-#     :param player_info: a list
-#     :precondition: player_info must be a proper list with correct character and information
-#     :precondition: the list must contain two numbers within the range of 0 and 4 inclusive
-#     :postcondition: prints the correct current position of the player in the dungeon as a string
-#
-#     >>> player_information = {"name": "Paul", "job": "Witch Doctor", "hp": 20, "position": [1, 2], "level": {"level": 1, "exp": 0}, "damage": 10, "run_away_chance": 3}
-#     >>> dungeon(player_information["position"])
-#     [ ][ ][ ][ ][ ]
-#     [ ][ ][#][ ][ ]
-#     [ ][ ][ ][ ][ ]
-#     [ ][ ][ ][ ][ ]
-#     [ ][ ][ ][ ][ ]
-#     """
-#     for location in range(5):
-#         if location == player_info["position"][0]:
-#             print(("[ ]" * player_info["position"][1]) + "[#]" + ("[ ]"
-#                   * (4 - player_info["position"][1])))
-#         else:
-#             print("[ ]" * 5)
-
 
 def validate_move(current_position, user_direction):
     """Determine if user_direction is possible from the current_position.
@@ -708,16 +682,10 @@ def combat_round(player, monster):
     :precondition: player must be a proper dictionary with correct character and information
     :postcondition: correctly leads to corresponding functions depending on situation
     """
-    # print(f"\nYou have encountered {monster['name']}! Would you like to fight?\n")
-    # user_battle_decision = {str(keys): jobs for keys, jobs in zip(count(start=1, step=1), YES_OR_NO())}
-    # user_choice = input_checker(user_battle_decision)
-    # while user_choice not in YES_OR_NO():
-    #     print(f"{user_choice} is not a valid choice!, Please choose again: ")
-    #     user_choice = input_checker(user_battle_decision)
     if fight_or_run_decision(monster) == "Yes":
         while player["hp"] > 0 and monster["hp"] > 0:
             battle_start(player, monster, battle_attack_order())
-            if run_away_monster(monster) and monster["hp"] > 0 and player["hp"] > 0:
+            if run_away_monster(monster) and (monster["hp"] > 0 and player["hp"] > 0):
                 return player
             elif monster["hp"] > 0 and player["hp"] > 0:
                 if run_or_fight_again() == "No":
@@ -827,19 +795,6 @@ def battle_start(player, monster_info, attacker):
     :postcondition: correctly continue to run the round until one of the characters have 0 hp value
     :postcondition: correctly lead to leveling_package if the monster_info hp is 0
     """
-    # sleep(1)
-    # if attacker:
-    #     attacking_round(player, monster_info, STARTING_PLAYER_DAMAGE())
-    #     if monster_info['hp'] > 0:
-    #         attacking_round(monster_info, player, MAX_MONSTER_DAMAGE())
-    # elif attacker is False:
-    #     attacking_round(monster_info, player, MAX_MONSTER_DAMAGE())
-    #     if player['hp'] > 0:
-    #         attacking_round(player, monster_info, STARTING_PLAYER_DAMAGE())
-    # elif monster_info['hp'] <= 0:
-    #     player["experience"] += 100
-    #     check_level(player)
-    #     #leveling_package(player)
 
     sleep(1)
     if attacker:
@@ -856,9 +811,6 @@ def battle_start(player, monster_info, attacker):
         if monster_info['hp'] < 0:
             player["experience"] += 100
             check_level(player)
-    # elif monster_info['hp'] <= 0:
-    #     player["experience"] += 100
-    #     check_level(player)
 
 
 def attacking_round(attacker, opponent, damage_amount):
@@ -903,29 +855,13 @@ def check_level(player):
     return level
 
 
-# def leveling_package(player):
-#     """Change the values of player level and damage based on experience value.
-#
-#     The function will record the amount of experience the player receives, and if it reaches the threshold of 500, it
-#     will change the player's level and damage, then change the value of experience back to 0.
-#
-#     :param player: a dictionary
-#     :precondition: player must be a proper dictionary with correct character and information
-#     :return: changed player level and damage value depending on situation in a dictionary
-#     """
-#     if player["level"]["exp"] == 400:
-#         player["level"]["exp"] = 0
-#         player["level"]["level"] += 1
-#         player["damage"] += 2
-#         return player
-#     else:
-#         player["level"]["exp"] += 100
-#         return player
-
 
 def player_game_descriptions(player, board):
     display_map(player)
     display_info(player, board)
+
+
+def fight_boss(player):
 
 
 def game():
@@ -943,18 +879,16 @@ def game():
           "I hope you have fun playing! Let the journey begin!\n")
     board = make_board()
     player = make_player()
-    # player_game_descriptions(player, board)
     player_move = move_character(player, board)
-    while player_move != "quit" and player['hp'] > 0 and player['position'] != [4, 4]:
-        # delayed_message("\n" + dungeon_description(player), 1)
-        battle_chance(player, random_monster())
-        # player_game_descriptions(player, board)
-        # display_map(player)
-        # display_info(player, board)
-        if player['hp'] > 0:
-            player_move = move_character(player, board)
+    while player_move != "quit" and player['hp'] > 0:
+        if player['position'] != [4, 4]:
+            battle_chance(player, random_monster())
+            if player['hp'] > 0:
+                player_move = move_character(player, board)
+            else:
+                game_over()
         else:
-            game_over()
+            fight_boss(player)
     game_over()
 
 
