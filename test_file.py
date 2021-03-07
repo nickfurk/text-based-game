@@ -25,6 +25,19 @@ def BASE_WARRIOR_HP():
 def WARRIOR_HP_INCREMENT(hp):
     return hp + 10
 
+def MAX_MONSTER_HP():
+    return 10
+
+def MONSTER_HP_INCREMENT(hp):
+    return hp + 5
+# print(MONSTER_HP_INCREMENT(MAX_MONSTER_HP()))
+
+def MAX_MONSTER_DAMAGE():
+    return 10
+
+def MONSTER_DAMAGE_INCREMENT(damage):
+    return damage + 5
+
 
 def MAGE():
     return {
@@ -76,7 +89,19 @@ def WARRIOR():
                             "Base_damage_max": 24, "Accuracy_rate": 50}
     }
 
+def MONSTER_DAMAGE():
+    return {
+        1: {"Level": 1, "Damage": MAX_MONSTER_DAMAGE()},
+        2: {"Level": 2, "Damage": MONSTER_DAMAGE_INCREMENT(MAX_MONSTER_DAMAGE())},
+        3: {"Level": 3, "Damage": MONSTER_DAMAGE_INCREMENT(MAX_MONSTER_DAMAGE())}
+    }
 
+def MONSTER_HP():
+    return {
+        1: {"Level": 1, "hp": MAX_MONSTER_HP()},
+        2: {"Level": 2, "hp": MONSTER_HP_INCREMENT(MAX_MONSTER_HP())},
+        3: {"Level": 3, "hp": MONSTER_HP_INCREMENT(MAX_MONSTER_HP())}
+    }
 
 def check_class_choice(user_choice):
     if user_choice == "Mage":
@@ -100,7 +125,7 @@ def return_class_dictionary(player):
         return WARRIOR()
 
 
-def leveling_package(player):
+def check_level(player):
     class_dictionary = return_class_dictionary(player)
     level = 1
     if player["experience"] >= class_dictionary[1]["Experience_needed"]:
@@ -110,24 +135,19 @@ def leveling_package(player):
     return level
 # #testing function
 # player_info = {"class": "warrior", "experience": 300}
-# print(leveling_package(player_info))
+# print(check_level(player_info))
 
 
 def change_player_class_dictionary(player):
     current_dictionary = return_class_dictionary(player)
-    current_level = leveling_package(player)
+    current_level = check_level(player)
     player["class_dictionary"] = current_dictionary[current_level]
+# testing function
+# player_info = {"class": "warrior", "class_dictionary": "placeholder", "experience": 1000}
+# change_player_class_dictionary(player_info)
+# print(player_info)
 
-player_info = {"class": "warrior", "class_dictionary": "placeholder", "experience": 1000}
-change_player_class_dictionary(player_info)
-print(player_info)
-
-    # if player["exp"] == 200:
-    #     player["class"] =
-    #     return player
-    # elif player["experience"] == 500:
-    #     player["class"] =
-    #     return player
+def update_monster_hp(monster):
 
 
 def input_checker(list_of_options):
