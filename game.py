@@ -645,12 +645,14 @@ def battle_attack_order():
     delayed_message("Let's see who gets to attack first this round!\n", 0.5)
     user_initial_attack = roll_die(1, INITIAL_ATTACK_PROBABILITY())
     enemy_initial_attack = roll_die(1, INITIAL_ATTACK_PROBABILITY())
+    while user_initial_attack == enemy_initial_attack:
+        user_initial_attack = roll_die(1, INITIAL_ATTACK_PROBABILITY())
+        enemy_initial_attack = roll_die(1, INITIAL_ATTACK_PROBABILITY())
     if user_initial_attack > enemy_initial_attack:
         return True
-    elif user_initial_attack < enemy_initial_attack:
-        return False
     else:
-        battle_attack_order()
+        return False
+
 
 
 def battle_start(player, monster_info, attacker):
