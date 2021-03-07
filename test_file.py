@@ -65,13 +65,13 @@ def RANGER():
         }
 def WARRIOR():
     return {
-        "level_1": {"Level": 1, "Level_name": "Apprentice Warrior", "Experience": 0, "Experience_needed": 500,
+        1: {"Level": 1, "Level_name": "Apprentice Warrior", "Experience": 0, "Experience_needed": 500,
                             "Attack_name": "Threaten", "Max_HP": BASE_WARRIOR_HP(), "Base_damage_min": 7,
                             "Base_damage_max": 12, "Accuracy_rate": 50},
-        "level_2": {"Level": 2, "Level_name": "Knight", "Experience": 0, "Experience_needed": 500,
+        2: {"Level": 2, "Level_name": "Knight", "Experience": 0, "Experience_needed": 1000,
                             "Attack_name": "Power Crash", "Max_HP": WARRIOR_HP_INCREMENT(BASE_WARRIOR_HP()),
                             "Base_damage_min": 12, "Base_damage_max": 18, "Accuracy_rate": 50},
-        "level_3": {"Level": 3, "Level_name": "Paladin","Attack_name": "Heaven's Hammer",
+        3: {"Level": 3, "Level_name": "Paladin","Attack_name": "Heaven's Hammer",
                            "Max_HP": WARRIOR_HP_INCREMENT(BASE_WARRIOR_HP()), "Base_damage_min": 18,
                             "Base_damage_max": 24, "Accuracy_rate": 50}
     }
@@ -89,7 +89,7 @@ def check_class_choice(user_choice):
         return WARRIOR()
 
 
-def class_dictionary(player):
+def return_class_dictionary(player):
     if player["class"] == "mage":
         return MAGE()
     elif player["class"] == "thief":
@@ -101,17 +101,33 @@ def class_dictionary(player):
 
 
 def leveling_package(player):
-    # class_dictionary(player)
-    # player_class = (player["class"]).upper
-    #
-    # level = 1 + (player["experience"]) // level_up_requirement
+    class_dictionary = return_class_dictionary(player)
+    level = 1
+    if player["experience"] >= class_dictionary[1]["Experience_needed"]:
+        level += 1
+    if player["experience"] >= class_dictionary[2]["Experience_needed"]:
+        level += 1
+    return level
+# #testing function
+# player_info = {"class": "warrior", "experience": 300}
+# print(leveling_package(player_info))
 
-    if player["exp"] == 200:
-        player["class"] = player["class"]["level 2"]
-        return player
-    elif player["experience"] == 500:
-        player["class"] = player["class"]["level 3"]
-        return player
+
+def change_player_class_dictionary(player):
+    current_dictionary = return_class_dictionary(player)
+    current_level = leveling_package(player)
+    player["class_dictionary"] = current_dictionary[current_level]
+
+player_info = {"class": "warrior", "class_dictionary": "placeholder", "experience": 1000}
+change_player_class_dictionary(player_info)
+print(player_info)
+
+    # if player["exp"] == 200:
+    #     player["class"] =
+    #     return player
+    # elif player["experience"] == 500:
+    #     player["class"] =
+    #     return player
 
 
 def input_checker(list_of_options):
@@ -153,15 +169,14 @@ def player_job_generator():
 
 
 def player():
-    class_dictionary = player_job_generator()
-    player_info = {"class": class_dictionary["level 1"], "exp": 200}
+    player_info = {"class_dictionary": player_job_generator()[0], "exp": 200}
     return player_info
 
 
-def main():
-    # print(player())
-    # print(leveling_package({"class": WARRIOR()[0], "exp": 200}))
-
-
-if __name__ == "__main__":
-    main()
+# def main():
+#     # print(player())
+#     # print(leveling_package({"class": WARRIOR()[0], "exp": 200}))
+#
+#
+# if __name__ == "__main__":
+#     main()
