@@ -273,7 +273,7 @@ def make_player():
               "job": player_job,
               "hp": player_hp,
               "position": player_position,
-              "level": {"level": 1, "exp": 0},
+              "level": 1,
               "damage": player_damage,
               "experience": 0}
     return player
@@ -678,17 +678,17 @@ def battle_start(player, monster_info, attacker):
         attacking_round(monster_info, player, MAX_MONSTER_DAMAGE())
         if player['hp'] > 0:
             attacking_round(player, monster_info, STARTING_PLAYER_DAMAGE())
-    elif monster_info['hp'] < 1:
+    elif monster_info['hp'] <= 0:
         leveling_package(player)
 
 
-def attacking_round(attacker, damaged, damage_amount):
-    """Simulate a single attack to the enemy.
+def attacking_round(attacker, opponent, damage_amount):
+    """Simulate a single attack to the opponent.
 
     This function runs a combat simulation that changes the damaged's hp value.
 
     :param attacker: a dictionary
-    :param damaged: a dictionary
+    :param opponent: a dictionary
     :param damage_amount: an integer
     :precondition: attacker and damaged must be a proper dictionary with correct character and information
     :precondition: damage_amount must be a positive integer
@@ -696,10 +696,10 @@ def attacking_round(attacker, damaged, damage_amount):
     :return: changed hp value of damaged in a dictionary
     """
     damage = roll_die(1, damage_amount)
-    damaged['hp'] -= damage
-    delayed_message(f"{attacker['name']} has done {damage} damage to {damaged['name']}!"
-                    f"\n{damaged['name']} has {damaged['hp']} hp left!\n", 0.5)
-    return damaged
+    opponent['hp'] -= damage
+    delayed_message(f"{attacker['name']} has done {damage} damage to {opponent['name']}!"
+                    f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
+    return opponent
 
 
 def leveling_package(player):

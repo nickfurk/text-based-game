@@ -89,14 +89,29 @@ def check_class_choice(user_choice):
         return WARRIOR()
 
 
+def class_dictionary(player):
+    if player["class"] == "mage":
+        return MAGE()
+    elif player["class"] == "thief":
+        return THIEF()
+    elif player["class"] == "ranger":
+        return RANGER()
+    else:
+        return WARRIOR()
+
 
 def leveling_package(player):
-    if player["exp"] == 200:
-        player["class"] =
-        return player
-    elif player["experience"] == 500:
-        player["class"] =
-        return player
+    class_dictionary(player)
+    player_class = (player["class"]).upper
+
+    level = 1 + (player["experience"]) // level_up_requirement
+
+    # if player["exp"] == 200:
+    #     player["class"] =
+    #     return player
+    # elif player["experience"] == 500:
+    #     player["class"] =
+    #     return player
 
 
 def input_checker(list_of_options):
