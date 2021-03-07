@@ -5,6 +5,7 @@ Your student number: A00990811
 All of your code must go in this file.
 Beginning of exam, not a single line of code has been written here previously.
 """
+import itertools
 from itertools import count
 from random import randint, choice
 from time import sleep
@@ -136,6 +137,26 @@ def DUNGEON_LIST():
 
 def BATTLE_CHANCE():
     return 5
+
+
+def make_board():
+    """Generate game board as a dictionary.
+
+    Function generates a dictionary with coordinate tuples as keys and location description as values.
+
+    :return: dictionary with coordinate tuples as keys and location description as values
+    """
+    location_description = [
+        """This room has a cage in the center.""",
+        """This room has a well in the center""",
+        """This room looks like a bar.""",
+        """There are zombies in the opposite corner of you.""",
+        """This room has a wooden chair in the center.""",
+        """This room has a man hanging upside down from the ceiling."""
+    ]
+    cycle_location = itertools.cycle(location_description)
+    board = {(row, column): {"location_description": next(cycle_location)} for row in range(25) for column in range(25)}
+    return board
 
 
 def input_checker(list_of_options):
@@ -634,8 +655,9 @@ def game():
           "If you take a look at the list, you will see your name, then your job, \n"
           "followed by you hp values noted as [current hp, max hp], and your current location.\n"
           "I hope you have fun playing! Let the journey begin!\n")
+    board = make_board()
     player_info = player()
-    dungeon(player_info)
+    # dungeon(player_info)
     player_move = move_character(player_info)
     while player_move != "quit" and player_info['hp'] > 0 and player_info['position'] != [4, 4]:
         delayed_message("\n" + dungeon_description(player_info), 1)
@@ -646,11 +668,11 @@ def game():
     game_over()
 
 
-def main():
-    """Execute the program"""
-    # doctest.testmod(verbose=True)
-    game()
-
-
-if __name__ == "__main__":
-    main()
+# def main():
+#     """Execute the program"""
+#     # doctest.testmod(verbose=True)
+#     game()
+#
+#
+# if __name__ == "__main__":
+#     main()
