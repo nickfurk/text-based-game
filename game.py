@@ -136,7 +136,7 @@ def DUNGEON_LIST():
 
 
 def BATTLE_CHANCE():
-    return 5
+    return 1
 
 
 def BOARD_SIZE():
@@ -310,7 +310,7 @@ def display_info(player, board):
     print(f'Location: {player["position"]}')
     print(f'Description: {board[tuple(coordinate)]["location_description"]}')
     print(f'Health point: {player["hp"]}')
-    print(f'Level: {player["level"]["level"]}')
+    print(f'Level: {player["level"]}')
     print(f'Experience: {player["experience"]}')
 # #testing function
 # player_test = {"position": (2, 2), "description": "huanted room", "hp": 30, "level": 2, "experience": 800}
@@ -573,6 +573,7 @@ def combat_round(player, monster):
     while loop implemented to keep the battle going until one of their hp values reach 0.
 
     :param player: a dictionary
+    :param monster: a dictionary
     :precondition: player must be a proper dictionary with correct character and information
     :postcondition: correctly leads to corresponding functions depending on situation
     """
@@ -585,13 +586,20 @@ def combat_round(player, monster):
     if fight_or_run_decision(monster) == "Yes":
         while player["hp"] > 0 and monster["hp"] > 0:
             battle_start(player, monster, battle_attack_order())
-        delayed_message(f"{monster['name']} is dead! Great job!", 1)
+            if run_away_monster(monster) and monster["hp"] > 0 and player["hp"] > 0:
+                return player
+            elif monster["hp"] > 0 and player["hp"] > 0:
+                if run_or_fight_again() == "No":
+                    run_away_player(player, monster)
+                    return player
+                else:
+                    continue
         press_enter_to_continue()
     else:
-        run_away(player, monster)
+        run_away_player(player, monster)
 
 
-def run_away(player, monster_info):
+def run_away_player(player, monster):
     """Roll a die to determine if the player will get damaged while fleeing.
 
     The player has a 20% chance to avoid damage while running away. This is determined by rolling a 5 sided die once,
@@ -606,13 +614,13 @@ def run_away(player, monster_info):
 
     >>> players = {"name": "Paul", "job": "Witch Doctor", "hp": 10, "position": [1, 2], "level": {"level": 1, "exp": 0}, "damage": 10, "run_away_chance": 3}
     >>> monster = {"name": "Fallen Shamen", "type": "Ureh Caverns", "hp": 10, "damage": 10}
-    >>> run_away(players, monster)
+    >>> run_away_player(players, monster)
     >>> run_away_number == 1
     >>> players["hp"] < 10
     True
     >>> players = {"name": "Paul", "job": "Witch Doctor", "hp": 14, "position": [1, 2], "level": {"level": 1, "exp": 0}, "damage": 10, "run_away_chance": 3}
     >>> monster = {"name": "Fallen Shamen", "type": "Ureh Caverns", "hp": 10, "damage": 10}
-    >>> run_away(players, monster)
+    >>> run_away_player(players, monster)
     >>> run_away_number == 3
     >>> players["hp"] == 14
     True
@@ -621,16 +629,35 @@ def run_away(player, monster_info):
     if run_away_number == 1:
         run_away_damage = roll_die(1, RUN_AWAY_DAMAGE_PROBABILITY())
         player["hp"] -= run_away_damage
-        delayed_message(f"You've been damaged {run_away_damage} hp by {monster_info['name']} while running away!"
+        delayed_message(f"You've been damaged {run_away_damage} hp by {monster['name']} while running away!"
                         f"\nYou only have{player['hp']} hp left! Be careful {player['name']}!", 1)
         press_enter_to_continue()
         return player
     else:
-        delayed_message(f"You've run away successfully from {monster_info['name']}!"
+        delayed_message(f"You've run away successfully from {monster['name']}!"
                         f"You were very lucky this time...\n", 1)
         press_enter_to_continue()
         return player
 
+
+def run_or_fight_again():
+    print(f"\nWould you like to keep fighting?\n")
+    user_battle_decision = {str(keys): jobs for keys, jobs in zip(count(start=1, step=1), YES_OR_NO())}
+    user_choice = input_checker(user_battle_decision)
+    while user_choice not in YES_OR_NO():
+        print(f"{user_choice} is not a valid choice!, Please choose again: ")
+        user_choice = input_checker(user_battle_decision)
+    return user_choice
+
+
+def run_away_monster(monster):
+    run_away_number = roll_die(1, RUN_AWAY_PROBABILITY())
+    if run_away_number == 1:
+        delayed_message(f"{monster['name']} ran away!", 1)
+        press_enter_to_continue()
+        return True
+    else:
+        return False
 
 def battle_attack_order():
     """Determine who will attack first.
