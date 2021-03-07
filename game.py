@@ -17,7 +17,7 @@ def PLAYER_STARTING_POSITION():
 
     :return: a list
     """
-    return [0, 0]
+    return (0, 0)
 
 
 def STARTING_PLAYER_DAMAGE():
@@ -243,35 +243,75 @@ def player():
                    "hp": player_hp,
                    "position": player_position,
                    "level": {"level": 1, "exp": 0},
-                   "damage": player_damage}
+                   "damage": player_damage,
+                   "experience": 0}
     return player_info
 
 
-def dungeon(player_info):
-    """Print the map of the player's current position.
+def display_map(player_info):
+    """Print player's position on a map.
 
-    The map will be a 5x5 dungeon, where "#" will represent the player's current position within the map. The function
-    will print the map based on the player's current position.
-
-    :param player_info: a list
-    :precondition: player_info must be a proper list with correct character and information
-    :precondition: the list must contain two numbers within the range of 0 and 4 inclusive
-    :postcondition: prints the correct current position of the player in the dungeon as a string
-
-    >>> player_information = {"name": "Paul", "job": "Witch Doctor", "hp": 20, "position": [1, 2], "level": {"level": 1, "exp": 0}, "damage": 10, "run_away_chance": 3}
-    >>> dungeon(player_information["position"])
-    [ ][ ][ ][ ][ ]
-    [ ][ ][#][ ][ ]
-    [ ][ ][ ][ ][ ]
-    [ ][ ][ ][ ][ ]
-    [ ][ ][ ][ ][ ]
+    :param player_info: must be a dictionary with player's position as coordinate tuples
+    :precondition: player_info must bet a dictionary with player's position as coordinates
+    :return: print player's position on a map
     """
-    for location in range(5):
-        if location == player_info["position"][0]:
-            print(("[ ]" * player_info["position"][1]) + "[#]" + ("[ ]"
-                  * (4 - player_info["position"][1])))
-        else:
-            print("[ ]" * 5)
+    for row in range(5):
+        line = ""
+        for column in range(5):
+            symbol = "[ ]"
+            if player_info["position"] == (row, column):
+                symbol = "[X]"
+            line += symbol + " "
+        print(line)
+# #testing function
+# player_info = {"position": (1, 1)}
+# display_map(player_info)
+
+
+def display_info(player_info, board):
+    """Print player's position, location description, health point, level and experience point.
+
+    :param player_info: a dictionary with player's position, health point, level and experience
+    :param board: a dictionary with loc
+    :return:
+    """
+    coordinate = player_info["position"]
+    print(f'Location: {player_info["position"]}')
+    print(f'Description: {board[coordinate]["location_description"]}')
+    print(f'Health point: {player_info["hp"]}')
+    print(f'Level: {player_info["level"]}')
+    print(f'Experience: {player_info["experience"]}')
+# #testing function
+# player_test = {"position": (2, 2), "description": "huanted room", "hp": 30, "level": 2, "experience": 800}
+# print(display_info(player_test, make_board()))
+
+
+
+# def dungeon(player_info):
+#     """Print the map of the player's current position.
+#
+#     The map will be a 5x5 dungeon, where "#" will represent the player's current position within the map. The function
+#     will print the map based on the player's current position.
+#
+#     :param player_info: a list
+#     :precondition: player_info must be a proper list with correct character and information
+#     :precondition: the list must contain two numbers within the range of 0 and 4 inclusive
+#     :postcondition: prints the correct current position of the player in the dungeon as a string
+#
+#     >>> player_information = {"name": "Paul", "job": "Witch Doctor", "hp": 20, "position": [1, 2], "level": {"level": 1, "exp": 0}, "damage": 10, "run_away_chance": 3}
+#     >>> dungeon(player_information["position"])
+#     [ ][ ][ ][ ][ ]
+#     [ ][ ][#][ ][ ]
+#     [ ][ ][ ][ ][ ]
+#     [ ][ ][ ][ ][ ]
+#     [ ][ ][ ][ ][ ]
+#     """
+#     for location in range(5):
+#         if location == player_info["position"][0]:
+#             print(("[ ]" * player_info["position"][1]) + "[#]" + ("[ ]"
+#                   * (4 - player_info["position"][1])))
+#         else:
+#             print("[ ]" * 5)
 
 
 def validate_move(current_position, user_direction):
@@ -658,6 +698,8 @@ def game():
     board = make_board()
     player_info = player()
     # dungeon(player_info)
+    display_map(player_info)
+    display_info(player_info)
     player_move = move_character(player_info)
     while player_move != "quit" and player_info['hp'] > 0 and player_info['position'] != [4, 4]:
         delayed_message("\n" + dungeon_description(player_info), 1)
