@@ -563,6 +563,8 @@ def combat_round(player):
     if user_choice == "Yes":
         while player["hp"] > 0 and monster_info["hp"] > 0:
             battle_start(player, monster_info, battle_attack_order())
+        delayed_message(f"{monster_info['name']} is dead! Great job!", 1)
+        press_enter_to_continue()
     else:
         run_away(player, monster_info)
 
@@ -599,10 +601,12 @@ def run_away(player, monster_info):
         player["hp"] -= run_away_damage
         delayed_message(f"You've been damaged {run_away_damage} hp by {monster_info['name']} while running away!"
                         f"\nYou only have{player['hp']} hp left! Be careful {player['name']}!", 1)
+        press_enter_to_continue()
         return player
     else:
         delayed_message(f"You've run away successfully from {monster_info['name']}!"
                         f"You were very lucky this time...\n", 1)
+        press_enter_to_continue()
         return player
 
 
@@ -651,8 +655,6 @@ def battle_start(player, monster_info, attacker):
         if player['hp'] > 0:
             attacking_round(player, monster_info, STARTING_PLAYER_DAMAGE())
     elif monster_info['hp'] < 1:
-        # delayed_message(f"{monster_info['name']} is dead! Great job!", 1)
-        # press_enter_to_continue()
         leveling_package(player)
 
 
@@ -721,7 +723,7 @@ def game():
     # display_info(player, board)
     player_move = move_character(player)
     while player_move != "quit" and player['hp'] > 0 and player['position'] != [4, 4]:
-        delayed_message("\n" + dungeon_description(player), 1)
+        # delayed_message("\n" + dungeon_description(player), 1)
         battle_chance(player)
         player_game_descriptions(player, board)
         # display_map(player)
