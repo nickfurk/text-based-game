@@ -430,7 +430,7 @@ def game_over():
     quit()
 
 
-def move_character(player):
+def move_character(player, board):
     """Change the position of the player to a new position based on user input.
 
     :param player: a dictionary
@@ -438,6 +438,7 @@ def move_character(player):
     :postcondition: the player's position will correctly change according to user input
     :return: a changed player's new position in a list or "quit" as a string
     """
+    player_game_descriptions(player, board)
     if player["hp"] > 0:
         new_direction_list = {str(keys): jobs for keys, jobs in enumerate(DIRECTION_LIST(), 1)}
         user_input = input_checker(new_direction_list)
@@ -769,15 +770,18 @@ def game():
           "I hope you have fun playing! Let the journey begin!\n")
     board = make_board()
     player = make_player()
-    player_game_descriptions(player, board)
-    player_move = move_character(player)
+    # player_game_descriptions(player, board)
+    player_move = move_character(player, board)
     while player_move != "quit" and player['hp'] > 0 and player['position'] != [4, 4]:
         # delayed_message("\n" + dungeon_description(player), 1)
         battle_chance(player, random_monster())
-        player_game_descriptions(player, board)
+        # player_game_descriptions(player, board)
         # display_map(player)
         # display_info(player, board)
-        player_move = move_character(player)
+        if player['hp'] > 0:
+            player_move = move_character(player, board)
+        else:
+            game_over()
     game_over()
 
 
