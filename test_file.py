@@ -140,9 +140,9 @@ def change_player_class_dictionary(player):
     current_level = check_level(player)
     player["class_dictionary"] = current_dictionary[current_level]
 # #testing function
-# player_info = {"class": "warrior", "class_dictionary": "placeholder", "experience": 1000}
-# change_player_class_dictionary(player_info)
-# print(player_info)
+player_info = {"class": "warrior", "class_dictionary": "placeholder", "experience": 1000}
+change_player_class_dictionary(player_info)
+print(player_info)
 
 
 def update_monster_hp(monster, player):

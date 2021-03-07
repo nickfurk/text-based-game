@@ -375,6 +375,12 @@ def player_job_generator(player):
     return player_job
 
 
+def player_class_dictionary(player):
+    current_dictionary = return_class_dictionary(player)
+    level = check_level(player)
+    player["class_dictionary"] = current_dictionary[level]
+
+
 def make_player():
     """Create a dictionary that contains player name, player job, player hp, player position, player level/exp, damage,
        and number of run away chances available.
@@ -392,8 +398,10 @@ def make_player():
               "position": PLAYER_STARTING_POSITION(),
               "level": 1,
               "damage": STARTING_PLAYER_DAMAGE(),
-              "experience": 0}
+              "experience": 0,
+              "class_dictionary": ""}
     player["class"] = player_job_generator(player)
+    player["class_dictionary"] = player_class_dictionary(player)
     return player
 
 
@@ -891,8 +899,8 @@ def check_level(player):
         level += 1
     if player["experience"] >= class_dictionary[2]["experience_needed"]:
         level += 1
-    # return level
     player["level"] = level
+    return level
 
 
 # def leveling_package(player):
