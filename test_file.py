@@ -131,7 +131,7 @@ def check_level(player):
         level += 1
     return level
 # #testing function
-# player_info = {"class": "warrior", "experience": 300}
+# player_info = {"class": "warrior", "experience": 600}
 # print(check_level(player_info))
 
 
@@ -139,7 +139,7 @@ def change_player_class_dictionary(player):
     current_dictionary = return_class_dictionary(player)
     current_level = check_level(player)
     player["class_dictionary"] = current_dictionary[current_level]
-# testing function
+# #testing function
 # player_info = {"class": "warrior", "class_dictionary": "placeholder", "experience": 1000}
 # change_player_class_dictionary(player_info)
 # print(player_info)
