@@ -12,6 +12,122 @@ from time import sleep
 import doctest
 
 
+def BASE_MAGE_HP():
+    return 20
+
+
+def MAGE_HP_INCREMENT():
+    return 10
+
+
+def BASE_THIEF_HP():
+    return 20
+
+
+def THIEF_HP_INCREMENT():
+    return 10
+
+
+def BASE_RANGER_HP():
+    return 20
+
+
+def RANGER_HP_INCREMENT():
+    return 10
+
+
+def BASE_WARRIOR_HP():
+    return 20
+
+
+def WARRIOR_HP_INCREMENT():
+    return 10
+
+
+# def MAX_MONSTER_HP():
+#     return 10
+
+
+# def MONSTER_HP_INCREMENT():
+#     return 5
+
+
+# def MAX_MONSTER_DAMAGE():
+#     return 10
+
+
+# def MONSTER_DAMAGE_INCREMENT():
+#     return 5
+
+
+def MAGE():
+    return {
+        1: {"level": 1, "level_name": "Apprentice Mage", "experience_needed": 500, "attack_name": "Fireball",
+            "max_hp": BASE_MAGE_HP(), "base_damage_min": 15, "base_damage_max": 20, "accuracy_rate": 25},
+        2: {"level": 2, "level_name": "Mage", "experience_needed": 1000, "attack_name": "Firestorm",
+            "max_hp": BASE_MAGE_HP() + MAGE_HP_INCREMENT(), "base_damage_min": 20, "base_damage_max": 25,
+            "accuracy_rate": 40},
+        3: {"level": 3, "level_name": "Arch Mage", "attack_name": "Hellfire",
+            "max_hp": BASE_MAGE_HP() + (MAGE_HP_INCREMENT() * 2), "base_damage_min": 25, "base_damage_max": 30,
+            "accuracy_rate": 50}
+        }
+
+
+def THIEF():
+    return {
+        1: {"level": 1, "level_name": "Apprentice Thief", "experience_needed": 100, "attack_name": "Pickpocket",
+            "max_hp": BASE_THIEF_HP(), "base_damage_min": 1, "base_damage_max": 5, "accuracy_rate": 85},
+        2: {"level": 2, "level_name": "Bandit", "experience_needed": 300, "attack_name": "Boomerang Step",
+            "max_hp": BASE_THIEF_HP() + THIEF_HP_INCREMENT(), "base_damage_min": 5, "base_damage_max": 10,
+            "accuracy_rate": 95},
+        3: {"level": 3, "level_name": "Hermit", "attack_name": "Assassinate",
+            "max_hp": BASE_THIEF_HP() + (THIEF_HP_INCREMENT() * 2), "base_damage_min": 10, "base_damage_max": 15,
+            "accuracy_rate": 100}
+        }
+
+
+def RANGER():
+    return {
+        1: {"level": 1, "level_name": "Apprentice Ranger", "experience_needed": 500, "attack_name": "Iron Arrow",
+            "max_hp": BASE_RANGER_HP(), "base_damage_min": 5, "base_damage_max": 10, "accuracy_rate": 50},
+        2: {"level": 2, "level_name": "Sniper", "experience_needed": 1000, "attack_name": "Mortal Blow",
+            "max_hp": BASE_RANGER_HP() + RANGER_HP_INCREMENT(), "base_damage_min": 10, "base_damage_max": 15,
+            "accuracy_rate": 60},
+        3: {"level": 3, "level_name": "Marksman", "attack_name": "Dragon's Breath",
+            "max_hp": BASE_RANGER_HP() + (RANGER_HP_INCREMENT() * 2), "base_damage_min": 15, "base_damage_max": 20,
+            "accuracy_rate": 75}
+        }
+
+
+def WARRIOR():
+    return {
+        1: {"level": 1, "level_name": "Apprentice Warrior", "experience_needed": 500, "attack_name": "Threaten",
+            "max_hp": BASE_WARRIOR_HP(), "base_damage_min": 7, "base_damage_max": 12, "accuracy_rate": 50},
+        2: {"level": 2, "level_name": "Knight", "experience_needed": 1000, "attack_name": "Power Crash",
+            "max_hp": BASE_WARRIOR_HP() + WARRIOR_HP_INCREMENT(), "base_damage_min": 12, "base_damage_max": 18,
+            "accuracy_rate": 50},
+        3: {"level": 3, "level_name": "Paladin", "attack_name": "Heaven's Hammer",
+            "max_hp": BASE_WARRIOR_HP() + (WARRIOR_HP_INCREMENT() * 2), "base_damage_min": 18, "base_damage_max": 24,
+            "accuracy_rate": 50}
+    }
+
+
+# def MONSTER_DAMAGE():
+#     return {
+#         1: {"level": 1, "damage": MAX_MONSTER_DAMAGE()},
+#         2: {"level": 2, "damage": MAX_MONSTER_DAMAGE() + MONSTER_HP_INCREMENT()},
+#         3: {"level": 3, "damage": MAX_MONSTER_DAMAGE() + (MONSTER_HP_INCREMENT() * 2)},
+#     }
+
+
+# def MONSTER_HP():
+#     return {
+#         1: {"level": 1, "hp": MAX_MONSTER_HP()},
+#         2: {"level": 2, "hp": MAX_MONSTER_HP() + MONSTER_HP_INCREMENT()},
+#         3: {"level": 3, "hp": MAX_MONSTER_HP() + (MONSTER_HP_INCREMENT() * 2)}
+#     }
+
+
 def PLAYER_STARTING_POSITION():
     """Set the player's starting position as [0, 0].
 
@@ -31,13 +147,13 @@ def STARTING_PLAYER_DAMAGE():
 
 
 def MAX_MONSTER_DAMAGE():
-    """Set the maximum monster damage as 20.
+    """Set the maximum monster damage as 10.
 
     The number is used in the roll_die function to give an output of 1 - 10 inclusive.
 
     :return: an integer
     """
-    return 10
+    return 1
 
 
 def RUN_AWAY_PROBABILITY():
@@ -239,7 +355,18 @@ def player_name_generator() -> str:
     return user_input
 
 
-def player_job_generator() -> str:
+def return_class_dictionary(player):
+    if player == "Mage":
+        return MAGE()
+    elif player == "Thief":
+        return THIEF()
+    elif player == "Ranger":
+        return RANGER()
+    elif player == "Warrior":
+        return WARRIOR()
+
+
+def player_class_generator() -> str:
     """Designate player job based on user choice.
 
     :postcondition: gets user input and assigns it to variable
@@ -248,12 +375,12 @@ def player_job_generator() -> str:
     print("Below is the list of jobs you can choose to play throughout the game. Choose wisely so that you'll be able "
           "to win the game successfully... \n")
     new_list_for_user = {str(keys): jobs for keys, jobs in zip(count(start=1, step=1), JOB_LIST())}
-    player_job = input_checker(new_list_for_user)
-    while player_job not in JOB_LIST():
+    player_class = input_checker(new_list_for_user)
+    while player_class not in JOB_LIST():
         print("That's not in the list of jobs you can choose from!")
-        player_job = input_checker(new_list_for_user)
-    delayed_message(f"\n{player_job} is a great choice!\n", 0.75)
-    return player_job
+        player_class = input_checker(new_list_for_user)
+    delayed_message(f"\n{player_class} is a great choice!\n", 0.75)
+    return player_class
 
 
 def make_player() -> dict:
@@ -264,18 +391,54 @@ def make_player() -> dict:
     :return: a dictionary
     """
     player_name = player_name_generator()
-    player_job = player_job_generator()
+    player_class = player_class_generator()
+    player_class_specs = return_class_dictionary(player_class)[1]
     player_hp = MAX_PLAYER_HP()
     player_position = PLAYER_STARTING_POSITION()
     player_damage = STARTING_PLAYER_DAMAGE()
     player = {"name": player_name,
-              "job": player_job,
+              "class": player_class, #currently, e.g. "Mage", need to change this to the dictionary up there.
+              "class_specs": player_class_specs,
               "hp": player_hp,
               "position": player_position,
               "level": 1,
               "damage": player_damage,
               "experience": 0}
     return player
+
+
+def run_it(player):
+    check_level(player)
+    change_player_class_dictionary(player)
+
+
+def check_level(player):
+    class_dictionary = return_class_dictionary(player["class"])
+    level = 1
+    if player["experience"] >= class_dictionary[1]["experience_needed"]:
+        level += 1
+    if player["experience"] >= class_dictionary[2]["experience_needed"]:
+        level += 1
+    return level
+
+
+def change_player_class_dictionary(player):
+    current_dictionary = return_class_dictionary(player["class"])
+    current_level = check_level(player)
+    player["class_specs"] = current_dictionary[current_level]
+    return player
+
+
+# def update_monster_hp(monster, player):
+#     player_current_level = check_level(player)
+#     monster_hp_dictionary = MONSTER_HP()
+#     monster["hp"] = monster_hp_dictionary[player_current_level]["hp"]
+#
+#
+# def update_monster_damage(monster, player):
+#     player_current_level = check_level(player)
+#     monster_damage_dictionary = MONSTER_DAMAGE()
+#     monster["damage"] = monster_damage_dictionary[player_current_level]["damage"]
 
 
 def display_map(player: dict):
@@ -708,8 +871,8 @@ def battle_start(player: dict, monster: dict, attacker: bool):
         attacking_round(monster, player, MAX_MONSTER_DAMAGE())
         if player['hp'] > 0:
             attacking_round(player, monster, STARTING_PLAYER_DAMAGE())
-    elif monster['hp'] <= 0:
-        leveling_package(player)
+    if monster['hp'] <= 0:
+        player["experience"] += 100
 
 
 def attacking_round(attacker: dict, opponent: dict, damage_amount: int) -> dict:
@@ -732,24 +895,24 @@ def attacking_round(attacker: dict, opponent: dict, damage_amount: int) -> dict:
     return opponent
 
 
-def leveling_package(player: dict) -> dict:
-    """Change the values of player level and damage based on experience value.
-
-    The function will record the amount of experience the player receives, and if it reaches the threshold of 500, it
-    will change the player's level and damage, then change the value of experience back to 0.
-
-    :param player: a dictionary
-    :precondition: player must be a proper dictionary with correct character and information
-    :return: changed player level and damage value depending on situation in a dictionary
-    """
-    if player["level"]["exp"] == 400:
-        player["level"]["exp"] = 0
-        player["level"]["level"] += 1
-        player["damage"] += 2
-        return player
-    else:
-        player["level"]["exp"] += 100
-        return player
+# def leveling_package(player: dict) -> dict:
+#     """Change the values of player level and damage based on experience value.
+#
+#     The function will record the amount of experience the player receives, and if it reaches the threshold of 500, it
+#     will change the player's level and damage, then change the value of experience back to 0.
+#
+#     :param player: a dictionary
+#     :precondition: player must be a proper dictionary with correct character and information
+#     :return: changed player level and damage value depending on situation in a dictionary
+#     """
+#     if player["level"]["exp"] == 400:
+#         player["level"]["exp"] = 0
+#         player["level"]["level"] += 1
+#         player["damage"] += 2
+#         return player
+#     else:
+#         player["level"]["exp"] += 100
+#         return player
 
 
 def player_game_descriptions(player: dict, board: dict):
@@ -772,14 +935,10 @@ def game():
           "I hope you have fun playing! Let the journey begin!\n")
     board = make_board()
     player = make_player()
-    # player_game_descriptions(player, board)
     player_move = move_character(player, board)
     while player_move != "quit" and player['hp'] > 0 and player['position'] != [4, 4]:
         # delayed_message("\n" + dungeon_description(player), 1)
         battle_chance(player, random_monster())
-        # player_game_descriptions(player, board)
-        # display_map(player)
-        # display_info(player, board)
         if player['hp'] > 0:
             player_move = move_character(player, board)
         else:
@@ -791,7 +950,11 @@ def main():
     """Execute the program"""
     # doctest.testmod(verbose=True)
     game()
-
+    # player = make_player()
+    # print(player["class_specs"])
+    # change_player_class_dictionary(player)
+    # print(player["class_specs"])
+    # print(player_class_generator())
 
 if __name__ == "__main__":
     main()
