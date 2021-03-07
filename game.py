@@ -143,6 +143,27 @@ def BOARD_SIZE():
     return 25
 
 
+def JOB_LIST():
+    return ["Mage", "Thief", "Ranger", "Warrior"]
+
+
+def DIRECTION_LIST():
+    return ["W", "E", "S", "N", "quit"]
+
+
+def LIST_OF_MONSTERS():
+    return ["Amputator", "Bone Breaker", "Dark Cultist", "Fallen Shaman", "Flesh Harvester", "Terror Bat",
+            "Dust Imp", "Demonic Hellflyer"]
+
+
+def LIST_OF_MONSTER_TYPES():
+    return ["Cave of Alcarnus", "Necropolis Mines", "River of Kehjan", "Black Canyon Mines", "Ureh Caverns"]
+
+
+def YES_OR_NO():
+    return ["Yes", "No"]
+
+
 def make_board():
     """Generate game board as a dictionary.
 
@@ -198,7 +219,7 @@ def delayed_message(message, delay):
 
 
 def press_enter_to_continue():
-    user_input = input("Press enter to continue the game!: ")
+    user_input = input("\nPress enter to continue the game!: \n")
     while user_input != "":
         print("Please press enter!")
         user_input = input("Press enter to continue the game!: ")
@@ -227,14 +248,12 @@ def player_job_generator():
     """
     print("Below is the list of jobs you can choose to play throughout the game. Choose wisely so that you'll be able "
           "to win the game successfully... \n")
-    job_list = ["Mage", "Thief", "Ranger", "Warrior"]
-    new_list_for_user = {str(keys): jobs for keys, jobs in zip(count(start=1, step=1), job_list)}
+    new_list_for_user = {str(keys): jobs for keys, jobs in zip(count(start=1, step=1), JOB_LIST())}
     player_job = input_checker(new_list_for_user)
-    while player_job not in job_list:
+    while player_job not in JOB_LIST():
         print("That's not in the list of jobs you can choose from!")
         player_job = input_checker(new_list_for_user)
-    print(f"\n{player_job} is a great choice!\n")
-    sleep(1)
+    delayed_message(f"\n{player_job} is a great choice!\n", 0.75)
     return player_job
 
 
@@ -420,10 +439,9 @@ def move_character(player):
     :return: a changed player's new position in a list or "quit" as a string
     """
     if player["hp"] > 0:
-        direction_list = ["W", "E", "S", "N", "quit"]
-        new_direction_list = {str(keys): jobs for keys, jobs in enumerate(direction_list, 1)}
+        new_direction_list = {str(keys): jobs for keys, jobs in enumerate(DIRECTION_LIST(), 1)}
         user_input = input_checker(new_direction_list)
-        while user_input not in direction_list or validate_move(player['position'], user_input):
+        while user_input not in DIRECTION_LIST() or validate_move(player['position'], user_input):
             print("\nYou can't go that way! Choose again wisely.")
             user_input = input_checker(new_direction_list)
         player_movement_change(player["position"], user_input)
@@ -473,7 +491,7 @@ def roll_die(number_of_rolls, number_of_sides):
     return total_result
 
 
-def battle_chance(player):
+def battle_chance(player, monster):
     """Roll a die to determine if the player will meet an enemy.
 
     The player has a 40% chance to meet an enemy everytime they move. This is determined by rolling a 10 sided die once,
@@ -487,7 +505,7 @@ def battle_chance(player):
     battle_chance_number = roll_die(1, BATTLE_CHANCE())
     if battle_chance_number <= 1:
         delayed_message("There's someone lurking in the dark!", 1)
-        combat_round(player)
+        combat_round(player, monster, fight_dialogue_input(monster))
     else:
         heal_player(player)
 
@@ -529,19 +547,25 @@ def random_monster():
     :postcondition: correctly chooses random elements and puts them into a dictionary
     :return: a dictionary
     """
-    tuple_of_monsters = ("Amputator", "Bone Breaker", "Dark Cultist", "Fallen Shaman", "Flesh Harvester", "Terror Bat",
-                         "Dust Imp", "Demonic Hellflyer")
-    random_monster_name = choice(tuple_of_monsters)
-    tuple_of_monster_types = ("Cave of Alcarnus", "River of Kehjan", "Necropolis Mines", "Black Canyon Mines",
-                              "Ureh Caverns")
-    random_monster_type = choice(tuple_of_monster_types)
+    random_monster_name = choice(LIST_OF_MONSTERS())
+    random_monster_type = choice(LIST_OF_MONSTER_TYPES())
     monster_hp = MAX_MONSTER_HP()
     monster_damage = MAX_MONSTER_DAMAGE()
     monster_info = {"name": random_monster_name, "type": random_monster_type, "hp": monster_hp, "damage": monster_damage}
     return monster_info
 
 
-def combat_round(player):
+def fight_dialogue_input(monster):
+    print(f"\nYou have encountered {monster['name']}! Would you like to fight?\n")
+    user_battle_decision = {str(keys): jobs for keys, jobs in zip(count(start=1, step=1), YES_OR_NO())}
+    user_choice = input_checker(user_battle_decision)
+    while user_choice not in YES_OR_NO():
+        print(f"{user_choice} is not a valid choice!, Please choose again: ")
+        user_choice = input_checker(user_battle_decision)
+    return user_choice
+
+
+def combat_round(player, monster, fight_dialogue_input):
     """Direct the user to different functions based on their input.
 
     This function will give the user an option to run or fight. Either options will send the user to other functions. If
@@ -552,21 +576,19 @@ def combat_round(player):
     :precondition: player must be a proper dictionary with correct character and information
     :postcondition: correctly leads to corresponding functions depending on situation
     """
-    monster_info = random_monster()
-    print(f"\nYou have encountered {monster_info['name']}! Would you like to fight?\n")
-    battle_decision_options = ["Yes", "No"]
-    user_battle_decision = {str(keys): jobs for keys, jobs in zip(count(start=1, step=1), battle_decision_options)}
-    user_choice = input_checker(user_battle_decision)
-    while user_choice not in battle_decision_options:
-        print(f"{user_choice} is not a valid choice!, Please choose again: ")
-        user_choice = input_checker(user_battle_decision)
-    if user_choice == "Yes":
-        while player["hp"] > 0 and monster_info["hp"] > 0:
-            battle_start(player, monster_info, battle_attack_order())
-        delayed_message(f"{monster_info['name']} is dead! Great job!", 1)
+    # print(f"\nYou have encountered {monster['name']}! Would you like to fight?\n")
+    # user_battle_decision = {str(keys): jobs for keys, jobs in zip(count(start=1, step=1), YES_OR_NO())}
+    # user_choice = input_checker(user_battle_decision)
+    # while user_choice not in YES_OR_NO():
+    #     print(f"{user_choice} is not a valid choice!, Please choose again: ")
+    #     user_choice = input_checker(user_battle_decision)
+    if fight_dialogue_input == "Yes":
+        while player["hp"] > 0 and monster["hp"] > 0:
+            battle_start(player, monster, battle_attack_order())
+        delayed_message(f"{monster['name']} is dead! Great job!", 1)
         press_enter_to_continue()
     else:
-        run_away(player, monster_info)
+        run_away(player, monster)
 
 
 def run_away(player, monster_info):
@@ -724,7 +746,7 @@ def game():
     player_move = move_character(player)
     while player_move != "quit" and player['hp'] > 0 and player['position'] != [4, 4]:
         # delayed_message("\n" + dungeon_description(player), 1)
-        battle_chance(player)
+        battle_chance(player, random_monster())
         player_game_descriptions(player, board)
         # display_map(player)
         # display_info(player, board)
