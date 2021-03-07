@@ -503,9 +503,9 @@ def battle_chance(player, monster):
     :postcondition: correctly lead to corresponding functions depending on situation
     """
     battle_chance_number = roll_die(1, BATTLE_CHANCE())
-    if battle_chance_number <= 1:
+    if battle_chance_number == 1:
         delayed_message("There's someone lurking in the dark!", 1)
-        combat_round(player, monster, fight_dialogue_input(monster))
+        combat_round(player, monster)
     else:
         heal_player(player)
 
@@ -555,7 +555,7 @@ def random_monster():
     return monster_info
 
 
-def fight_dialogue_input(monster):
+def fight_or_run_decision(monster):
     print(f"\nYou have encountered {monster['name']}! Would you like to fight?\n")
     user_battle_decision = {str(keys): jobs for keys, jobs in zip(count(start=1, step=1), YES_OR_NO())}
     user_choice = input_checker(user_battle_decision)
@@ -565,7 +565,7 @@ def fight_dialogue_input(monster):
     return user_choice
 
 
-def combat_round(player, monster, fight_dialogue_input):
+def combat_round(player, monster):
     """Direct the user to different functions based on their input.
 
     This function will give the user an option to run or fight. Either options will send the user to other functions. If
@@ -582,7 +582,7 @@ def combat_round(player, monster, fight_dialogue_input):
     # while user_choice not in YES_OR_NO():
     #     print(f"{user_choice} is not a valid choice!, Please choose again: ")
     #     user_choice = input_checker(user_battle_decision)
-    if fight_dialogue_input == "Yes":
+    if fight_or_run_decision(monster) == "Yes":
         while player["hp"] > 0 and monster["hp"] > 0:
             battle_start(player, monster, battle_attack_order())
         delayed_message(f"{monster['name']} is dead! Great job!", 1)
@@ -741,8 +741,6 @@ def game():
     board = make_board()
     player = make_player()
     player_game_descriptions(player, board)
-    # display_map(player)
-    # display_info(player, board)
     player_move = move_character(player)
     while player_move != "quit" and player['hp'] > 0 and player['position'] != [4, 4]:
         # delayed_message("\n" + dungeon_description(player), 1)
