@@ -28,15 +28,16 @@ def WARRIOR_HP_INCREMENT(hp):
 def MAX_MONSTER_HP():
     return 10
 
-def MONSTER_HP_INCREMENT(hp):
-    return hp + 5
-# print(MONSTER_HP_INCREMENT(MAX_MONSTER_HP()))
+def MONSTER_HP_INCREMENT():
+    return 5
+# print(MAX_MONSTER_HP() + (MONSTER_HP_INCREMENT() * 2))
 
 def MAX_MONSTER_DAMAGE():
     return 10
 
-def MONSTER_DAMAGE_INCREMENT(damage):
-    return damage + 5
+def MONSTER_DAMAGE_INCREMENT():
+    return 5
+# print(MAX_MONSTER_DAMAGE() + (MONSTER_DAMAGE_INCREMENT() * 2))
 
 
 def MAGE():
@@ -91,16 +92,16 @@ def WARRIOR():
 
 def MONSTER_DAMAGE():
     return {
-        1: {"Level": 1, "Damage": MAX_MONSTER_DAMAGE()},
-        2: {"Level": 2, "Damage": MONSTER_DAMAGE_INCREMENT(MAX_MONSTER_DAMAGE())},
-        3: {"Level": 3, "Damage": MONSTER_DAMAGE_INCREMENT(MAX_MONSTER_DAMAGE())}
+        1: {"Level": 1, "damage": MAX_MONSTER_DAMAGE()},
+        2: {"Level": 2, "damage": MAX_MONSTER_DAMAGE() + MONSTER_HP_INCREMENT()},
+        3: {"Level": 3, "damage": MAX_MONSTER_DAMAGE() + (MONSTER_HP_INCREMENT() * 2)},
     }
 
 def MONSTER_HP():
     return {
         1: {"Level": 1, "hp": MAX_MONSTER_HP()},
-        2: {"Level": 2, "hp": MONSTER_HP_INCREMENT(MAX_MONSTER_HP())},
-        3: {"Level": 3, "hp": MONSTER_HP_INCREMENT(MAX_MONSTER_HP())}
+        2: {"Level": 2, "hp": MAX_MONSTER_HP() + MONSTER_HP_INCREMENT()},
+        3: {"Level": 3, "hp": MAX_MONSTER_HP() + (MONSTER_HP_INCREMENT() * 2)}
     }
 
 def check_class_choice(user_choice):
@@ -147,7 +148,27 @@ def change_player_class_dictionary(player):
 # change_player_class_dictionary(player_info)
 # print(player_info)
 
-def update_monster_hp(monster):
+
+def update_monster_hp(monster, player):
+    player_current_level = check_level(player)
+    monster_hp_dictionary = MONSTER_HP()
+    monster["hp"] = monster_hp_dictionary[player_current_level]["hp"]
+# #testing function
+# monster_info = {"hp": 10}
+# player_info = {"class": "warrior", "experience": 1000}
+# update_monster_hp(monster_info, player_info)
+# print(monster_info)
+
+
+def update_monster_damage(monster, player):
+    player_current_level = check_level(player)
+    monster_damage_dictionary = MONSTER_DAMAGE()
+    monster["damage"] = monster_damage_dictionary[player_current_level]["damage"]
+# #testing function
+# monster_info = {"hp": 10}
+# player_info = {"class": "warrior", "experience": 800}
+# update_monster_damage(monster_info, player_info)
+# print(monster_info)
 
 
 def input_checker(list_of_options):
@@ -188,9 +209,9 @@ def player_job_generator():
     return job_dictionary
 
 
-def player():
-    player_info = {"class_dictionary": player_job_generator()[0], "exp": 200}
-    return player_info
+# def player():
+#     player_info = {"class_dictionary": player_job_generator()[0], "exp": 200}
+#     return player_info
 
 
 # def main():
