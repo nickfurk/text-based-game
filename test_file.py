@@ -27,54 +27,54 @@ def WARRIOR_HP_INCREMENT(hp):
 
 
 def MAGE():
-    return [
-        {"Mage_level_1": {"Level": 1, "Level_name": "Apprentice Mage",
+    return {
+        "level_1": {"Level": 1, "Level_name": "Apprentice Mage",
                          "Attack_name": "Fireball", "Max_HP": BASE_MAGE_HP(), "Base_damage_min": 15,
-                         "Base_damage_max": 20, "Accuracy_rate": 25}},
-        {"Mage_level_2": {"Level": 2, "Level_name": "Mage",
+                         "Base_damage_max": 20, "Accuracy_rate": 25},
+        "level_2": {"Level": 2, "Level_name": "Mage",
                          "Attack_name": "Firestorm", "Max_HP": MAGE_HP_INCREMENT(BASE_MAGE_HP()), "Base_damage_min": 20,
-                         "Base_damage_max": 25, "Accuracy_rate": 40}},
-        {"Mage_level_3": {"Level": 3, "Level_name": "Arch Mage", "Attack_name": "Hellfire",
+                         "Base_damage_max": 25, "Accuracy_rate": 40},
+        "level_3": {"Level": 3, "Level_name": "Arch Mage", "Attack_name": "Hellfire",
                          "Max_HP": MAGE_HP_INCREMENT(BASE_MAGE_HP()), "Base_damage_min": 25, "Base_damage_max": 30,
-                         "Accuracy_rate": 50}}
-        ]
+                         "Accuracy_rate": 50}
+        }
 def THIEF():
-    return [
-        {"Thief_level_1": {"Level": 1, "Level_name": "Apprentice Thief",
+    return {
+        "level_1": {"Level": 1, "Level_name": "Apprentice Thief",
                           "Attack_name": "Pickpocket", "Max_HP": BASE_THIEF_HP(), "Base_damage_min": 1,
-                          "Base_damage_max": 5, "Accuracy_rate": 85}},
-        {"Thief_level_2": {"Level": 2, "Level_name": "Bandit",
+                          "Base_damage_max": 5, "Accuracy_rate": 85},
+        "level_2": {"Level": 2, "Level_name": "Bandit",
                           "Attack_name": "Boomerang Step", "Max_HP": THIEF_HP_INCREMENT(BASE_THIEF_HP()),
-                          "Base_damage_min": 5, "Base_damage_max": 10, "Accuracy_rate": 95}},
-        {"Thief_level_3": {"Level": 3, "Level_name": "Hermit", "Attack_name": "Assassinate",
+                          "Base_damage_min": 5, "Base_damage_max": 10, "Accuracy_rate": 95},
+        "level_3": {"Level": 3, "Level_name": "Hermit", "Attack_name": "Assassinate",
                          "Max_HP": THIEF_HP_INCREMENT(BASE_THIEF_HP()), "Base_damage_min": 10, "Base_damage_max": 15,
-                         "Accuracy_rate": 100}}
-        ]
+                         "Accuracy_rate": 100}
+        }
 
 def RANGER():
-    return [
-        {"Ranger_level_1": {"Level": 1, "Level_name": "Apprentice Ranger",
+    return {
+        "level_1": {"Level": 1, "Level_name": "Apprentice Ranger",
                            "Attack_name": "Iron Arrow", "Max_HP": BASE_RANGER_HP(), "Base_damage_min": 5,
-                           "Base_damage_max": 10, "Accuracy_rate": 50}},
-        {"Ranger_level_2": {"Level": 2, "Level_name": "Sniper",
+                           "Base_damage_max": 10, "Accuracy_rate": 50},
+        "level_2": {"Level": 2, "Level_name": "Sniper",
                            "Attack_name": "Mortal Blow", "Max_HP": RANGER_HP_INCREMENT(BASE_RANGER_HP()),
-                           "Base_damage_min": 10, "Base_damage_max": 15, "Accuracy_rate": 60}},
-        {"Ranger_level_3": {"Level": 3, "Level_name": "Marksman", "Attack_name": "Dragon's Breath",
+                           "Base_damage_min": 10, "Base_damage_max": 15, "Accuracy_rate": 60},
+        "level_3": {"Level": 3, "Level_name": "Marksman", "Attack_name": "Dragon's Breath",
                           "Max_HP": RANGER_HP_INCREMENT(BASE_RANGER_HP()), "Base_damage_min": 15, "Base_damage_max": 20,
-                          "Accuracy_rate": 75}},
-        ]
+                          "Accuracy_rate": 75}
+        }
 def WARRIOR():
-    return [
-        {"Warrior_level_1": {"Level": 1, "Level_name": "Apprentice Warrior", "Experience": 0, "Experience_needed": 500,
+    return {
+        "level_1": {"Level": 1, "Level_name": "Apprentice Warrior", "Experience": 0, "Experience_needed": 500,
                             "Attack_name": "Threaten", "Max_HP": BASE_WARRIOR_HP(), "Base_damage_min": 7,
-                            "Base_damage_max": 12, "Accuracy_rate": 50}},
-        {"Warrior_level_2": {"Level": 2, "Level_name": "Knight", "Experience": 0, "Experience_needed": 500,
+                            "Base_damage_max": 12, "Accuracy_rate": 50},
+        "level_2": {"Level": 2, "Level_name": "Knight", "Experience": 0, "Experience_needed": 500,
                             "Attack_name": "Power Crash", "Max_HP": WARRIOR_HP_INCREMENT(BASE_WARRIOR_HP()),
-                            "Base_damage_min": 12, "Base_damage_max": 18, "Accuracy_rate": 50}},
-        {"Warrior_level_3": {"Level": 3, "Level_name": "Paladin","Attack_name": "Heaven's Hammer",
+                            "Base_damage_min": 12, "Base_damage_max": 18, "Accuracy_rate": 50},
+        "level_3": {"Level": 3, "Level_name": "Paladin","Attack_name": "Heaven's Hammer",
                            "Max_HP": WARRIOR_HP_INCREMENT(BASE_WARRIOR_HP()), "Base_damage_min": 18,
-                            "Base_damage_max": 24, "Accuracy_rate": 50}}
-        ]
+                            "Base_damage_max": 24, "Accuracy_rate": 50}
+    }
 
 
 
@@ -101,17 +101,17 @@ def class_dictionary(player):
 
 
 def leveling_package(player):
-    class_dictionary(player)
-    player_class = (player["class"]).upper
+    # class_dictionary(player)
+    # player_class = (player["class"]).upper
+    #
+    # level = 1 + (player["experience"]) // level_up_requirement
 
-    level = 1 + (player["experience"]) // level_up_requirement
-
-    # if player["exp"] == 200:
-    #     player["class"] =
-    #     return player
-    # elif player["experience"] == 500:
-    #     player["class"] =
-    #     return player
+    if player["exp"] == 200:
+        player["class"] = player["class"]["level 2"]
+        return player
+    elif player["experience"] == 500:
+        player["class"] = player["class"]["level 3"]
+        return player
 
 
 def input_checker(list_of_options):
@@ -153,7 +153,8 @@ def player_job_generator():
 
 
 def player():
-    player_info = {"class": player_job_generator()[0], "exp": 200}
+    class_dictionary = player_job_generator()
+    player_info = {"class": class_dictionary["level 1"], "exp": 200}
     return player_info
 
 
