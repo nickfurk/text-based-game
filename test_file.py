@@ -4,26 +4,26 @@ import itertools
 def BASE_MAGE_HP():
     return 20
 
-def MAGE_HP_INCREMENT(hp):
-    return hp + 10
+def MAGE_HP_INCREMENT():
+    return 10
 
 def BASE_THIEF_HP():
     return 20
 
-def THIEF_HP_INCREMENT(hp):
-    return hp + 10
+def THIEF_HP_INCREMENT():
+    return 10
 
 def BASE_RANGER_HP():
     return 20
 
-def RANGER_HP_INCREMENT(hp):
-    return hp + 10
+def RANGER_HP_INCREMENT():
+    return 10
 
 def BASE_WARRIOR_HP():
     return 20
 
-def WARRIOR_HP_INCREMENT(hp):
-    return hp + 10
+def WARRIOR_HP_INCREMENT():
+    return 10
 
 def MAX_MONSTER_HP():
     return 10
@@ -42,85 +42,81 @@ def MONSTER_DAMAGE_INCREMENT():
 
 def MAGE():
     return {
-        1: {"Level": 1, "Level_name": "Apprentice Mage", "Experience_needed": 500,
-                         "Attack_name": "Fireball", "Max_HP": BASE_MAGE_HP(), "Base_damage_min": 15,
-                         "Base_damage_max": 20, "Accuracy_rate": 25},
-        2: {"Level": 2, "Level_name": "Mage", "Experience_needed": 1000,
-                         "Attack_name": "Firestorm", "Max_HP": MAGE_HP_INCREMENT(BASE_MAGE_HP()), "Base_damage_min": 20,
-                         "Base_damage_max": 25, "Accuracy_rate": 40},
-        3: {"Level": 3, "Level_name": "Arch Mage", "Attack_name": "Hellfire",
-                         "Max_HP": MAGE_HP_INCREMENT(BASE_MAGE_HP()), "Base_damage_min": 25, "Base_damage_max": 30,
-                         "Accuracy_rate": 50}
+        1: {"level": 1, "level_name": "Apprentice Mage", "experience_needed": 500, "attack_name": "Fireball",
+            "max_hp": BASE_MAGE_HP(), "base_damage_min": 15, "base_damage_max": 20, "accuracy_rate": 25},
+        2: {"level": 2, "level_name": "Mage", "experience_needed": 1000, "attack_name": "Firestorm",
+            "max_hp": BASE_MAGE_HP() + MAGE_HP_INCREMENT(), "base_damage_min": 20, "base_damage_max": 25,
+            "accuracy_rate": 40},
+        3: {"level": 3, "level_name": "Arch Mage", "attack_name": "Hellfire",
+            "max_hp": BASE_MAGE_HP() + (MAGE_HP_INCREMENT() * 2), "base_damage_min": 25, "base_damage_max": 30,
+            "accuracy_rate": 50}
         }
 def THIEF():
     return {
-        1: {"Level": 1, "Level_name": "Apprentice Thief", "Experience_needed": 500,
-                          "Attack_name": "Pickpocket", "Max_HP": BASE_THIEF_HP(), "Base_damage_min": 1,
-                          "Base_damage_max": 5, "Accuracy_rate": 85},
-        2: {"Level": 2, "Level_name": "Bandit", "Experience_needed": 1000,
-                          "Attack_name": "Boomerang Step", "Max_HP": THIEF_HP_INCREMENT(BASE_THIEF_HP()),
-                          "Base_damage_min": 5, "Base_damage_max": 10, "Accuracy_rate": 95},
-        3: {"Level": 3, "Level_name": "Hermit", "Attack_name": "Assassinate",
-                         "Max_HP": THIEF_HP_INCREMENT(BASE_THIEF_HP()), "Base_damage_min": 10, "Base_damage_max": 15,
-                         "Accuracy_rate": 100}
+        1: {"level": 1, "level_name": "Apprentice Thief", "experience_needed": 500, "attack_name": "Pickpocket",
+            "max_hp": BASE_THIEF_HP(), "base_damage_min": 1, "base_damage_max": 5, "accuracy_rate": 85},
+        2: {"level": 2, "level_name": "Bandit", "experience_needed": 1000, "attack_name": "Boomerang Step",
+            "max_hp": BASE_THIEF_HP() + THIEF_HP_INCREMENT(), "base_damage_min": 5, "base_damage_max": 10,
+            "accuracy_rate": 95},
+        3: {"level": 3, "level_name": "Hermit", "attack_name": "Assassinate",
+            "max_hp": BASE_THIEF_HP() + (THIEF_HP_INCREMENT() * 2), "base_damage_min": 10, "base_damage_max": 15,
+            "accuracy_rate": 100}
         }
 
 def RANGER():
     return {
-        1: {"Level": 1, "Level_name": "Apprentice Ranger", "Experience_needed": 500,
-                           "Attack_name": "Iron Arrow", "Max_HP": BASE_RANGER_HP(), "Base_damage_min": 5,
-                           "Base_damage_max": 10, "Accuracy_rate": 50},
-        2: {"Level": 2, "Level_name": "Sniper", "Experience_needed": 1000,
-                           "Attack_name": "Mortal Blow", "Max_HP": RANGER_HP_INCREMENT(BASE_RANGER_HP()),
-                           "Base_damage_min": 10, "Base_damage_max": 15, "Accuracy_rate": 60},
-        3: {"Level": 3, "Level_name": "Marksman", "Attack_name": "Dragon's Breath",
-                          "Max_HP": RANGER_HP_INCREMENT(BASE_RANGER_HP()), "Base_damage_min": 15, "Base_damage_max": 20,
-                          "Accuracy_rate": 75}
+        1: {"level": 1, "level_name": "Apprentice Ranger", "experience_needed": 500, "attack_name": "Iron Arrow",
+            "max_hp": BASE_RANGER_HP(), "base_damage_min": 5, "base_damage_max": 10, "accuracy_rate": 50},
+        2: {"level": 2, "level_name": "Sniper", "experience_needed": 1000, "attack_name": "Mortal Blow",
+            "max_hp": BASE_RANGER_HP() + RANGER_HP_INCREMENT(), "base_damage_min": 10, "base_damage_max": 15,
+            "accuracy_rate": 60},
+        3: {"level": 3, "level_name": "Marksman", "attack_name": "Dragon's Breath",
+            "max_hp": BASE_RANGER_HP() + (RANGER_HP_INCREMENT() * 2), "base_damage_min": 15, "base_damage_max": 20,
+            "accuracy_rate": 75}
         }
 def WARRIOR():
     return {
-        1: {"Level": 1, "Level_name": "Apprentice Warrior", "Experience_needed": 500,
-                            "Attack_name": "Threaten", "Max_HP": BASE_WARRIOR_HP(), "Base_damage_min": 7,
-                            "Base_damage_max": 12, "Accuracy_rate": 50},
-        2: {"Level": 2, "Level_name": "Knight", "Experience_needed": 1000,
-                            "Attack_name": "Power Crash", "Max_HP": WARRIOR_HP_INCREMENT(BASE_WARRIOR_HP()),
-                            "Base_damage_min": 12, "Base_damage_max": 18, "Accuracy_rate": 50},
-        3: {"Level": 3, "Level_name": "Paladin","Attack_name": "Heaven's Hammer",
-                           "Max_HP": WARRIOR_HP_INCREMENT(BASE_WARRIOR_HP()), "Base_damage_min": 18,
-                            "Base_damage_max": 24, "Accuracy_rate": 50}
+        1: {"level": 1, "level_name": "Apprentice Warrior", "experience_needed": 500, "attack_name": "Threaten",
+            "max_hp": BASE_WARRIOR_HP(), "base_damage_min": 7, "base_damage_max": 12, "accuracy_rate": 50},
+        2: {"level": 2, "level_name": "Knight", "experience_needed": 1000, "attack_name": "Power Crash",
+            "max_hp": BASE_WARRIOR_HP() + WARRIOR_HP_INCREMENT(), "base_damage_min": 12, "base_damage_max": 18,
+            "accuracy_rate": 50},
+        3: {"level": 3, "level_name": "Paladin", "attack_name": "Heaven's Hammer",
+            "max_hp": BASE_WARRIOR_HP() + (WARRIOR_HP_INCREMENT() * 2), "base_damage_min": 18, "base_damage_max": 24,
+            "accuracy_rate": 50}
     }
 
 def MONSTER_DAMAGE():
     return {
-        1: {"Level": 1, "damage": MAX_MONSTER_DAMAGE()},
-        2: {"Level": 2, "damage": MAX_MONSTER_DAMAGE() + MONSTER_HP_INCREMENT()},
-        3: {"Level": 3, "damage": MAX_MONSTER_DAMAGE() + (MONSTER_HP_INCREMENT() * 2)},
+        1: {"level": 1, "damage": MAX_MONSTER_DAMAGE()},
+        2: {"level": 2, "damage": MAX_MONSTER_DAMAGE() + MONSTER_HP_INCREMENT()},
+        3: {"level": 3, "damage": MAX_MONSTER_DAMAGE() + (MONSTER_HP_INCREMENT() * 2)},
     }
 
 def MONSTER_HP():
     return {
-        1: {"Level": 1, "hp": MAX_MONSTER_HP()},
-        2: {"Level": 2, "hp": MAX_MONSTER_HP() + MONSTER_HP_INCREMENT()},
-        3: {"Level": 3, "hp": MAX_MONSTER_HP() + (MONSTER_HP_INCREMENT() * 2)}
+        1: {"level": 1, "hp": MAX_MONSTER_HP()},
+        2: {"level": 2, "hp": MAX_MONSTER_HP() + MONSTER_HP_INCREMENT()},
+        3: {"level": 3, "hp": MAX_MONSTER_HP() + (MONSTER_HP_INCREMENT() * 2)}
     }
 
-def check_class_choice(user_choice):
-    if user_choice == "Mage":
-        return MAGE()
-    elif user_choice == "Thief":
-        return THIEF()
-    elif user_choice == "Ranger":
-        return RANGER()
-    elif user_choice == "Warrior":
-        return WARRIOR()
+# def check_class_choice(user_choice):
+#     if user_choice == "Mage":
+#         return MAGE()
+#     elif user_choice == "Thief":
+#         return THIEF()
+#     elif user_choice == "Ranger":
+#         return RANGER()
+#     elif user_choice == "Warrior":
+#         return WARRIOR()
 
 
 def return_class_dictionary(player):
-    if player["class"] == "mage":
+    if player["class"] == "Mage":
         return MAGE()
-    elif player["class"] == "thief":
+    elif player["class"] == "Thief":
         return THIEF()
-    elif player["class"] == "ranger":
+    elif player["class"] == "Ranger":
         return RANGER()
     else:
         return WARRIOR()
@@ -129,9 +125,9 @@ def return_class_dictionary(player):
 def check_level(player):
     class_dictionary = return_class_dictionary(player)
     level = 1
-    if player["experience"] >= class_dictionary[1]["Experience_needed"]:
+    if player["experience"] >= class_dictionary[1]["experience_needed"]:
         level += 1
-    if player["experience"] >= class_dictionary[2]["Experience_needed"]:
+    if player["experience"] >= class_dictionary[2]["experience_needed"]:
         level += 1
     return level
 # #testing function
@@ -205,7 +201,7 @@ def player_job_generator():
         print("That's not in the list of jobs you can choose from!")
         player_job = input_checker(new_list_for_user)
     print(f"\n{player_job} is a great choice!\n")
-    job_dictionary = check_class_choice(player_job)
+    job_dictionary = return_class_dictionary(player_job)
     return job_dictionary
 
 
