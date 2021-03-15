@@ -378,7 +378,8 @@ def player_job_generator(player):
 def player_class_dictionary(player):
     current_dictionary = return_class_dictionary(player)
     level = check_level(player)
-    player["class_dictionary"] = current_dictionary[level]
+    # player["class_dictionary"] = current_dictionary[level]
+    return current_dictionary[level]
 
 
 def make_player():
@@ -834,7 +835,7 @@ def attacking_round(attacker, opponent, damage_amount):
 
 
 def return_class_dictionary(player):
-    if player["class"] == "mage":
+    if player["class"] == "Mage":
         return MAGE()
     elif player["class"] == "Thief":
         return THIEF()
@@ -862,6 +863,7 @@ def player_game_descriptions(player, board):
 
 
 def fight_boss(player):
+    pass
 
 
 def game():

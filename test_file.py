@@ -142,7 +142,7 @@ def change_player_class_dictionary(player):
 # #testing function
 player_info = {"class": "warrior", "class_dictionary": "placeholder", "experience": 1000}
 change_player_class_dictionary(player_info)
-print(player_info)
+# print(player_info)
 
 
 def update_monster_hp(monster, player):
@@ -203,6 +203,40 @@ def player_job_generator():
     print(f"\n{player_job} is a great choice!\n")
     job_dictionary = return_class_dictionary(player_job)
     return job_dictionary
+
+
+import random
+
+def attacking_round(attacker, opponent):
+    """Simulate a single attack to the opponent.
+
+    This function runs a combat simulation that changes the damaged's hp value.
+
+    :param attacker: a dictionary
+    :param opponent: a dictionary
+    :param damage_amount: an integer
+    :precondition: attacker and damaged must be a proper dictionary with correct character and information
+    :precondition: damage_amount must be a positive integer
+    :postcondition: correctly changed hp of damaged
+    :return: changed hp value of damaged in a dictionary
+    """
+    if attacker["category"] == "player":
+        accuracy_roll = random.randint(1, 100)
+        if accuracy_roll <= attacker["class_dictionary"]["accuracy_rate"]:
+            player_damage = random.randint(attacker["class_dictionary"]["base_damage_min"], attacker["class_dictionary"]["base_damage_max"])
+            opponent["hp"] -= player_damage
+    else:
+        monster_damage = random.randint(1, attacker["damage"]) #switch to roll_dice function for this in production
+        opponent["hp"] -= monster_damage
+    # delayed_message(f"{attacker['name']} has done {damage} damage to {opponent['name']}!"
+    #                 f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
+    return opponent
+#testing function
+monster_info = {"damage": 10, "hp": 20, "category": "monster"}
+player_info = {'name': 'leo', 'class': 'Warrior', 'hp': 20, 'position': [0, 0], 'level': 1, 'damage': 10, 'experience': 0, 'category': 'player', 'class_dictionary': {'level': 1, 'level_name': 'Apprentice Warrior', 'experience_needed': 200, 'attack_name': 'Threaten', 'max_hp': 20, 'base_damage_min': 7, 'base_damage_max': 12, 'accuracy_rate': 50}}
+print(attacking_round(player_info, monster_info))
+#NEED TO ADD CATEGORY INTO BOTH PLAYER AND MONSTER LIST
+
 
 
 # def player():
