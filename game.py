@@ -795,7 +795,7 @@ def battle_attack_order():
         return False
 
 
-def battle_start(player, monster_info, attacker):
+def battle_start(player, monster, attacker):
     """Simulate a battle between two characters.
 
     The function identifies the player through attacker boolean value, then runs the attacking_round in a correct order,
@@ -803,7 +803,7 @@ def battle_start(player, monster_info, attacker):
     to change the player's information.
 
     :param player: a dictionary
-    :param monster_info: a dictionary
+    :param monster: a dictionary
     :param attacker: a boolean
     :precondition: first_attack and second_attack must be a proper dictionary with correct character and information
     :postcondition: correctly continue to run the round until one of the characters have 0 hp value
@@ -811,16 +811,16 @@ def battle_start(player, monster_info, attacker):
     """
 
     if attacker:
-        attacking_round(player, monster_info)
-        if monster_info['hp'] > 0:
-            attacking_round(monster_info, player)
+        attacking_round(player, monster, player_damage(player))
+        if monster['hp'] > 0:
+            attacking_round(monster, player, roll_die(1, MAX_MONSTER_DAMAGE()))
         else:
             leveling_package(player)
     elif attacker is False:
-        attacking_round(monster_info, player)
+        attacking_round(monster, player, roll_die(1, MAX_MONSTER_DAMAGE()))
         if player['hp'] > 0:
-            attacking_round(player, monster_info)
-        if monster_info['hp'] < 0:
+            attacking_round(player, monster, player_damage(player))
+        if monster['hp'] < 0:
             leveling_package(player)
 
 
@@ -830,7 +830,17 @@ def leveling_package(player):
     player_class_dictionary(player)
 
 
-def attacking_round(attacker, opponent):
+def player_damage(player):
+    accuracy_roll = randint(1, 100)
+    if accuracy_roll <= player["class_dictionary"]["accuracy_rate"]:
+        damage = randint(player["class_dictionary"]["base_damage_min"],
+                         player["class_dictionary"]["base_damage_max"])
+    else:
+        damage = 0
+    return damage
+
+
+def attacking_round(attacker, opponent, damage_amount):
     """Simulate a single attack to the opponent.
 
     This function runs a combat simulation that changes the damaged's hp value.
@@ -843,20 +853,12 @@ def attacking_round(attacker, opponent):
     :postcondition: correctly changed hp of damaged
     :return: changed hp value of damaged in a dictionary
     """
-    if attacker["category"] == "player":
-        accuracy_roll = randint(1, 100)
-        if accuracy_roll <= attacker["class_dictionary"]["accuracy_rate"]:
-            damage = randint(attacker["class_dictionary"]["base_damage_min"], attacker["class_dictionary"]["base_damage_max"])
-            opponent["hp"] -= damage
-            delayed_message(f"{attacker['name']} has done {damage} damage to {opponent['name']}!"
-                            f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
-        else:
-            delayed_message(f"\n{attacker['name']} has missed the attack!\n", 0.5)
+    if damage_amount == 0:
+        delayed_message(f"{attacker['name']} has missed the attack!", 0.5)
     else:
-        damage = randint(1, attacker["damage"]) #switch to roll_dice function for this in production
-        opponent["hp"] -= damage
-        delayed_message(f"{attacker['name']} has done {damage} damage to {opponent['name']}!"
-                    f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
+        opponent['hp'] -= damage_amount
+        delayed_message(f"{attacker['name']} has done {damage_amount} damage to {opponent['name']}!"
+                        f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
     return opponent
 
 

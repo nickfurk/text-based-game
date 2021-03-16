@@ -358,7 +358,7 @@ def player_name_generator():
     return user_input
 
 
-def player_job_generator(player):
+def player_job_generator():
     """Designate player job based on user choice.
 
     :postcondition: gets user input and assigns it to variable
@@ -371,7 +371,7 @@ def player_job_generator(player):
     while player_job not in JOB_LIST():
         print("That's not in the list of jobs you can choose from!")
         player_job = input_checker(new_list_for_user)
-    player["class"] = player_job
+    # player["class"] = player_job
     delayed_message(f"\n{player_job} is a great choice!\n", 0.75)
     return player_job
 
@@ -390,12 +390,12 @@ def make_player():
     :postcondition: gets user input and creates player information dictionary
     :return: a dictionary
     """
-    # player_name = player_name_generator()
+    player_name = player_name_generator()
     # player_hp = MAX_PLAYER_HP()
     # player_position = PLAYER_STARTING_POSITION()
-    # player_damage = STARTING_PLAYER_DAMAGE()
-    player = {"name": player_name_generator(),
-              "class": "",
+    player_class = player_job_generator()
+    player = {"name": player_name,
+              "class": player_class,
               "hp": MAX_PLAYER_HP(),
               "position": PLAYER_STARTING_POSITION(),
               "level": 1,
@@ -403,8 +403,8 @@ def make_player():
               "experience": 0,
               "category": "player",
               "class_dictionary": ""}
-    player["class"] = player_job_generator(player)
-    player["class_dictionary"] = player_class_dictionary(player)
+    # player["class"] = player_job_generator(player)
+    player["class_dictionary"] = return_class_dictionary(player)
     return player
 
 
@@ -794,7 +794,7 @@ def battle_attack_order():
         return False
 
 
-def battle_start(player, monster_info, attacker):
+def battle_start(player, monster, attacker):
     """Simulate a battle between two characters.
 
     The function identifies the player through attacker boolean value, then runs the attacking_round in a correct order,
@@ -809,23 +809,34 @@ def battle_start(player, monster_info, attacker):
     :postcondition: correctly lead to leveling_package if the monster_info hp is 0
     """
     if attacker:
-        attacking_round(player, monster_info)
+        attacking_round(player, monster_info, player_damage(player))
         if monster_info['hp'] > 0:
-            attacking_round(monster_info, player)
+            attacking_round(monster_info, player, roll_die(1, MAX_MONSTER_DAMAGE()))
         else:
             player["experience"] += 100
             leveling_package(player)
             # check_level(player)
     elif attacker is False:
-        attacking_round(monster_info, player)
+        attacking_round(monster_info, player, roll_die(1, MAX_MONSTER_DAMAGE()))
         if player['hp'] > 0:
-            attacking_round(player, monster_info)
+            attacking_round(player, monster_info, player_damage(player))
         if monster_info['hp'] < 0:
             player["experience"] += 100
             # check_level(player)
             leveling_package(player)
 
-def attacking_round(attacker, opponent):
+
+def player_damage(player):
+    accuracy_roll = randint(1, 100)
+    if accuracy_roll <= player["class_dictionary"][1]["accuracy_rate"]:
+        damage = randint(player["class_dictionary"][1]["base_damage_min"],
+                         player["class_dictionary"][1]["base_damage_max"])
+    else:
+        damage = 0
+    return damage
+
+
+def attacking_round(attacker, opponent, damage):
     """Simulate a single attack to the opponent.
 
     This function runs a combat simulation that changes the damaged's hp value.
@@ -836,21 +847,28 @@ def attacking_round(attacker, opponent):
     :postcondition: correctly changed hp of damaged
     :return: changed hp value of damaged in a dictionary
     """
-    if attacker["category"] == "player":
-        accuracy_roll = randint(1, 100)
-        if accuracy_roll <= attacker["class_dictionary"]["accuracy_rate"]:
-            damage = randint(attacker["class_dictionary"]["base_damage_min"], attacker["class_dictionary"]["base_damage_max"])
-            opponent["hp"] -= damage
-            delayed_message(f"{attacker['name']} has done {damage} damage to {opponent['name']}!"
-                            f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
-        else:
-            delayed_message(f"{attacker['name']} has missed the attack!", 0.5)
+    if damage == 0:
+        delayed_message(f"{attacker['name']} has missed the attack!", 0.5)
     else:
-        damage = randint(1, attacker["damage"]) #switch to roll_dice function for this in production
-        opponent["hp"] -= damage
+        opponent['hp'] -= damage
         delayed_message(f"{attacker['name']} has done {damage} damage to {opponent['name']}!"
-                    f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
+                        f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
     return opponent
+    # if attacker["category"] == "player":
+    #     accuracy_roll = randint(1, 100)
+    #     if accuracy_roll <= attacker["class_dictionary"][1]["accuracy_rate"]:
+    #         damage = randint(attacker["class_dictionary"][1]["base_damage_min"], attacker["class_dictionary"][1]["base_damage_max"])
+    #         opponent["hp"] -= damage
+    #         delayed_message(f"{attacker['name']} has done {damage} damage to {opponent['name']}!"
+    #                         f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
+    #     else:
+    #         delayed_message(f"{attacker['name']} has missed the attack!", 0.5)
+    # else:
+    #     damage = randint(1, attacker["damage"]) #switch to roll_dice function for this in production
+    #     opponent["hp"] -= damage
+    #     delayed_message(f"{attacker['name']} has done {damage} damage to {opponent['name']}!"
+    #                 f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
+    # return opponent
 
 
 def return_class_dictionary(player):
@@ -875,16 +893,18 @@ def check_level(player):
     return level
 
 def change_class_dict(player):
-    level = check_level(player)
-    if level == 1:
-        new_dictionary = player["class_dictionary"][0]
-        return new_dictionary
-    if level == 2:
-        new_dictionary = player["class_dictionary"][1]
-        return new_dictionary
-    if level == 3:
-        new_dictionary = player["class_dictionary"][2]
-        return new_dictionary
+    class_dictionary = player["class_dictionary"]
+    if player["level"] == 2:
+        new_dictionary = return_class_dictionary(player)[1]
+        for values in class_dictionary:
+            if values in new_dictionary:
+                class_dictionary[values] = new_dictionary[values]
+    elif player["level"] == 3:
+        new_dictionary = return_class_dictionary(player)[2]
+        for values in class_dictionary:
+            if values in new_dictionary:
+                class_dictionary[values] = new_dictionary[values]
+    return class_dictionary
 
 def leveling_package(player):
     check_level(player)

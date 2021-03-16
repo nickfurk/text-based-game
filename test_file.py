@@ -219,6 +219,7 @@ def attacking_round(attacker, opponent):
     :precondition: damage_amount must be a positive integer
     :postcondition: correctly changed hp of damaged
     :return: changed hp value of damaged in a dictionary
+
     """
     if attacker["category"] == "player":
         accuracy_roll = random.randint(1, 100)
