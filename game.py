@@ -128,6 +128,8 @@ def WARRIOR():
 #     }
 
 
+
+
 def PLAYER_STARTING_POSITION():
     """Set the player's starting position as [0, 0].
 
@@ -400,6 +402,7 @@ def make_player():
               "level": 1,
               "damage": STARTING_PLAYER_DAMAGE(),
               "experience": 0,
+              "category": "player",
               "class_dictionary": ""}
     player["class"] = player_job_generator(player)
     player["class_dictionary"] = player_class_dictionary(player)
@@ -656,7 +659,10 @@ def random_monster():
     random_monster_type = choice(LIST_OF_MONSTER_TYPES())
     monster_hp = MAX_MONSTER_HP()
     monster_damage = MAX_MONSTER_DAMAGE()
-    monster_info = {"name": random_monster_name, "type": random_monster_type, "hp": monster_hp,
+    monster_info = {"name": random_monster_name,
+                    "type": random_monster_type,
+                    "hp": monster_hp,
+                    "category": "monster",
                     "damage": monster_damage}
     return monster_info
 
@@ -694,6 +700,8 @@ def combat_round(player, monster):
                     return player
                 else:
                     continue
+            elif monster["hp"] < 1 and player["hp"] > 0:
+                continue
         press_enter_to_continue()
     else:
         run_away_player(player, monster)
@@ -850,7 +858,7 @@ def check_level(player):
     level = 1
     if player["experience"] >= class_dictionary[1]["experience_needed"]:
         level += 1
-    if player["experience"] >= class_dictionary[2]["experience_needed"]:
+    elif player["experience"] >= class_dictionary[2]["experience_needed"]:
         level += 1
     player["level"] = level
     return level
@@ -862,7 +870,41 @@ def player_game_descriptions(player, board):
     display_info(player, board)
 
 
-def fight_boss(player):
+def PICK_RANDOM_BOSS_NAME():
+    boss_names = ["Boss 1", "Boss 2", "Boss 3"]
+    return choice(boss_names)
+
+def MAX_BOSS_HP():
+    return 75
+
+def MAX_BOSS_DAMAGE():
+    return 20
+
+def make_boss():
+    boss = {"name": PICK_RANDOM_BOSS_NAME(),
+            "hp": MAX_BOSS_HP(),
+            "damage": MAX_BOSS_DAMAGE(),
+            "location": [15, 15]}
+    return boss
+
+
+def fight_boss(player, boss):
+    if fight_or_run_decision(boss) == "Yes":
+        while player["hp"] > 0 and boss["hp"] > 0:
+            battle_start(player, boss, battle_attack_order())
+            if boss["hp"] > 0 and player["hp"] > 0:
+                if run_or_fight_again() == "No":
+                    run_away_player(player, boss)
+                    return player
+                else:
+                    continue
+        press_enter_to_continue()
+    else:
+        run_away_player(player, boss)
+
+
+def game_win_art():
+
     pass
 
 
@@ -881,24 +923,25 @@ def game():
           "I hope you have fun playing! Let the journey begin!\n")
     board = make_board()
     player = make_player()
+    boss = make_boss()
     player_move = move_character(player, board)
-    while player_move != "quit" and player['hp'] > 0:
-        if player['position'] != [4, 4]:
-            battle_chance(player, random_monster())
-            if player['hp'] > 0:
-                player_move = move_character(player, board)
-            else:
-                game_over()
+    while player_move != "quit" or (player['hp'] > 0 and player['position'] != boss['position'] and player['level'] != 3): #will it work with or here? cause having quit with the other conditions wont transition into the boss function
+        battle_chance(player, random_monster())
+        if player['hp'] > 0:
+            player_move = move_character(player, board)
         else:
-            fight_boss(player)
-    game_over()
+            game_over()
+    fight_boss(player, boss)
+    if player['hp'] > 0 and boss['hp'] < 1:
+        game_win_art()
+    else:
+        game_over()
 
 
 def main():
     """Execute the program"""
     # doctest.testmod(verbose=True)
-    game()
-
+    # game()
 
 if __name__ == "__main__":
     main()
