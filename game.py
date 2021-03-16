@@ -380,8 +380,8 @@ def player_job_generator(player):
 def player_class_dictionary(player):
     current_dictionary = return_class_dictionary(player)
     level = check_level(player)
-    # player["class_dictionary"] = current_dictionary[level]
-    return current_dictionary[level]
+    player["class_dictionary"] = current_dictionary[level]
+    # return current_dictionary[level]
 
 
 def make_player():
@@ -405,7 +405,7 @@ def make_player():
               "category": "player",
               "class_dictionary": ""}
     player["class"] = player_job_generator(player)
-    player["class_dictionary"] = player_class_dictionary(player)
+    player_class_dictionary(player)
     return player
 
 
@@ -424,6 +424,7 @@ def display_map(player):
                 symbol = "[X]"
             line += symbol + ""
         print(line)
+    print(player)
 
 
 # #testing function
@@ -813,6 +814,7 @@ def battle_start(player, monster_info, attacker):
         else:
             player["experience"] += 100
             check_level(player)
+            player_class_dictionary(player)
     elif attacker is False:
         attacking_round(monster_info, player, MAX_MONSTER_DAMAGE())
         if player['hp'] > 0:
@@ -820,6 +822,7 @@ def battle_start(player, monster_info, attacker):
         if monster_info['hp'] < 0:
             player["experience"] += 100
             check_level(player)
+            player_class_dictionary(player)
 
 
 def attacking_round(attacker, opponent, damage_amount):
@@ -944,4 +947,4 @@ def main():
     # game()
 
 if __name__ == "__main__":
-    main()
+    game()
