@@ -316,7 +316,6 @@ def input_checker(list_of_options):
     :return: value of the chosen key as a string
     """
     print(str(list_of_options).replace(",", "\n"))
-    sleep(1)
     user_input = input("\nPlease choose from the following list of options by typing in the corresponding number: \n")
     for keys, values in list_of_options.items():
         if user_input == keys:
@@ -693,7 +692,7 @@ def combat_round(player, monster):
     if fight_or_run_decision(monster) == "Yes":
         while player["hp"] > 0 and monster["hp"] > 0:
             battle_start(player, monster, battle_attack_order())
-            if run_away_monster(monster) and (monster["hp"] > 0 and player["hp"] > 0):
+            if run_away_monster(monster, player) and (monster["hp"] > 0 and player["hp"] > 0):
                 return player
             elif monster["hp"] > 0 and player["hp"] > 0:
                 if run_or_fight_again() == "No":
@@ -759,14 +758,19 @@ def run_or_fight_again():
     return user_choice
 
 
-def run_away_monster(monster):
-    run_away_number = roll_die(1, RUN_AWAY_PROBABILITY())
-    if run_away_number == 1:
-        delayed_message(f"{monster['name']} ran away!", 1)
-        press_enter_to_continue()
-        return True
-    else:
+def run_away_monster(monster, player):
+    if monster["hp"] < 1:
         return False
+    elif player["hp"] < 1:
+        return False
+    else:
+        run_away_number = roll_die(1, RUN_AWAY_PROBABILITY())
+        if run_away_number == 1:
+            delayed_message(f"{monster['name']} ran away!", 1)
+            press_enter_to_continue()
+            return True
+        else:
+            return False
 
 
 def battle_attack_order():
@@ -806,17 +810,16 @@ def battle_start(player, monster_info, attacker):
     :postcondition: correctly lead to leveling_package if the monster_info hp is 0
     """
 
-    sleep(1)
     if attacker:
-        attacking_round(player, monster_info, STARTING_PLAYER_DAMAGE())
+        attacking_round(player, monster_info)
         if monster_info['hp'] > 0:
-            attacking_round(monster_info, player, MAX_MONSTER_DAMAGE())
+            attacking_round(monster_info, player)
         else:
             leveling_package(player)
     elif attacker is False:
-        attacking_round(monster_info, player, MAX_MONSTER_DAMAGE())
+        attacking_round(monster_info, player)
         if player['hp'] > 0:
-            attacking_round(player, monster_info, STARTING_PLAYER_DAMAGE())
+            attacking_round(player, monster_info)
         if monster_info['hp'] < 0:
             leveling_package(player)
 
@@ -827,7 +830,7 @@ def leveling_package(player):
     player_class_dictionary(player)
 
 
-def attacking_round(attacker, opponent, damage_amount):
+def attacking_round(attacker, opponent):
     """Simulate a single attack to the opponent.
 
     This function runs a combat simulation that changes the damaged's hp value.
@@ -840,9 +843,19 @@ def attacking_round(attacker, opponent, damage_amount):
     :postcondition: correctly changed hp of damaged
     :return: changed hp value of damaged in a dictionary
     """
-    damage = roll_die(1, damage_amount)
-    opponent['hp'] -= damage
-    delayed_message(f"{attacker['name']} has done {damage} damage to {opponent['name']}!"
+    if attacker["category"] == "player":
+        accuracy_roll = randint(1, 100)
+        if accuracy_roll <= attacker["class_dictionary"]["accuracy_rate"]:
+            damage = randint(attacker["class_dictionary"]["base_damage_min"], attacker["class_dictionary"]["base_damage_max"])
+            opponent["hp"] -= damage
+            delayed_message(f"{attacker['name']} has done {damage} damage to {opponent['name']}!"
+                            f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
+        else:
+            delayed_message(f"\n{attacker['name']} has missed the attack!\n", 0.5)
+    else:
+        damage = randint(1, attacker["damage"]) #switch to roll_dice function for this in production
+        opponent["hp"] -= damage
+        delayed_message(f"{attacker['name']} has done {damage} damage to {opponent['name']}!"
                     f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
     return opponent
 
