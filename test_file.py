@@ -225,6 +225,7 @@ def attacking_round(attacker, opponent):
         if accuracy_roll <= attacker["class_dictionary"]["accuracy_rate"]:
             player_damage = random.randint(attacker["class_dictionary"]["base_damage_min"], attacker["class_dictionary"]["base_damage_max"])
             opponent["hp"] -= player_damage
+        else: print(f'poor accuracy!')
     else:
         monster_damage = random.randint(1, attacker["damage"]) #switch to roll_dice function for this in production
         opponent["hp"] -= monster_damage
