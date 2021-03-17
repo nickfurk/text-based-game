@@ -13,7 +13,7 @@ import doctest
 from colorama import init, Fore, Back, Style
 init()
 
-
+# Player Specifications
 def BASE_PLAYER_HP():
     """Return base player hp as 20 for all classes.
 
@@ -22,6 +22,23 @@ def BASE_PLAYER_HP():
     return 20
 
 
+def PLAYER_HEAL_HP():
+    """Return player maximum heal health point as 4.
+
+    :return: heal health point as integer 4
+    """
+    return 4
+
+
+def PLAYER_STARTING_POSITION():
+    """Return the player's starting position as [0, 0].
+
+    :return: a list
+    """
+    return [0, 0]
+
+
+# Class Specification
 def MAGE_HP_INCREMENT():
     """Return Mage class health increment as 10.
 
@@ -52,23 +69,6 @@ def WARRIOR_HP_INCREMENT():
     :return: an integer
     """
     return 10
-
-
-def PLAYER_HEAL_HP():
-    """Return player maximum heal health point as 4.
-
-    :return: heal health point as integer 4
-    """
-    return 4
-
-
-
-# def MAX_MONSTER_DAMAGE():
-#     return 10
-
-
-# def MONSTER_DAMAGE_INCREMENT():
-#     return 5
 
 
 def MAGE():
@@ -147,19 +147,14 @@ def WARRIOR():
     }
 
 
-def MONSTER_DAMAGE():
-    return {
-        1: {"level": 1, "damage": MAX_MONSTER_DAMAGE()},
-        2: {"level": 2, "damage": MAX_MONSTER_DAMAGE() + MONSTER_HP_INCREMENT()},
-        3: {"level": 3, "damage": MAX_MONSTER_DAMAGE() + (MONSTER_HP_INCREMENT() * 2)},
-    }
-
+#Monster Specification
 def BASE_MONSTER_HP():
     """Return the monster's base health as 10.
 
     :return: an integer
     """
     return 10
+
 
 def MONSTER_HP_INCREMENT():
     """Return the monster's hp increment as 5.
@@ -170,7 +165,7 @@ def MONSTER_HP_INCREMENT():
 
 
 def MONSTER_HP():
-    """Return monster dictionary.
+    """Return monster hp dictionary.
 
     The key represents the player's level, which change as the player levels up.
 
@@ -183,15 +178,7 @@ def MONSTER_HP():
     }
 
 
-def PLAYER_STARTING_POSITION():
-    """Return the player's starting position as [0, 0].
-
-    :return: a list
-    """
-    return [0, 0]
-
-
-def MAX_MONSTER_DAMAGE(): #need to get rid of at the end
+def BASE_MONSTER_DAMAGE(): #need to get rid of at the end
     """Set the maximum monster damage as 20.
 
     The number is used in the roll_die function to give an output of 1 - 10 inclusive.
@@ -201,6 +188,58 @@ def MAX_MONSTER_DAMAGE(): #need to get rid of at the end
     return 10
 
 
+def MONSTER_DAMAGE_INCREMENT():
+    """Return the monster's damage increment as 5.
+
+    :return: an integer
+    """
+    return 5
+
+
+def MONSTER_DAMAGE():
+    """Return monster damage dictionary.
+
+    The key represents the player's level, which change as the player levels up.
+
+    :return: a dictionary
+    """
+    return {
+        1: {"level": 1, "damage": BASE_MONSTER_DAMAGE()},
+        2: {"level": 2, "damage": BASE_MONSTER_DAMAGE() + MONSTER_DAMAGE_INCREMENT()},
+        3: {"level": 3, "damage": BASE_MONSTER_DAMAGE() + (MONSTER_DAMAGE_INCREMENT() * 2)},
+    }
+
+
+
+#Boss Specifications
+def PICK_RANDOM_BOSS_NAME():
+    """Return a random string from the list of strings.
+
+    The function will pick random names from the provided list of boss names.
+
+    :return: a string
+    """
+    boss_names = ["Boss 1", "Boss 2", "Boss 3"]
+    return choice(boss_names)
+
+
+def MAX_BOSS_HP():
+    """Return boss hp as 30.
+
+    :return: an integer
+    """
+    return 30
+
+
+def MAX_BOSS_DAMAGE():
+    """Return boss damage as 10.
+
+    :return: an integer
+    """
+    return 10
+
+
+# Game helpers
 def RUN_AWAY_PROBABILITY():
     """Return the number for probability of running away.
 
@@ -417,6 +456,13 @@ def press_enter_to_continue():
         user_input = input("Press enter to continue the game!: ")
 
 
+def game_over():
+    """Generate a prompt to end the game."""
+    print("\nThanks for playing! The game is over, goodbye!")
+    input("Press enter to end the game :)")
+    quit()
+
+
 def player_name_generator():
     """Create a name based on user input.
 
@@ -465,11 +511,49 @@ def player_class_dictionary(player):
     # return current_dictionary[level]
 
 
-def make_player():
-    """Create a dictionary that contains player name, player job, player hp, player position, player level/exp, damage,
-       and number of run away chances available.
+def return_class_dictionary(player):
+    """Return the class dictionary depending on user class.
 
-    :postcondition: gets user input and creates player information dictionary
+    :param player: a dictionary
+    :precondition: player must be a proper dictionary with correct character and information
+    :postcondition: correctly return the corresponding class dictionary
+    :return: a dictionary
+    """
+    if player["class"] == "Mage":
+        return MAGE()
+    elif player["class"] == "Thief":
+        return THIEF()
+    elif player["class"] == "Ranger":
+        return RANGER()
+    else:
+        return WARRIOR()
+
+
+def check_level(player):
+    """Change the player's level depending on user experience, and return the level.
+
+    :param player: a dictionary
+    :precondition: player must be a proper dictionary with correct character and information
+    :postcondition: correctly return the changed level
+    :return: an integer
+    """
+    class_dictionary = return_class_dictionary(player)
+    level = 1
+    if player["experience"] >= class_dictionary[1]["experience_needed"]:
+        level += 1
+    elif player["experience"] >= class_dictionary[2]["experience_needed"]:
+        level += 1
+    player["level"] = level
+    return level
+
+
+def make_player():
+    """Create a dictionary that contains player name, class, hp, position, player level/exp, category, and class
+    dictionary.
+
+    The function creates a dictionary from different inputs and constants.
+
+    :postcondition: gets user input and creates player dictionary
     :return: a dictionary
     """
     # player_name = player_name_generator()
@@ -492,8 +576,10 @@ def make_player():
 def display_map(player, boss):
     """Print player's position on a map.
 
-    :param player: must be a dictionary with player's position as coordinate tuples
-    :precondition: player must bet a dictionary with player's position as coordinates
+    :param player: a dictionary
+    :param boss: a dictionary
+    :precondition: player and boss must be a proper dictionary with correct character and information
+    :precondition: player position in the dictionary must be a list
     :return: print player's position on a map
     """
     for row in range(BOARD_SIZE()):
@@ -511,17 +597,19 @@ def display_map(player, boss):
 
 
 def display_info(player, board):
-    """Print player's position, location description, health point, level and experience point.
+    """Print player's position, location description, health point, level, class name, and experience point.
 
-    :param player: a dictionary with player's position, health point, level and experience
-    :param board: a dictionary with loc
-    :return:
+    :param player: a dictionary
+    :param board: a dictionary
+    :precondition: player and board must be a proper dictionary with correct character and information
+    :postcondition: correctly prints the f strings of player position, location description, hp, level, class name,
+    and exp
     """
     coordinate = player["position"]
     print(f'Location: {player["position"]}')
     print(f'Description: {board[tuple(coordinate)]["location_description"]}')
-    print(f'Health point: {player["hp"]}')
-    print(f'Level: {player["level"]}')
+    print(f'Health point: {player["hp"]}/{player["class_dictionary"]["max_hp"]}')
+    print(f'Level: {player["level"]}, {player["class_dictionary"]["level_name"]}')
     print(f'Experience: {player["experience"]}')
 
 
@@ -607,13 +695,6 @@ def player_movement_change(current_position, user_direction):
         return current_position
     else:
         game_over()
-
-
-def game_over():
-    """Generate a prompt to end the game."""
-    print("\nThanks for playing! The game is over, goodbye!")
-    input("Press enter to end the game :)")
-    quit()
 
 
 def move_character(player, board, boss):
@@ -735,7 +816,7 @@ def random_monster(player):
     random_monster_name = choice(LIST_OF_MONSTERS())
     random_monster_type = choice(LIST_OF_MONSTER_TYPES())
     # monster_hp = BASE_MONSTER_HP()
-    monster_damage = MAX_MONSTER_DAMAGE()
+    monster_damage = BASE_MONSTER_DAMAGE()
     monster_info = {"name": random_monster_name,
                     "type": random_monster_type,
                     "hp": "",
@@ -921,28 +1002,6 @@ def leveling_package(player):
     player_class_dictionary(player)
 
 
-def return_class_dictionary(player):
-    if player["class"] == "Mage":
-        return MAGE()
-    elif player["class"] == "Thief":
-        return THIEF()
-    elif player["class"] == "Ranger":
-        return RANGER()
-    else:
-        return WARRIOR()
-
-
-def check_level(player):
-    class_dictionary = return_class_dictionary(player)
-    level = 1
-    if player["experience"] >= class_dictionary[1]["experience_needed"]:
-        level += 1
-    elif player["experience"] >= class_dictionary[2]["experience_needed"]:
-        level += 1
-    player["level"] = level
-    return level
-
-
 def player_damage(player):
     accuracy_roll = randint(1, 100)
     if accuracy_roll <= player["class_dictionary"]["accuracy_rate"]:
@@ -979,16 +1038,6 @@ def player_game_descriptions(player, board, boss):
     display_map(player, boss)
     display_info(player, board)
 
-
-def PICK_RANDOM_BOSS_NAME():
-    boss_names = ["Boss 1", "Boss 2", "Boss 3"]
-    return choice(boss_names)
-
-def MAX_BOSS_HP():
-    return 30
-
-def MAX_BOSS_DAMAGE():
-    return 10
 
 def make_boss():
     boss = {"name": PICK_RANDOM_BOSS_NAME(),
