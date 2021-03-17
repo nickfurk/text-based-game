@@ -10,6 +10,16 @@ from itertools import count
 from random import randint, choice
 from time import sleep
 import doctest
+from colorama import init, Fore, Back, Style
+init()
+
+
+def PLAYER_HEAL_HP():
+    """Return player maximum heal health point as 4.
+
+    :return: heal health point as integer 4
+    """
+    return 4
 
 
 def BASE_MAGE_HP():
@@ -358,7 +368,7 @@ def player_name_generator():
     return user_input
 
 
-def player_job_generator():
+def player_job_generator(player):
     """Designate player job based on user choice.
 
     :postcondition: gets user input and assigns it to variable
@@ -371,7 +381,7 @@ def player_job_generator():
     while player_job not in JOB_LIST():
         print("That's not in the list of jobs you can choose from!")
         player_job = input_checker(new_list_for_user)
-    # player["class"] = player_job
+    player["class"] = player_job
     delayed_message(f"\n{player_job} is a great choice!\n", 0.75)
     return player_job
 
@@ -380,7 +390,7 @@ def player_class_dictionary(player):
     current_dictionary = return_class_dictionary(player)
     level = check_level(player)
     player["class_dictionary"] = current_dictionary[level]
-    return current_dictionary[level]
+    # return current_dictionary[level]
 
 
 def make_player():
@@ -390,12 +400,12 @@ def make_player():
     :postcondition: gets user input and creates player information dictionary
     :return: a dictionary
     """
-    player_name = player_name_generator()
+    # player_name = player_name_generator()
     # player_hp = MAX_PLAYER_HP()
     # player_position = PLAYER_STARTING_POSITION()
-    player_class = player_job_generator()
-    player = {"name": player_name,
-              "class": player_class,
+    # player_damage = STARTING_PLAYER_DAMAGE()
+    player = {"name": player_name_generator(),
+              "class": "",
               "hp": MAX_PLAYER_HP(),
               "position": PLAYER_STARTING_POSITION(),
               "level": 1,
@@ -403,12 +413,12 @@ def make_player():
               "experience": 0,
               "category": "player",
               "class_dictionary": ""}
-    # player["class"] = player_job_generator(player)
-    player["class_dictionary"] = return_class_dictionary(player)
+    player["class"] = player_job_generator(player)
+    player_class_dictionary(player)
     return player
 
 
-def display_map(player):
+def display_map(player, boss):
     """Print player's position on a map.
 
     :param player: must be a dictionary with player's position as coordinate tuples
@@ -416,13 +426,14 @@ def display_map(player):
     :return: print player's position on a map
     """
     for row in range(BOARD_SIZE()):
-        line = ""
         for column in range(BOARD_SIZE()):
-            symbol = "[ ]"
             if player["position"] == [row, column]:
-                symbol = "[X]"
-            line += symbol + ""
-        print(line)
+                print(Fore.GREEN + "[X]" + Style.RESET_ALL, end="")
+            elif boss["position"] == [row, column]:
+                print(Fore.RED + "[#]" + Style.RESET_ALL, end="")
+            else:
+                print("[ ]", end="")
+        print()
 
 
 # #testing function
@@ -536,7 +547,7 @@ def game_over():
     quit()
 
 
-def move_character(player, board):
+def move_character(player, board, boss):
     """Change the position of the player to a new position based on user input.
 
     :param player: a dictionary
@@ -544,7 +555,7 @@ def move_character(player, board):
     :postcondition: the player's position will correctly change according to user input
     :return: a changed player's new position in a list or "quit" as a string
     """
-    player_game_descriptions(player, board)
+    player_game_descriptions(player, board, boss)
     if player["hp"] > 0:
         new_direction_list = {str(keys): jobs for keys, jobs in enumerate(DIRECTION_LIST(), 1)}
         user_input = input_checker(new_direction_list)
@@ -637,12 +648,10 @@ def heal_player(player):
     20
     """
     delayed_message("It seems like there's no one in the room. You are healed by 4 hp!\n", 1)
-    initial_health = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-    target_health = [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 20, 20, 20, 20]
-    for health in range(len(initial_health)):
-        if health == player["hp"]:
-            player["hp"] = target_health[health]
-            return player
+    if 0 <= player["hp"] <= 20:
+        player["hp"] += PLAYER_HEAL_HP()
+        if player["hp"] > 20:
+            player["hp"] = 20
 
 
 def random_monster():
@@ -802,73 +811,63 @@ def battle_start(player, monster, attacker):
     to change the player's information.
 
     :param player: a dictionary
-    :param monster_info: a dictionary
+    :param monster: a dictionary
     :param attacker: a boolean
     :precondition: first_attack and second_attack must be a proper dictionary with correct character and information
     :postcondition: correctly continue to run the round until one of the characters have 0 hp value
     :postcondition: correctly lead to leveling_package if the monster_info hp is 0
     """
+
     if attacker:
-        attacking_round(player, monster_info, player_damage(player))
-        if monster_info['hp'] > 0:
-            attacking_round(monster_info, player, roll_die(1, MAX_MONSTER_DAMAGE()))
+        attacking_round(player, monster, player_damage(player))
+        if monster['hp'] > 0:
+            attacking_round(monster, player, roll_die(1, MAX_MONSTER_DAMAGE()))
         else:
-            player["experience"] += 100
             leveling_package(player)
-            # check_level(player)
     elif attacker is False:
-        attacking_round(monster_info, player, roll_die(1, MAX_MONSTER_DAMAGE()))
+        attacking_round(monster, player, roll_die(1, MAX_MONSTER_DAMAGE()))
         if player['hp'] > 0:
-            attacking_round(player, monster_info, player_damage(player))
-        if monster_info['hp'] < 0:
-            player["experience"] += 100
-            # check_level(player)
+            attacking_round(player, monster, player_damage(player))
+        if monster['hp'] < 1:
             leveling_package(player)
+
+
+def leveling_package(player):
+    player["experience"] += 100
+    check_level(player)
+    player_class_dictionary(player)
 
 
 def player_damage(player):
     accuracy_roll = randint(1, 100)
-    if accuracy_roll <= player["class_dictionary"][1]["accuracy_rate"]:
-        damage = randint(player["class_dictionary"][1]["base_damage_min"],
-                         player["class_dictionary"][1]["base_damage_max"])
+    if accuracy_roll <= player["class_dictionary"]["accuracy_rate"]:
+        damage = randint(player["class_dictionary"]["base_damage_min"],
+                         player["class_dictionary"]["base_damage_max"])
     else:
         damage = 0
     return damage
 
 
-def attacking_round(attacker, opponent, damage):
+def attacking_round(attacker, opponent, damage_amount):
     """Simulate a single attack to the opponent.
 
     This function runs a combat simulation that changes the damaged's hp value.
 
     :param attacker: a dictionary
     :param opponent: a dictionary
+    :param damage_amount: an integer
     :precondition: attacker and damaged must be a proper dictionary with correct character and information
+    :precondition: damage_amount must be a positive integer
     :postcondition: correctly changed hp of damaged
     :return: changed hp value of damaged in a dictionary
     """
-    if damage == 0:
-        delayed_message(f"{attacker['name']} has missed the attack!", 0.5)
+    if damage_amount == 0:
+        delayed_message(f"\n{attacker['name']} has missed the attack!\n", 0.5)
     else:
-        opponent['hp'] -= damage
-        delayed_message(f"{attacker['name']} has done {damage} damage to {opponent['name']}!"
+        opponent['hp'] -= damage_amount
+        delayed_message(f"{attacker['name']} has done {damage_amount} damage to {opponent['name']}!"
                         f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
     return opponent
-    # if attacker["category"] == "player":
-    #     accuracy_roll = randint(1, 100)
-    #     if accuracy_roll <= attacker["class_dictionary"][1]["accuracy_rate"]:
-    #         damage = randint(attacker["class_dictionary"][1]["base_damage_min"], attacker["class_dictionary"][1]["base_damage_max"])
-    #         opponent["hp"] -= damage
-    #         delayed_message(f"{attacker['name']} has done {damage} damage to {opponent['name']}!"
-    #                         f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
-    #     else:
-    #         delayed_message(f"{attacker['name']} has missed the attack!", 0.5)
-    # else:
-    #     damage = randint(1, attacker["damage"]) #switch to roll_dice function for this in production
-    #     opponent["hp"] -= damage
-    #     delayed_message(f"{attacker['name']} has done {damage} damage to {opponent['name']}!"
-    #                 f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
-    # return opponent
 
 
 def return_class_dictionary(player):
@@ -892,68 +891,68 @@ def check_level(player):
     player["level"] = level
     return level
 
-def change_class_dict(player):
-    class_dictionary = player["class_dictionary"]
-    if player["level"] == 2:
-        new_dictionary = return_class_dictionary(player)[1]
-        for values in class_dictionary:
-            if values in new_dictionary:
-                class_dictionary[values] = new_dictionary[values]
-    elif player["level"] == 3:
-        new_dictionary = return_class_dictionary(player)[2]
-        for values in class_dictionary:
-            if values in new_dictionary:
-                class_dictionary[values] = new_dictionary[values]
-    return class_dictionary
-
-def leveling_package(player):
-    check_level(player)
-    change_class_dict(player)
-    return player
 
 
-def player_game_descriptions(player, board):
-    display_map(player)
+def player_game_descriptions(player, board, boss):
+    display_map(player, boss)
     display_info(player, board)
 
-#
-# def PICK_RANDOM_BOSS_NAME():
-#     boss_names = ["Boss 1", "Boss 2", "Boss 3"]
-#     return choice(boss_names)
-#
-# def MAX_BOSS_HP():
-#     return 75
-#
-# def MAX_BOSS_DAMAGE():
-#     return 20
-#
-# def make_boss():
-#     boss = {"name": PICK_RANDOM_BOSS_NAME(),
-#             "hp": MAX_BOSS_HP(),
-#             "damage": MAX_BOSS_DAMAGE(),
-#             "location": [15, 15]}
-#     return boss
-#
-#
-# def fight_boss(player, boss):
-#     if fight_or_run_decision(boss) == "Yes":
-#         while player["hp"] > 0 and boss["hp"] > 0:
-#             battle_start(player, boss, battle_attack_order())
-#             if boss["hp"] > 0 and player["hp"] > 0:
-#                 if run_or_fight_again() == "No":
-#                     run_away_player(player, boss)
-#                     return player
-#                 else:
-#                     continue
-#         press_enter_to_continue()
-#     else:
-#         run_away_player(player, boss)
-#
-#
-# def game_win_art():
-#
-#     pass
-#
+
+def PICK_RANDOM_BOSS_NAME():
+    boss_names = ["Boss 1", "Boss 2", "Boss 3"]
+    return choice(boss_names)
+
+def MAX_BOSS_HP():
+    return 30
+
+def MAX_BOSS_DAMAGE():
+    return 20
+
+def make_boss():
+    boss = {"name": PICK_RANDOM_BOSS_NAME(),
+            "hp": MAX_BOSS_HP(),
+            "damage": MAX_BOSS_DAMAGE(),
+            "position": [2, 2]}
+    return boss
+
+
+def fight_or_run_decision_boss_round(boss):
+    delayed_message(f"\nYou have encountered {boss['name']}!\nThe boss hp is {boss['hp']}, and the damage is "
+                    f"{boss['damage']}.\nIf you beat him, you will finish the game with a victory, if you fail however,"
+                    f"the game will be finished.\nYou can choose to run away anytime you'd like and come back when you"
+                    f"believe you are ready to defeat the boss!\n", 1)
+    delayed_message(f"\nWould you like to fight?\n(We recommend going up against the boss at level 3, as you will have"
+                    f"higher chances of winning)", 1)
+    user_battle_decision = {str(keys): jobs for keys, jobs in zip(count(start=1, step=1), YES_OR_NO())}
+    user_choice = input_checker(user_battle_decision)
+    while user_choice not in YES_OR_NO():
+        print(f"{user_choice} is not a valid choice!, Please choose again: ")
+        user_choice = input_checker(user_battle_decision)
+    return user_choice
+
+
+def fight_boss(player, boss):
+    if fight_or_run_decision_boss_round(boss) == "Yes":
+        while player["hp"] > 0 and boss["hp"] > 0:
+            battle_start(player, boss, battle_attack_order())
+            if boss["hp"] > 0 and player["hp"] > 0:
+                if run_or_fight_again() == "No":
+                    run_away_player(player, boss)
+                    return player
+                else:
+                    continue
+            elif boss["hp"] < 1 and player["hp"] > 0:
+                continue
+        press_enter_to_continue()
+    else:
+        run_away_player(player, boss)
+
+
+def game_win_art():
+    print("you win!")
+    press_enter_to_continue()
+    quit()
+
 
 def game():
     """Execute the game.
@@ -970,11 +969,16 @@ def game():
           "I hope you have fun playing! Let the journey begin!\n")
     board = make_board()
     player = make_player()
-    move_character(player, board)
+    boss = make_boss()
+    move_character(player, board, boss)
     while player['hp'] > 0:
         battle_chance(player, random_monster())
-        move_character(player, board)
-        print(player["class_dictionary"])
+        move_character(player, board, boss)
+        if player["position"] == boss["position"]:
+            fight_boss(player, boss)
+            if boss["hp"] < 1:
+                game_win_art()
+            move_character(player, board, boss)
     game_over()
 
 
