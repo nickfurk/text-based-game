@@ -124,12 +124,12 @@ def WARRIOR():
     }
 
 
-# def MONSTER_DAMAGE():
-#     return {
-#         1: {"level": 1, "damage": MAX_MONSTER_DAMAGE()},
-#         2: {"level": 2, "damage": MAX_MONSTER_DAMAGE() + MONSTER_HP_INCREMENT()},
-#         3: {"level": 3, "damage": MAX_MONSTER_DAMAGE() + (MONSTER_HP_INCREMENT() * 2)},
-#     }
+def MONSTER_DAMAGE():
+    return {
+        1: {"level": 1, "damage": MAX_MONSTER_DAMAGE()},
+        2: {"level": 2, "damage": MAX_MONSTER_DAMAGE() + MONSTER_HP_INCREMENT()},
+        3: {"level": 3, "damage": MAX_MONSTER_DAMAGE() + (MONSTER_HP_INCREMENT() * 2)},
+    }
 
 def BASE_MONSTER_HP():
     """Set the monster's max health as 10.
@@ -657,14 +657,15 @@ def random_monster(player):
     """
     random_monster_name = choice(LIST_OF_MONSTERS())
     random_monster_type = choice(LIST_OF_MONSTER_TYPES())
-    monster_hp = BASE_MONSTER_HP()
+    # monster_hp = BASE_MONSTER_HP()
     monster_damage = MAX_MONSTER_DAMAGE()
     monster_info = {"name": random_monster_name,
                     "type": random_monster_type,
                     "hp": "",
                     "category": "monster",
-                    "damage": monster_damage}
+                    "damage": ""}
     check_monster_hp(player, monster_info)
+    check_monster_damage(player, monster_info)
     return monster_info
 
 
@@ -672,6 +673,13 @@ def check_monster_hp(player, monster):
     player_current_level = check_level(player)
     monster_hp_dictionary = MONSTER_HP()
     monster["hp"] = monster_hp_dictionary[player_current_level]["hp"]
+
+
+def check_monster_damage(player, monster):
+    player_current_level = check_level(player)
+    monster_damage_dictionary = MONSTER_DAMAGE()
+    monster["damage"] = monster_damage_dictionary[player_current_level]["damage"]
+
 
 def fight_or_run_decision(monster):
     print(f"\nYou have encountered {monster['name']}! Would you like to fight?\n")
@@ -903,7 +911,7 @@ def MAX_BOSS_HP():
     return 30
 
 def MAX_BOSS_DAMAGE():
-    return 20
+    return 10
 
 def make_boss():
     boss = {"name": PICK_RANDOM_BOSS_NAME(),

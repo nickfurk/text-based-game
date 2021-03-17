@@ -86,12 +86,12 @@ def WARRIOR():
             "accuracy_rate": 50}
     }
 
-def MONSTER_DAMAGE():
-    return {
-        1: {"level": 1, "damage": MAX_MONSTER_DAMAGE()},
-        2: {"level": 2, "damage": MAX_MONSTER_DAMAGE() + MONSTER_HP_INCREMENT()},
-        3: {"level": 3, "damage": MAX_MONSTER_DAMAGE() + (MONSTER_HP_INCREMENT() * 2)},
-    }
+# def MONSTER_DAMAGE():
+#     return {
+#         1: {"level": 1, "damage": MAX_MONSTER_DAMAGE()},
+#         2: {"level": 2, "damage": MAX_MONSTER_DAMAGE() + MONSTER_DAMAGE_INCREMENT()},
+#         3: {"level": 3, "damage": MAX_MONSTER_DAMAGE() + (MONSTER_DAMAGE_INCREMENT() * 2)},
+#     }
 
 def MONSTER_HP():
     return {
@@ -155,6 +155,28 @@ player_info = {"class": "warrior", "experience": 1000}
 update_monster_hp(monster_info, player_info)
 print(monster_info)
 
+def MONSTER_DAMAGE():
+    return {
+        1: {"level": 1, "damage": MAX_MONSTER_DAMAGE()},
+        2: {"level": 2, "damage": MAX_MONSTER_DAMAGE() + MONSTER_DAMAGE_INCREMENT()},
+        3: {"level": 3, "damage": MAX_MONSTER_DAMAGE() + (MONSTER_DAMAGE_INCREMENT() * 2)},
+    }
+
+def make_boss():
+    boss = {"name": PICK_RANDOM_BOSS_NAME(),
+            "hp": MAX_BOSS_HP(),
+            "damage": MAX_BOSS_DAMAGE(),
+            "position": [2, 2]}
+    return boss
+
+def random_monster(player):
+    monster_info = {"name": random_monster_name,
+                    "type": random_monster_type,
+                    "hp": "",
+                    "category": "monster",
+                    "damage": monster_damage}
+    check_monster_hp(player, monster_info)
+    return monster_info
 
 def update_monster_damage(monster, player):
     player_current_level = check_level(player)
