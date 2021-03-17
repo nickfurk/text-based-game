@@ -820,7 +820,7 @@ def battle_start(player, monster, attacker):
         attacking_round(monster, player, roll_die(1, MAX_MONSTER_DAMAGE()))
         if player['hp'] > 0:
             attacking_round(player, monster, player_damage(player))
-        if monster['hp'] < 0:
+        if monster['hp'] < 1:
             leveling_package(player)
 
 
