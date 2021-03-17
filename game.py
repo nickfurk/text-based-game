@@ -14,16 +14,8 @@ from colorama import init, Fore, Back, Style
 init()
 
 
-def PLAYER_HEAL_HP():
-    """Return player maximum heal health point as 4.
-
-    :return: heal health point as integer 4
-    """
-    return 4
-
-
 def BASE_PLAYER_HP():
-    """Return base player hp as 20.
+    """Return base player hp as 20 for all classes.
 
     :return: an integer
     """
@@ -39,7 +31,7 @@ def MAGE_HP_INCREMENT():
 
 
 def THIEF_HP_INCREMENT():
-    """Return Mage class health increment as 10.
+    """Return Thief class health increment as 10.
 
     :return: an integer
     """
@@ -47,7 +39,7 @@ def THIEF_HP_INCREMENT():
 
 
 def RANGER_HP_INCREMENT():
-    """Return Mage class health increment as 10.
+    """Return Ranger class health increment as 10.
 
     :return: an integer
     """
@@ -55,12 +47,19 @@ def RANGER_HP_INCREMENT():
 
 
 def WARRIOR_HP_INCREMENT():
-    """Return Mage class health increment as 10.
+    """Return Warrior class health increment as 10.
 
     :return: an integer
     """
     return 10
 
+
+def PLAYER_HEAL_HP():
+    """Return player maximum heal health point as 4.
+
+    :return: heal health point as integer 4
+    """
+    return 4
 
 
 
@@ -73,6 +72,12 @@ def WARRIOR_HP_INCREMENT():
 
 
 def MAGE():
+    """Return Mage class dictionary.
+
+    The key represents the player's level, which changes the specifications when the player levels up.
+
+    :return: a dictionary
+    """
     return {
         1: {"level": 1, "level_name": "Apprentice Mage", "experience_needed": 500, "attack_name": "Fireball",
             "max_hp": BASE_PLAYER_HP(), "base_damage_min": 15, "base_damage_max": 20, "accuracy_rate": 25},
@@ -86,6 +91,12 @@ def MAGE():
 
 
 def THIEF():
+    """Return Thief class dictionary.
+
+    The key represents the player's level, which changes the specifications when the player levels up.
+
+    :return: a dictionary
+    """
     return {
         1: {"level": 1, "level_name": "Apprentice Thief", "experience_needed": 100, "attack_name": "Pickpocket",
             "max_hp": BASE_PLAYER_HP(), "base_damage_min": 1, "base_damage_max": 5, "accuracy_rate": 85},
@@ -99,6 +110,12 @@ def THIEF():
 
 
 def RANGER():
+    """Return Ranger class dictionary.
+
+    The key represents the player's level, which changes the specifications when the player levels up.
+
+    :return: a dictionary
+    """
     return {
         1: {"level": 1, "level_name": "Apprentice Ranger", "experience_needed": 500, "attack_name": "Iron Arrow",
             "max_hp": BASE_PLAYER_HP(), "base_damage_min": 5, "base_damage_max": 10, "accuracy_rate": 50},
@@ -112,6 +129,12 @@ def RANGER():
 
 
 def WARRIOR():
+    """Return Warrior class dictionary.
+
+    The key represents the player's level, which change the player's status when they level up.
+
+    :return: a dictionary
+    """
     return {
         1: {"level": 1, "level_name": "Apprentice Warrior", "experience_needed": 200, "attack_name": "Threaten",
             "max_hp": BASE_PLAYER_HP(), "base_damage_min": 7, "base_damage_max": 12, "accuracy_rate": 50},
@@ -132,17 +155,27 @@ def MONSTER_DAMAGE():
     }
 
 def BASE_MONSTER_HP():
-    """Set the monster's max health as 10.
+    """Return the monster's base health as 10.
 
     :return: an integer
     """
     return 10
 
 def MONSTER_HP_INCREMENT():
+    """Return the monster's hp increment as 5.
+
+    :return: an integer
+    """
     return 5
 
 
 def MONSTER_HP():
+    """Return monster dictionary.
+
+    The key represents the player's level, which change as the player levels up.
+
+    :return: a dictionary
+    """
     return {
         1: {"level": 1, "hp": BASE_MONSTER_HP()},
         2: {"level": 2, "hp": BASE_MONSTER_HP() + MONSTER_HP_INCREMENT()},
@@ -151,24 +184,14 @@ def MONSTER_HP():
 
 
 def PLAYER_STARTING_POSITION():
-    """Set the player's starting position as [0, 0].
+    """Return the player's starting position as [0, 0].
 
     :return: a list
     """
     return [0, 0]
 
 
-def STARTING_PLAYER_DAMAGE():
-    """Set the maximum player damage as 20.
-
-    The number is used in the roll_die function to give an output of 1 - 20 inclusive.
-
-    :return: an integer
-    """
-    return 10
-
-
-def MAX_MONSTER_DAMAGE():
+def MAX_MONSTER_DAMAGE(): #need to get rid of at the end
     """Set the maximum monster damage as 20.
 
     The number is used in the roll_die function to give an output of 1 - 10 inclusive.
@@ -179,7 +202,7 @@ def MAX_MONSTER_DAMAGE():
 
 
 def RUN_AWAY_PROBABILITY():
-    """Set the number for probability of running away.
+    """Return the number for probability of running away.
 
     The number is used in the roll_die function to simulate a 20% chance.
 
@@ -189,7 +212,7 @@ def RUN_AWAY_PROBABILITY():
 
 
 def RUN_AWAY_DAMAGE_PROBABILITY():
-    """Set the maximum shiv damage as 4.
+    """Return the maximum shiv damage as 4.
 
     The number is used in the roll_die function to give an output of 1 - 4 inclusive.
 
@@ -199,7 +222,7 @@ def RUN_AWAY_DAMAGE_PROBABILITY():
 
 
 def INITIAL_ATTACK_PROBABILITY():
-    """Set the number as 100.
+    """Return the number 100.
 
     The number is used in the roll_die function to give an output of 1 - 100 inclusive.
 
@@ -259,32 +282,74 @@ def DUNGEON_LIST():
 
 
 def BATTLE_CHANCE():
+    """Return the probability of encountering an enemy upon movement.
+
+    The number is used in the roll_die function to give an output.
+
+    :return: an integer
+    """
     return 2
 
 
 def BOARD_SIZE():
+    """Return the size of the board.
+
+    The number is used as the width and length to create a board.
+
+    :return: an integer
+    """
     return 25
 
 
 def JOB_LIST():
+    """Return the list of possible class choices.
+
+    The list is put through the input checker to allow the player to choose.
+
+    :return: a list
+    """
     return ["Mage", "Thief", "Ranger", "Warrior"]
 
 
 def DIRECTION_LIST():
+    """Return the list of possible direction choices.
+
+    The list is put through the input checker to allow the player to choose.
+
+    :return: a list
+    """
     return ["W", "E", "S", "N", "quit"]
 
 
+def YES_OR_NO():
+    """Return the list of possible Y/N choices.
+
+    The list is put through the input checker to allow the player to choose.
+
+    :return: a list
+    """
+    return ["Yes", "No"]
+
+
 def LIST_OF_MONSTERS():
+    """Return the list of possible monster names.
+
+    The list is put through the random module to pick a random name.
+
+    :return: a list
+    """
     return ["Amputator", "Bone Breaker", "Dark Cultist", "Fallen Shaman", "Flesh Harvester", "Terror Bat",
             "Dust Imp", "Demonic Hellflyer"]
 
 
 def LIST_OF_MONSTER_TYPES():
+    """Return the list of possible monster types.
+
+    The list is put through the random module to pick a random type.
+
+    :return: a list
+    """
     return ["Cave of Alcarnus", "Necropolis Mines", "River of Kehjan", "Black Canyon Mines", "Ureh Caverns"]
-
-
-def YES_OR_NO():
-    return ["Yes", "No"]
 
 
 def make_board():
@@ -341,6 +406,11 @@ def delayed_message(message, delay):
 
 
 def press_enter_to_continue():
+    """Generate prompt to allow player to control the pace of the game.
+
+    The function will ask user to type enter to continue. This allows the player to control the pace of the game,
+    compared to determined delayed gameplay. The user can only type enter, and will not allow any other inputs.
+    """
     user_input = input("\nPress enter to continue the game!: \n")
     while user_input != "":
         print("Please press enter!")
@@ -363,7 +433,7 @@ def player_name_generator():
 
 
 def player_job_generator(player):
-    """Designate player job based on user choice.
+    """Designate player class based on user choice.
 
     :postcondition: gets user input and assigns it to variable
     :return: a string
@@ -381,6 +451,14 @@ def player_job_generator(player):
 
 
 def player_class_dictionary(player):
+    """Change the class_dictionary depending on player's level.
+
+    The function will check the player's current level and change the class_dictionary accordingly.
+
+    :param player: a dictionary
+    :precondition: player must be a proper dictionary with correct character and information
+    :postcondition: correctly change the class_dictionary depending on player's level
+    """
     current_dictionary = return_class_dictionary(player)
     level = check_level(player)
     player["class_dictionary"] = current_dictionary[level]
@@ -403,7 +481,6 @@ def make_player():
               "hp": BASE_PLAYER_HP(),
               "position": PLAYER_STARTING_POSITION(),
               "level": 1,
-              "damage": STARTING_PLAYER_DAMAGE(),
               "experience": 0,
               "category": "player",
               "class_dictionary": ""}
