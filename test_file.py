@@ -150,10 +150,10 @@ def update_monster_hp(monster, player):
     monster_hp_dictionary = MONSTER_HP()
     monster["hp"] = monster_hp_dictionary[player_current_level]["hp"]
 # #testing function
-# monster_info = {"hp": 10}
-# player_info = {"class": "warrior", "experience": 1000}
-# update_monster_hp(monster_info, player_info)
-# print(monster_info)
+monster_info = {"hp": 10}
+player_info = {"class": "warrior", "experience": 1000}
+update_monster_hp(monster_info, player_info)
+print(monster_info)
 
 
 def update_monster_damage(monster, player):
@@ -234,9 +234,9 @@ def attacking_round(attacker, opponent):
     #                 f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
     return opponent
 #testing function
-monster_info = {"damage": 10, "hp": 20, "category": "monster"}
-player_info = {'name': 'leo', 'class': 'Warrior', 'hp': 20, 'position': [0, 0], 'level': 1, 'damage': 10, 'experience': 0, 'category': 'player', 'class_dictionary': {'level': 1, 'level_name': 'Apprentice Warrior', 'experience_needed': 200, 'attack_name': 'Threaten', 'max_hp': 20, 'base_damage_min': 7, 'base_damage_max': 12, 'accuracy_rate': 50}}
-print(attacking_round(player_info, monster_info))
+# monster_info = {"damage": 10, "hp": 20, "category": "monster"}
+# player_info = {'name': 'leo', 'class': 'Warrior', 'hp': 20, 'position': [0, 0], 'level': 1, 'damage': 10, 'experience': 0, 'category': 'player', 'class_dictionary': {'level': 1, 'level_name': 'Apprentice Warrior', 'experience_needed': 200, 'attack_name': 'Threaten', 'max_hp': 20, 'base_damage_min': 7, 'base_damage_max': 12, 'accuracy_rate': 50}}
+# print(attacking_round(player_info, monster_info))
 #NEED TO ADD CATEGORY INTO BOTH PLAYER AND MONSTER LIST
 
 

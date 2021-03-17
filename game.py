@@ -54,12 +54,12 @@ def WARRIOR_HP_INCREMENT():
     return 10
 
 
-# def MAX_MONSTER_HP():
-#     return 10
+def BASE_MONSTER_HP():
+    return 10
 
 
-# def MONSTER_HP_INCREMENT():
-#     return 5
+def MONSTER_HP_INCREMENT():
+    return 5
 
 
 # def MAX_MONSTER_DAMAGE():
@@ -130,14 +130,12 @@ def WARRIOR():
 #     }
 
 
-# def MONSTER_HP():
-#     return {
-#         1: {"level": 1, "hp": MAX_MONSTER_HP()},
-#         2: {"level": 2, "hp": MAX_MONSTER_HP() + MONSTER_HP_INCREMENT()},
-#         3: {"level": 3, "hp": MAX_MONSTER_HP() + (MONSTER_HP_INCREMENT() * 2)}
-#     }
-
-
+def MONSTER_HP():
+    return {
+        1: {"level": 1, "hp": BASE_MONSTER_HP()},
+        2: {"level": 2, "hp": BASE_MONSTER_HP() + MONSTER_HP_INCREMENT()},
+        3: {"level": 3, "hp": BASE_MONSTER_HP() + (MONSTER_HP_INCREMENT() * 2)}
+    }
 
 
 def PLAYER_STARTING_POSITION():
@@ -206,7 +204,7 @@ def MAX_PLAYER_HP():
     return 20
 
 
-def MAX_MONSTER_HP():
+def BASE_MONSTER_HP():
     """Set the monster's max health as 10.
 
     :return: an integer
@@ -434,8 +432,6 @@ def display_map(player, boss):
             else:
                 print("[ ]", end="")
         print()
-
-
 # #testing function
 # player = {"position": (1, 1)}
 # display_map(player)
@@ -654,7 +650,7 @@ def heal_player(player):
             player["hp"] = 20
 
 
-def random_monster():
+def random_monster(player):
     """Create a dictionary of random monster, random monster type, and hp.
 
     The function will pick a random monster from a list of tuple, and their type from a list of tuple. It will assign
@@ -665,15 +661,21 @@ def random_monster():
     """
     random_monster_name = choice(LIST_OF_MONSTERS())
     random_monster_type = choice(LIST_OF_MONSTER_TYPES())
-    monster_hp = MAX_MONSTER_HP()
+    monster_hp = BASE_MONSTER_HP()
     monster_damage = MAX_MONSTER_DAMAGE()
     monster_info = {"name": random_monster_name,
                     "type": random_monster_type,
-                    "hp": monster_hp,
+                    "hp": "",
                     "category": "monster",
                     "damage": monster_damage}
+    check_monster_hp(player, monster_info)
     return monster_info
 
+
+def check_monster_hp(player, monster):
+    player_current_level = check_level(player)
+    monster_hp_dictionary = MONSTER_HP()
+    monster["hp"] = monster_hp_dictionary[player_current_level]["hp"]
 
 def fight_or_run_decision(monster):
     print(f"\nYou have encountered {monster['name']}! Would you like to fight?\n")
@@ -972,7 +974,7 @@ def game():
     boss = make_boss()
     move_character(player, board, boss)
     while player['hp'] > 0:
-        battle_chance(player, random_monster())
+        battle_chance(player, random_monster(player))
         move_character(player, board, boss)
         if player["position"] == boss["position"]:
             fight_boss(player, boss)
