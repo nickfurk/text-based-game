@@ -78,8 +78,8 @@ def MAGE():
 
     The key represents the player's level, which changes the specifications when the player levels up.
     Each level indicates it own specifications including level name, experience required to level up,
-    attack names, player's max HP, player's minimum and maximum damage amount, and player's accuracy rate
-    for the respective level.
+    attack names available per level, player's max HP, player's minimum and maximum damage amount,
+    and the player's accuracy rate for the respective level.
 
     :return: a dictionary
     """
@@ -156,23 +156,24 @@ def WARRIOR():
 def BASE_MONSTER_HP():
     """Return the monster's base health point as 10.
 
-    :return: an integer
+    :return: monster's base health point as an integer 10
     """
     return 10
 
 
 def MONSTER_HP_INCREMENT():
-    """Return the monster's hp increment as 5.
+    """Return the monster's health point increment as 5.
 
-    :return: an integer
+    :return: monster's health point increment as an integer 5
     """
     return 5
 
 
 def MONSTER_HP():
-    """Return monster hp dictionary.
+    """Return monster health point dictionary.
 
-    The key represents the player's level, which change as the player levels up.
+    The key represents the player's level, and the value is a dictionary that indicates the monster new health point
+    when the player levels up.
 
     :return: a dictionary
     """
@@ -183,12 +184,12 @@ def MONSTER_HP():
     }
 
 
-def BASE_MONSTER_DAMAGE():  # need to get rid of at the end
-    """Set the maximum monster damage as 20.
+def MONSTER_BASE_DAMAGE():  # need to get rid of at the end
+    """Return monster's base damage as 10.
 
     The number is used in the roll_die function to give an output of 1 - 10 inclusive.
 
-    :return: an integer
+    :return: Monster's base damage as an integer 10
     """
     return 10
 
@@ -196,7 +197,7 @@ def BASE_MONSTER_DAMAGE():  # need to get rid of at the end
 def MONSTER_DAMAGE_INCREMENT():
     """Return the monster's damage increment as 5.
 
-    :return: an integer
+    :return: Monster's damage increment as an integer 5
     """
     return 5
 
@@ -204,14 +205,15 @@ def MONSTER_DAMAGE_INCREMENT():
 def MONSTER_DAMAGE():
     """Return monster damage dictionary.
 
-    The key represents the player's level, which change as the player levels up.
+    The key represents the player's level, and the value is a dictionary that indicates the monster's new damage limit
+    when the player levels up.
 
     :return: a dictionary
     """
     return {
-        1: {"level": 1, "damage": BASE_MONSTER_DAMAGE()},
-        2: {"level": 2, "damage": BASE_MONSTER_DAMAGE() + MONSTER_DAMAGE_INCREMENT()},
-        3: {"level": 3, "damage": BASE_MONSTER_DAMAGE() + (MONSTER_DAMAGE_INCREMENT() * 2)},
+        1: {"level": 1, "damage": MONSTER_BASE_DAMAGE()},
+        2: {"level": 2, "damage": MONSTER_BASE_DAMAGE() + MONSTER_DAMAGE_INCREMENT()},
+        3: {"level": 3, "damage": MONSTER_BASE_DAMAGE() + (MONSTER_DAMAGE_INCREMENT() * 2)},
     }
 
 
@@ -219,55 +221,55 @@ def MONSTER_DAMAGE():
 def PICK_RANDOM_BOSS_NAME():
     """Return a random string from the list of strings.
 
-    The function will pick random names from the provided list of boss names.
+    The function will pick a random name from the provided list of boss names.
 
     :return: a string
     """
-    boss_names = ["Boss 1", "Boss 2", "Boss 3"]
+    boss_names = ["Boss Zelda", "Boss Link", "Boss Bowser"]
     return choice(boss_names)
 
 
-def MAX_BOSS_HP():
-    """Return boss hp as 30.
+def BOSS_MAX_HP():
+    """Return boss health point as 30.
 
-    :return: an integer
+    :return: an integer 30
     """
     return 30
 
 
-def MAX_BOSS_DAMAGE():
+def BOSS_MAX_DAMAGE():
     """Return boss damage as 10.
 
-    :return: an integer
+    :return: an integer 10
     """
     return 10
 
 
 def BOSS_POSITION():
-    """Return fixed boss position.
+    """Return boss' fixed position as [25, 25]
 
-    :return: a list
+    :return: a list with two number elements
     """
     return [15, 15]
 
 
-# Game helpers
+# Game helper functions
 def RUN_AWAY_PROBABILITY():
     """Return the number for probability of running away.
 
     The number is used in the roll_die function to simulate a 20% chance.
 
-    :return: an integer
+    :return: an integer 5
     """
     return 5
 
 
-def RUN_AWAY_DAMAGE_PROBABILITY():
-    """Return the maximum shiv damage as 4.
+def RUN_AWAY_DAMAGE_RANGE():
+    """Return the maximum run away damage as 4.
 
     The number is used in the roll_die function to give an output of 1 - 4 inclusive.
 
-    :return: an integer
+    :return: an integer 4
     """
     return 4
 
@@ -277,7 +279,7 @@ def INITIAL_ATTACK_PROBABILITY():
 
     The number is used in the roll_die function to give an output of 1 - 100 inclusive.
 
-    :return: an integer
+    :return: an integer 100
     """
     return 100
 
@@ -285,9 +287,9 @@ def INITIAL_ATTACK_PROBABILITY():
 def BATTLE_CHANCE():
     """Return the probability of encountering an enemy upon movement.
 
-    The number is used in the roll_die function to give an output.
+    The number is used in the roll_die function to simulate a 20% chance.
 
-    :return: an integer
+    :return: an integer 5
     """
     return 2
 
@@ -295,17 +297,17 @@ def BATTLE_CHANCE():
 def BOARD_SIZE():
     """Return the size of the board.
 
-    The number is used as the width and length to create a board.
+    The number is used as the width and height to create a board.
 
     :return: an integer
     """
     return 25
 
 
-def JOB_LIST():
+def CLASS_LIST():
     """Return the list of possible class choices.
 
-    The list is put through the input checker to allow the player to choose.
+    The list is put through the input checker function to allow the player to choose.
 
     :return: a list
     """
@@ -315,7 +317,7 @@ def JOB_LIST():
 def DIRECTION_LIST():
     """Return the list of possible direction choices.
 
-    The list is put through the input checker to allow the player to choose.
+    The list is put through the input checker function to allow the player to choose.
 
     :return: a list
     """
@@ -465,9 +467,9 @@ def player_job_generator(player: dict) -> str:
     """
     print("Below is the list of jobs you can choose to play throughout the game. Choose wisely so that you'll be able "
           "to win the game successfully... \n")
-    new_list_for_user = {str(keys): jobs for keys, jobs in zip(count(start=1, step=1), JOB_LIST())}
+    new_list_for_user = {str(keys): jobs for keys, jobs in zip(count(start=1, step=1), CLASS_LIST())}
     player_job = input_checker(new_list_for_user)
-    while player_job not in JOB_LIST():
+    while player_job not in CLASS_LIST():
         print("That's not in the list of jobs you can choose from!")
         player_job = input_checker(new_list_for_user)
     player["class"] = player_job
@@ -899,7 +901,7 @@ def run_away_player(player: dict, monster: dict) -> dict:
     """
     run_away_number = roll_die(1, RUN_AWAY_PROBABILITY())
     if run_away_number == 1:
-        run_away_damage = roll_die(1, RUN_AWAY_DAMAGE_PROBABILITY())
+        run_away_damage = roll_die(1, RUN_AWAY_DAMAGE_RANGE())
         player["hp"] -= run_away_damage
         delayed_message(f"You've been damaged {run_away_damage} hp by {monster['name']} while running away!"
                         f"\nYou only have{player['hp']} hp left! Be careful {player['name']}!", 1)
@@ -1090,8 +1092,8 @@ def make_boss() -> dict:
     :return: a dictionary
     """
     boss = {"name": PICK_RANDOM_BOSS_NAME(),
-            "hp": MAX_BOSS_HP(),
-            "damage": MAX_BOSS_DAMAGE(),
+            "hp": BOSS_MAX_HP(),
+            "damage": BOSS_MAX_DAMAGE(),
             "position": BOSS_POSITION()}
     return boss
 
