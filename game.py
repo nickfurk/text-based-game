@@ -606,9 +606,13 @@ def display_info(player, board):
     coordinate = player["position"]
     print(f'Location: {list(filter(partial(filter_things, strings="position"), player.items()))[0][1]}')
     print(f'Description: {board[tuple(coordinate)]["location_description"]}')
-    print(f'Health point: {player["hp"]}/{player["class_dictionary"]["max_hp"]}')
-    print(f'Level: {player["level"]}, {player["class_dictionary"]["level_name"]}')
-    print(f'Experience: {player["experience"]}')
+    # print(f'Health point: {player["hp"]}/{player["class_dictionary"]["max_hp"]}')
+    print(f'Health point: {list(filter(partial(filter_things, strings="hp"), player.items()))[0][1]}'
+          f'/{list(filter(partial(filter_things, strings="class_dictionary"), player.items()))[0][1]["max_hp"]}')
+    # print(f'Level: {player["level"]}, {player["class_dictionary"]["level_name"]}')
+    print(f'Level: {list(filter(partial(filter_things, strings="level"), player.items()))[0][1]}, '
+          f'{list(filter(partial(filter_things, strings="class_dictionary"), player.items()))[0][1]["level_name"]}')
+    # print(f'Experience: {player["experience"]}')
     print(f'Experience: {list(filter(partial(filter_things, strings="level"), player.items()))[0][1]}')
 
 
