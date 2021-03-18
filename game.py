@@ -11,8 +11,8 @@ from random import randint, choice
 from time import sleep
 import doctest
 from functools import partial
-from colorama import init, Fore, Back, Style
-init()
+from colorama import init, Fore, Style
+
 
 # Player Specifications
 def BASE_PLAYER_HP():
@@ -148,7 +148,7 @@ def WARRIOR():
     }
 
 
-#Monster Specification
+# Monster Specification
 def BASE_MONSTER_HP():
     """Return the monster's base health as 10.
 
@@ -179,7 +179,7 @@ def MONSTER_HP():
     }
 
 
-def BASE_MONSTER_DAMAGE(): #need to get rid of at the end
+def BASE_MONSTER_DAMAGE():  # need to get rid of at the end
     """Set the maximum monster damage as 20.
 
     The number is used in the roll_die function to give an output of 1 - 10 inclusive.
@@ -211,8 +211,7 @@ def MONSTER_DAMAGE():
     }
 
 
-
-#Boss Specifications
+# Boss Specifications
 def PICK_RANDOM_BOSS_NAME():
     """Return a random string from the list of strings.
 
@@ -238,6 +237,14 @@ def MAX_BOSS_DAMAGE():
     :return: an integer
     """
     return 10
+
+
+def BOSS_POSITION():
+    """Return fixed boss position.
+
+    :return: a list
+    """
+    return [15, 15]
 
 
 # Game helpers
@@ -269,47 +276,6 @@ def INITIAL_ATTACK_PROBABILITY():
     :return: an integer
     """
     return 100
-
-
-def DUNGEON_LIST():
-    """Provide a dictionary of coordinates and dungeon descriptions.
-
-    :return: a dictionary
-    """
-    dungeon_list = {
-        (0, 0): "You've started your journey from this room.\nYou feel safer here for some reason.\n",
-        (1, 1): "Your steps seem to have slowed down and without confidence...\n",
-        (1, 2): "You start to move on an instinct as the seeping light no longer covers the entirety of the room "
-                "anymore.\nYou start to feel a shiver up your spine every step you take.\n",
-        (1, 3): "There's water dripping from the top,\nbut you don't know why because you can't see how far up the "
-                "ceiling is in this dark.\n",
-        (1, 4): "You start to feel more paranoid as time passes, and keep thinking back on your life\nand whether "
-                "or not you'll be able to get out of here alive\n",
-        (2, 0): "The room makes you regret ever starting this journey.\nEvery step feels more tiring than before.\n",
-        (2, 1): "The room is lighted by torches along the sides of the walls.\nYou feel warmer than before.\n",
-        (2, 2): "The room is filled with fog, but you aren't sure what exactly they are.\nYou only know that it isn't "
-                "a pleasant feeling.\nYou want to exit the room as soon as you can.\n",
-        (2, 3): "You are starting to consider quitting.\nThis isn't what you expected. Nothing is worth this pain.\n",
-        (2, 4): "There's a small pond in the middle of the room.\nYou think about drinking from the pond, but upon "
-                "further inspection,\nyou find that the water has skeletal remains in it.\nYou feel sick.\n",
-        (3, 0): "This room is extremely cold.\nYou are likely to get a frostbite in this weather.\n",
-        (
-        3, 1): "The room seems to have some type of wildlife,\nas you hear the cicadas crying somewhere in the room.\n",
-        (3, 2): "This room has plants growing all around.\nYou can also see mushrooms growing beneath the biggest tree "
-                "in the room. Although you are exhausted and hungry, you aren't sure these are safe to eat.\n",
-        (3, 3): "The room is pitch dark and makes you want to give up everything.\n",
-        (3, 4): "You see the glimpse of light shining through the next room.\nYou become excited as you feel that you "
-                "are almost at the end of your journey.\n",
-        (4, 0): "There's water dripping from the top, but you don't know why\nbecause you can't see how far up the "
-                "ceiling is in this dark.\n",
-        (4, 1): "You start to feel more paranoid as time passes, and keep\nthinking back on your life and whether "
-                "or not you'll be able to get out of here alive\n",
-        (4, 2): "This room is surprisingly warm... You wonder why...\n",
-        (4, 3): "You see the glimpse of light shining through the next room.\nYou become excited as you feel that you "
-                "are almost at the end of your journey.\n",
-        (4, 4): "You have arrived at end of the rooms!\nYou can see that you've returned to the initial place you've "
-                "entered from,\nand life was continuing... You swear never to go on a journey ever again.\n"}
-    return dungeon_list
 
 
 def BATTLE_CHANCE():
@@ -392,14 +358,29 @@ def make_board():
     """
     location_description = [
         """The room is lit by the light seeping through from the previous location, but you instantly feel the
-        difference in the atmosphere already.\nFor some reason, you are just a bit more cold.""",
+             difference in the atmosphere already. For some reason, you are just a bit more cold.""",
         """You start to move on an instinct as the seeping light no longer covers the entirety of the room
-        anymore.\nYou start to feel a shiver up your spine every step you take.""",
+             anymore. You start to feel a shiver up your spine every step you take.""",
         """This room is surprisingly warm... You wonder why...""",
-        """You start to feel more paranoid as time passes, and keep thinking back\non your life and whether
-        or not you'll be able to get out of here alive""",
+        """You start to feel more paranoid as time passes, and keep thinking back on your life and whether
+             or not you'll be able to get out of here alive""",
         """Your steps seem to have slowed down and without confidence...""",
-        """This room has a man hanging upside down from the ceiling."""
+        """There's water dripping from the top, but you don't know why because you can't see how far up the
+             ceiling is in this dark.""",
+        """You start to feel more paranoid as time passes, and keep thinking back on your life and whether
+             or not you'll be able to get out of here alive""",
+        """The room makes you regret ever starting this journey. Every step feels more tiring than before.""",
+        """The room is lighted by torches along the sides of the walls. You feel warmer than before.""",
+        """The room is filled with fog, but you aren't sure what exactly they are. You only know that it isn't
+             a pleasant feeling. You want to exit the room as soon as you can.""",
+        """You are starting to consider quitting. This isn't what you expected. Nothing is worth this pain.""",
+        """There's a small pond in the middle of the room. You think about drinking from the pond, but upon
+             further inspection, you find that the water has skeletal remains in it. You feel sick.""",
+        """This room is extremely cold. You are likely to get a frostbite in this weather.""",
+        """The room seems to have some type of wildlife, as you hear the cicadas crying somewhere in the room.""",
+        """This room has plants growing all around. You can also see mushrooms growing beneath the biggest tree
+             in the room. Although you are exhausted and hungry, you aren't sure these are safe to eat.""",
+        """The room is pitch dark and makes you want to give up everything."""
     ]
     cycle_location = itertools.cycle(location_description)
     board = {(row, column): {"location_description": next(cycle_location)} for row in range(BOARD_SIZE())
@@ -590,8 +571,20 @@ def display_map(player, boss):
 # player = {"position": (1, 1)}
 # display_map(player)
 
-def filter_things(x, strings):
-    return x[0] == strings
+
+def filter_information(player, items):
+    """Filter player dictionary by the items string.
+
+    The function is used for filtering through taking the parameter, items, and matching with the keys in player to
+    return the correct key/value pairs from the dictionary.
+
+    :param player: a dictionary
+    :param items: a string
+    :precondition: player must be a proper dictionary with correct character and information
+    :postcondition: correctly returns the correct filtered elements
+    :return: the correct filtered elements in a tuple
+    """
+    return player[0] == items
 
 
 def display_info(player, board):
@@ -604,22 +597,18 @@ def display_info(player, board):
     and exp
     """
     coordinate = player["position"]
-    print(f'Location: {list(filter(partial(filter_things, strings="position"), player.items()))[0][1]}')
+    print(f'Location: {list(filter(partial(filter_information, items="position"), player.items()))[0][1]}')
     print(f'Description: {board[tuple(coordinate)]["location_description"]}')
-    # print(f'Health point: {player["hp"]}/{player["class_dictionary"]["max_hp"]}')
-    print(f'Health point: {list(filter(partial(filter_things, strings="hp"), player.items()))[0][1]}'
-          f'/{list(filter(partial(filter_things, strings="class_dictionary"), player.items()))[0][1]["max_hp"]}')
-    # print(f'Level: {player["level"]}, {player["class_dictionary"]["level_name"]}')
-    print(f'Level: {list(filter(partial(filter_things, strings="level"), player.items()))[0][1]}, '
-          f'{list(filter(partial(filter_things, strings="class_dictionary"), player.items()))[0][1]["level_name"]}')
-    # print(f'Experience: {player["experience"]}')
-    print(f'Experience: {list(filter(partial(filter_things, strings="level"), player.items()))[0][1]}')
+    print(f'Health point: {list(filter(partial(filter_information, items="hp"), player.items()))[0][1]}'
+          f'/{list(filter(partial(filter_information, items="class_dictionary"), player.items()))[0][1]["max_hp"]}')
+    print(f'Level: {list(filter(partial(filter_information, items="level"), player.items()))[0][1]}, '
+          f'{list(filter(partial(filter_information, items="class_dictionary"), player.items()))[0][1]["level_name"]}')
+    print(f'Experience: {list(filter(partial(filter_information, items="level"), player.items()))[0][1]}')
 
 
 # #testing function
 # player_test = {"position": (2, 2), "description": "huanted room", "hp": 30, "level": 2, "experience": 800}
 # print(display_info(player_test, make_board()))
-
 
 
 def validate_move(current_position, user_direction):
@@ -704,7 +693,9 @@ def move_character(player, board, boss):
     """Change the position of the player to a new position based on user input.
 
     :param player: a dictionary
-    :precondition: player must be a proper dictionary with correct character and information
+    :param board: a dictionary
+    :param boss: a dictionary
+    :precondition: player, board, and boss must be a proper dictionary with correct character and information
     :postcondition: the player's position will correctly change according to user input
     :return: a changed player's new position in a list or "quit" as a string
     """
@@ -719,29 +710,29 @@ def move_character(player, board, boss):
         return player["position"]
 
 
-def dungeon_description(player):
-    """Generate a story for the room.
-
-    The function will go through the dictionary and print description according to the player's position.
-
-    :param player: a dictionary
-    :precondition: player must be a proper dictionary with correct character and information
-    :postcondition: a correct map description correspondant to the player position
-    :return: description of map as a string
-
-    >>> players = {"name": "Paul", "job": "Witch Doctor", "hp": 20, "position": [4, 2], "level": {"level": 1, "exp": 0}, "damage": 10, "run_away_chance": 3}
-    >>> dungeon_description(players["position"])
-    "This room is surprisingly warm... You wonder why...\n"
-
-    >>> players = {"name": "Paul", "job": "Witch Doctor", "hp": 20, "position": [1, 1], "level": {"level": 1, "exp": 0}, "damage": 10, "run_away_chance": 3}
-    >>> dungeon_description(players["position"])
-    "Your steps seem to have slowed down and without confidence...\n"
-    """
-    list_of_map_descriptions = DUNGEON_LIST()
-    for keys, values in list_of_map_descriptions.items():
-        if tuple(player["position"]) == keys:
-            user_position_dungeon_description = values
-            return user_position_dungeon_description
+# def dungeon_description(player):
+#     """Generate a story for the room.
+#
+#     The function will go through the dictionary and print description according to the player's position.
+#
+#     :param player: a dictionary
+#     :precondition: player must be a proper dictionary with correct character and information
+#     :postcondition: a correct map description correspondant to the player position
+#     :return: description of map as a string
+#
+#     >>> players = {"name": "Paul", "job": "Witch Doctor", "hp": 20, "position": [4, 2], "level": {"level": 1, "exp": 0}, "damage": 10, "run_away_chance": 3}
+#     >>> dungeon_description(players["position"])
+#     "This room is surprisingly warm... You wonder why...\n"
+#
+#     >>> players = {"name": "Paul", "job": "Witch Doctor", "hp": 20, "position": [1, 1], "level": {"level": 1, "exp": 0}, "damage": 10, "run_away_chance": 3}
+#     >>> dungeon_description(players["position"])
+#     "Your steps seem to have slowed down and without confidence...\n"
+#     """
+#     list_of_map_descriptions = DUNGEON_LIST()
+#     for keys, values in list_of_map_descriptions.items():
+#         if tuple(player["position"]) == keys:
+#             user_position_dungeon_description = values
+#             return user_position_dungeon_description
 
 
 def roll_die(number_of_rolls, number_of_sides):
@@ -770,7 +761,8 @@ def battle_chance(player, monster):
     function.
 
     :param player: a dictionary
-    :precondition: player must be a proper dictionary with correct character and information
+    :param monster: a dictionary
+    :precondition: player and monster must be a proper dictionary with correct character and information
     :postcondition: correctly lead to corresponding functions depending on situation
     """
     battle_chance_number = roll_die(1, BATTLE_CHANCE())
@@ -784,7 +776,8 @@ def battle_chance(player, monster):
 def heal_player(player):
     """Update character_info based on their current hp.
 
-    The function will heal the player's hp based on their current amount. The heal amount will only be up to 20.
+    The function will heal the player's hp based on their current amount. The heal amount will only be up to the
+    player's maximum hp which increases every level.
 
     :param player: a dictionary
     :precondition: player must be a proper dictionary with correct character and information
@@ -810,39 +803,64 @@ def heal_player(player):
 def random_monster(player):
     """Create a dictionary of random monster, random monster type, and hp.
 
-    The function will pick a random monster from a list of tuple, and their type from a list of tuple. It will assign
-    hp, then put them into a dictionary.
+    The function will pick a random monster from a list of tuples. The player's dictionary is used to change monster
+    damage and hp depending on player's level.
 
+    :param player: a dictionary
+    :precondition: player must be a proper dictionary with correct character and information
     :postcondition: correctly chooses random elements and puts them into a dictionary
     :return: a dictionary
     """
     random_monster_name = choice(LIST_OF_MONSTERS())
     random_monster_type = choice(LIST_OF_MONSTER_TYPES())
     # monster_hp = BASE_MONSTER_HP()
-    monster_damage = BASE_MONSTER_DAMAGE()
-    monster_info = {"name": random_monster_name,
-                    "type": random_monster_type,
-                    "hp": "",
-                    "category": "monster",
-                    "damage": ""}
-    check_monster_hp(player, monster_info)
-    check_monster_damage(player, monster_info)
-    return monster_info
+    # monster_damage = BASE_MONSTER_DAMAGE()
+    monster = {"name": random_monster_name,
+               "type": random_monster_type,
+               "hp": "",
+               "category": "monster",
+               "damage": ""}
+    check_monster_hp(player, monster)
+    check_monster_damage(player, monster)
+    return monster
 
 
 def check_monster_hp(player, monster):
+    """Check the player level to change the maximum monster hp.
+
+    :param player: a dictionary
+    :param monster: a dictionary
+    :precondition: player and monster must be a proper dictionary with correct character and information
+    :postcondition: correctly change the monster's hp value
+    """
     player_current_level = check_level(player)
     monster_hp_dictionary = MONSTER_HP()
     monster["hp"] = monster_hp_dictionary[player_current_level]["hp"]
 
 
 def check_monster_damage(player, monster):
+    """Check the player level to change the maximum monster damage.
+
+    :param player: a dictionary
+    :param monster: a dictionary
+    :precondition: player and monster must be a proper dictionary with correct character and information
+    :postcondition: correctly change the monster's maximum damage value
+    """
     player_current_level = check_level(player)
     monster_damage_dictionary = MONSTER_DAMAGE()
     monster["damage"] = monster_damage_dictionary[player_current_level]["damage"]
 
 
 def fight_or_run_decision(monster):
+    """Return user choice for combat initiation when meeting enemy.
+
+    The function asks the player if they would like to fight when encountering an enemy.
+
+    :param monster: a dictionary
+    :precondition: monster must be a proper dictionary with correct character and information
+    :postcondition: return the correct choice from the list of options
+    :return: a string
+    """
     print(f"\nYou have encountered {monster['name']}! Would you like to fight?\n")
     user_battle_decision = {str(keys): jobs for keys, jobs in zip(count(start=1, step=1), YES_OR_NO())}
     user_choice = input_checker(user_battle_decision)
@@ -855,13 +873,12 @@ def fight_or_run_decision(monster):
 def combat_round(player, monster):
     """Direct the user to different functions based on their input.
 
-    This function will give the user an option to run or fight. Either options will send the user to other functions. If
-    the player's run_away_chance is 0, they will be forced to fight even if they choose "No". The battle_start has a
-    while loop implemented to keep the battle going until one of their hp values reach 0.
+    This function will give the user an option to run or fight. Either options will send the user to other functions.
+    The battle_start has a while loop implemented to keep the battle going until one of their hp values reach 0.
 
     :param player: a dictionary
     :param monster: a dictionary
-    :precondition: player must be a proper dictionary with correct character and information
+    :precondition: player and monster must be a proper dictionary with correct character and information
     :postcondition: correctly leads to corresponding functions depending on situation
     """
     if fight_or_run_decision(monster) == "Yes":
@@ -890,8 +907,8 @@ def run_away_player(player, monster):
     once, and the player hp is updated by the damage amount. Else, no damage taken while fleeing.
 
     :param player: a dictionary
-    :param monster_info: a dictionary
-    :precondition: player and monster_info must be a proper dictionary with correct character and information
+    :param monster: a dictionary
+    :precondition: player and monster must be a proper dictionary with correct character and information
     :postcondition: correctly changed hp depending on situation
     :return: changed player's hp value if attack is successful in a dictionary
 
@@ -924,6 +941,13 @@ def run_away_player(player, monster):
 
 
 def run_or_fight_again():
+    """Return the user choice for continuation of combat after rounds.
+
+    The function asks the player if they would like to continue fighting after every round.
+
+    :postcondition: return the correct choice from the list of options
+    :return: a string
+    """
     print(f"\nWould you like to keep fighting?\n")
     user_battle_decision = {str(keys): jobs for keys, jobs in zip(count(start=1, step=1), YES_OR_NO())}
     user_choice = input_checker(user_battle_decision)
@@ -934,6 +958,18 @@ def run_or_fight_again():
 
 
 def run_away_monster(monster, player):
+    """Return boolean based on the monster and player hp value, or the result of roll_die.
+
+    The function will first check if either characters are alive, if not, it will return False. If they are both alive,
+    the function will roll a die to see if the monster has succeeded in running away from combat. The monster runaway
+    chance will happen at the end of every round.
+
+    :param monster: a dictionary
+    :param player: a dictionary
+    :precondition: player and monster must be a proper dictionary with correct character and information
+    :postcondition: correctly return boolean value depending on situation
+    :return: a boolean
+    """
     if monster["hp"] < 1:
         return False
     elif player["hp"] < 1:
@@ -952,11 +988,13 @@ def battle_attack_order():
     """Determine who will attack first.
 
     The function will roll a 100 sided die twice, and determine the attack order of the player and monster. The function
-    has a recursion implemented, so it would keep rolling the dice if the roll results are the same. It will lead to
-    different situations. The order of attack will change each round.
+    has a while loop implemented, so it would keep rolling the dice if the roll results are the same. It will return
+    a boolean value depending on who will attack first.
 
     :precondition: player and monster_info must be a proper dictionary with correct character and information
-    :postcondition: determines correct battle order and invokes the battle order for the round
+    :postcondition: return the correct boolean value determining the correct battle order and invoking the battle order
+                    for the round
+    :return: a boolean
     """
     delayed_message("Let's see who gets to attack first this round!\n", 0.5)
     user_initial_attack = roll_die(1, INITIAL_ATTACK_PROBABILITY())
@@ -981,8 +1019,8 @@ def battle_start(player, monster, attacker):
     :param monster: a dictionary
     :param attacker: a boolean
     :precondition: first_attack and second_attack must be a proper dictionary with correct character and information
-    :postcondition: correctly continue to run the round until one of the characters have 0 hp value
-    :postcondition: correctly lead to leveling_package if the monster_info hp is 0
+    :postcondition: correctly continue to run the round until one of the characters are dead
+    :postcondition: correctly lead to leveling_package if the monster is dead
     """
 
     if attacker:
@@ -1000,12 +1038,32 @@ def battle_start(player, monster, attacker):
 
 
 def leveling_package(player):
+    """Change exp value and the player's dictionary values depending on the level.
+
+    The function will add 100 exp everytime the monster is dead. The function will check the exp needed for each level
+    to change the player's level and class_dictionary.
+
+    :param player: a dictionary
+    :precondition: player must be a proper dictionary with correct character and information
+    :postcondition: add correct amount to player's experience points
+    :postcondition: correctly change the player's level and class_dictionary based on experience accumulated
+    """
     player["experience"] += 100
     check_level(player)
     player_class_dictionary(player)
 
 
 def player_damage(player):
+    """Return player's damage for the round.
+
+    The function first picks a random number to assess if the player succeeded in the attack depending on their accuracy
+    rates. It will return 0 if they fail, otherwise, the correct damage value depending on situation.
+
+    :param player: a dictionary
+    :precondition: player must be a proper dictionary with correct character and information
+    :postcondition: correct damage number depending on situation
+    :return: an integer
+    """
     accuracy_roll = randint(1, 100)
     if accuracy_roll <= player["class_dictionary"]["accuracy_rate"]:
         damage = randint(player["class_dictionary"]["base_damage_min"],
@@ -1018,15 +1076,15 @@ def player_damage(player):
 def attacking_round(attacker, opponent, damage_amount):
     """Simulate a single attack to the opponent.
 
-    This function runs a combat simulation that changes the damaged's hp value.
+    This function runs a combat simulation that changes the opponent's hp value.
 
     :param attacker: a dictionary
     :param opponent: a dictionary
     :param damage_amount: an integer
     :precondition: attacker and damaged must be a proper dictionary with correct character and information
     :precondition: damage_amount must be a positive integer
-    :postcondition: correctly changed hp of damaged
-    :return: changed hp value of damaged in a dictionary
+    :postcondition: correctly changed hp of opponent
+    :return: changed hp value of opponent in a dictionary
     """
     if damage_amount == 0:
         delayed_message(f"\n{attacker['name']} has missed the attack!\n", 0.5)
@@ -1038,19 +1096,46 @@ def attacking_round(attacker, opponent, damage_amount):
 
 
 def player_game_descriptions(player, board, boss):
+    """Direct to different functions that return game information for player.
+
+    The function packages different helper functions that return different game information for player. The function is
+    used to help distinguish which functions are being called to give the player game information.
+
+    :param player: a dictionary
+    :param board: a dictionary
+    :param boss: a dictionary
+    :precondition: player, board, and boss must be a proper dictionary with correct character and information
+    :postcondition: correctly run different functions that return game information
+    """
     display_map(player, boss)
     display_info(player, board)
 
 
 def make_boss():
+    """Create a dictionary of boss that contain boss name, hp, damage, and position.
+
+    The function creates a dictionary from different constants.
+
+    :return: a dictionary
+    """
     boss = {"name": PICK_RANDOM_BOSS_NAME(),
             "hp": MAX_BOSS_HP(),
             "damage": MAX_BOSS_DAMAGE(),
-            "position": [2, 2]}
+            "position": BOSS_POSITION()}
     return boss
 
 
 def fight_or_run_decision_boss_round(boss):
+    """Return user choice for combat initiation when meeting boss.
+
+    The function asks the player if they would like to fight when encountering the boss. This has a different prompt
+    than the regular decision making function to give the player more detail about the boss round.
+
+    :param boss: a dictionary
+    :precondition: boss must be a proper dictionary with correct character and information
+    :postcondition: return the correct choice from the list of options
+    :return: a string
+    """
     delayed_message(f"\nYou have encountered {boss['name']}!\nThe boss hp is {boss['hp']}, and the damage is "
                     f"{boss['damage']}.\nIf you beat him, you will finish the game with a victory, if you fail however,"
                     f"the game will be finished.\nYou can choose to run away anytime you'd like and come back when you"
@@ -1066,6 +1151,17 @@ def fight_or_run_decision_boss_round(boss):
 
 
 def fight_boss(player, boss):
+    """Direct the user to different functions based on their input.
+
+    This function will give the user an option to run or fight when meeting boss. Either options will send the user to
+    other functions. The fight_boss has a while loop implemented to keep the battle going until one of their hp values
+    reach 0.
+
+    :param player: a dictionary
+    :param boss: a dictionary
+    :precondition: player and boss must be a proper dictionary with correct character and information
+    :postcondition: correctly leads to corresponding functions depending on situation
+    """
     if fight_or_run_decision_boss_round(boss) == "Yes":
         while player["hp"] > 0 and boss["hp"] > 0:
             battle_start(player, boss, battle_attack_order())
@@ -1083,6 +1179,7 @@ def fight_boss(player, boss):
 
 
 def game_win_art():
+    """Print ASCII art to congratulate the player for winning the game."""
     print("you win!")
     press_enter_to_continue()
     quit()
@@ -1092,15 +1189,12 @@ def game():
     """Execute the game.
 
     The function consists of all the functions previously written. It runs a while loop to continue the game until the
-    player types "quit" or achieves the goal of reaching [4, 4] on the map.
+    player types "quit" or achieves the goal of beating the boss.
     """
     print("Welcome player, I hope you are ready for an epic adventure!\n"
           "There's nothing too difficult about navigating around the game.\n"
           "You will only be allowed to input numbers that correspond to the items.\n"
-          "The game will end when you reach [4, 4] or type quit during movements or your hp becomes 0.\n"
-          "If you take a look at the list, you will see your name, then your job, \n"
-          "followed by you hp values noted as [current hp, max hp], and your current location.\n"
-          "I hope you have fun playing! Let the journey begin!\n")
+          "The game will end when you defeat the boss or type quit during movements or your hp becomes 0.\n")
     board = make_board()
     player = make_player()
     boss = make_boss()
@@ -1119,7 +1213,9 @@ def game():
 def main():
     """Execute the program"""
     # doctest.testmod(verbose=True)
+    init()
     game()
+
 
 if __name__ == "__main__":
     main()
