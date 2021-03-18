@@ -1,9 +1,9 @@
 """
-Your name: Paul Seong Uk Yeon
-Your student number: A00990811
+Students:
+Paul Seong Uk Yeon (A00990811)
+April Sin Hau Cheng (A01261858)
 
-All of your code must go in this file.
-Beginning of exam, not a single line of code has been written here previously.
+1510 Assignment 4
 """
 import itertools
 from itertools import count
@@ -16,26 +16,26 @@ from typing import Union
 
 
 # Player Specifications
-def BASE_PLAYER_HP():
-    """Return base player hp as 20 for all classes.
+def PLAYER_BASE_HP():
+    """Return player base health point as a number 20.
 
-    :return: an integer
+    :return: player base health point as an integer 20
     """
     return 20
 
 
 def PLAYER_HEAL_HP():
-    """Return player maximum heal health point as 4.
+    """Return player maximum heal health point as a number 4.
 
-    :return: heal health point as integer 4
+    :return: player heal health point as an integer 4
     """
     return 4
 
 
 def PLAYER_STARTING_POSITION():
-    """Return the player's starting position as [0, 0].
+    """Return the player's starting position as coordinate [0, 0].
 
-    :return: a list
+    :return: player's starting position coordinate as a list with two elements that are integers
     """
     return [0, 0]
 
@@ -44,7 +44,7 @@ def PLAYER_STARTING_POSITION():
 def MAGE_HP_INCREMENT():
     """Return Mage class health increment as 10.
 
-    :return: an integer
+    :return: Mage class health point increment as integer 10
     """
     return 10
 
@@ -52,7 +52,7 @@ def MAGE_HP_INCREMENT():
 def THIEF_HP_INCREMENT():
     """Return Thief class health increment as 10.
 
-    :return: an integer
+    :return: Thief class health point increment as integer 10
     """
     return 10
 
@@ -60,7 +60,7 @@ def THIEF_HP_INCREMENT():
 def RANGER_HP_INCREMENT():
     """Return Ranger class health increment as 10.
 
-    :return: an integer
+    :return: Ranger class health point increment as integer 10
     """
     return 10
 
@@ -68,7 +68,7 @@ def RANGER_HP_INCREMENT():
 def WARRIOR_HP_INCREMENT():
     """Return Warrior class health increment as 10.
 
-    :return: an integer
+    :return: Warrior class health point increment as integer 10
     """
     return 10
 
@@ -77,17 +77,20 @@ def MAGE():
     """Return Mage class dictionary.
 
     The key represents the player's level, which changes the specifications when the player levels up.
+    Each level indicates it own specifications including level name, experience required to level up,
+    attack names, player's max HP, player's minimum and maximum damage amount, and player's accuracy rate
+    for the respective level.
 
     :return: a dictionary
     """
     return {
         1: {"level": 1, "level_name": "Apprentice Mage", "experience_needed": 500, "attack_name": "Fireball",
-            "max_hp": BASE_PLAYER_HP(), "base_damage_min": 15, "base_damage_max": 20, "accuracy_rate": 25},
+            "max_hp": PLAYER_BASE_HP(), "base_damage_min": 15, "base_damage_max": 20, "accuracy_rate": 25},
         2: {"level": 2, "level_name": "Mage", "experience_needed": 1000, "attack_name": "Firestorm",
-            "max_hp": BASE_PLAYER_HP() + MAGE_HP_INCREMENT(), "base_damage_min": 20, "base_damage_max": 25,
+            "max_hp": PLAYER_BASE_HP() + MAGE_HP_INCREMENT(), "base_damage_min": 20, "base_damage_max": 25,
             "accuracy_rate": 40},
         3: {"level": 3, "level_name": "Arch Mage", "attack_name": "Hellfire",
-            "max_hp": BASE_PLAYER_HP() + (MAGE_HP_INCREMENT() * 2), "base_damage_min": 25, "base_damage_max": 30,
+            "max_hp": PLAYER_BASE_HP() + (MAGE_HP_INCREMENT() * 2), "base_damage_min": 25, "base_damage_max": 30,
             "accuracy_rate": 50}
     }
 
@@ -101,12 +104,12 @@ def THIEF():
     """
     return {
         1: {"level": 1, "level_name": "Apprentice Thief", "experience_needed": 100, "attack_name": "Pickpocket",
-            "max_hp": BASE_PLAYER_HP(), "base_damage_min": 1, "base_damage_max": 5, "accuracy_rate": 85},
+            "max_hp": PLAYER_BASE_HP(), "base_damage_min": 1, "base_damage_max": 5, "accuracy_rate": 85},
         2: {"level": 2, "level_name": "Bandit", "experience_needed": 300, "attack_name": "Boomerang Step",
-            "max_hp": BASE_PLAYER_HP() + THIEF_HP_INCREMENT(), "base_damage_min": 5, "base_damage_max": 10,
+            "max_hp": PLAYER_BASE_HP() + THIEF_HP_INCREMENT(), "base_damage_min": 5, "base_damage_max": 10,
             "accuracy_rate": 95},
         3: {"level": 3, "level_name": "Hermit", "attack_name": "Assassinate",
-            "max_hp": BASE_PLAYER_HP() + (THIEF_HP_INCREMENT() * 2), "base_damage_min": 10, "base_damage_max": 15,
+            "max_hp": PLAYER_BASE_HP() + (THIEF_HP_INCREMENT() * 2), "base_damage_min": 10, "base_damage_max": 15,
             "accuracy_rate": 100}
     }
 
@@ -120,12 +123,12 @@ def RANGER():
     """
     return {
         1: {"level": 1, "level_name": "Apprentice Ranger", "experience_needed": 500, "attack_name": "Iron Arrow",
-            "max_hp": BASE_PLAYER_HP(), "base_damage_min": 5, "base_damage_max": 10, "accuracy_rate": 50},
+            "max_hp": PLAYER_BASE_HP(), "base_damage_min": 5, "base_damage_max": 10, "accuracy_rate": 50},
         2: {"level": 2, "level_name": "Sniper", "experience_needed": 1000, "attack_name": "Mortal Blow",
-            "max_hp": BASE_PLAYER_HP() + RANGER_HP_INCREMENT(), "base_damage_min": 10, "base_damage_max": 15,
+            "max_hp": PLAYER_BASE_HP() + RANGER_HP_INCREMENT(), "base_damage_min": 10, "base_damage_max": 15,
             "accuracy_rate": 60},
         3: {"level": 3, "level_name": "Marksman", "attack_name": "Dragon's Breath",
-            "max_hp": BASE_PLAYER_HP() + (RANGER_HP_INCREMENT() * 2), "base_damage_min": 15, "base_damage_max": 20,
+            "max_hp": PLAYER_BASE_HP() + (RANGER_HP_INCREMENT() * 2), "base_damage_min": 15, "base_damage_max": 20,
             "accuracy_rate": 75}
     }
 
@@ -139,19 +142,19 @@ def WARRIOR():
     """
     return {
         1: {"level": 1, "level_name": "Apprentice Warrior", "experience_needed": 200, "attack_name": "Threaten",
-            "max_hp": BASE_PLAYER_HP(), "base_damage_min": 7, "base_damage_max": 12, "accuracy_rate": 50},
+            "max_hp": PLAYER_BASE_HP(), "base_damage_min": 7, "base_damage_max": 12, "accuracy_rate": 50},
         2: {"level": 2, "level_name": "Knight", "experience_needed": 1000, "attack_name": "Power Crash",
-            "max_hp": BASE_PLAYER_HP() + WARRIOR_HP_INCREMENT(), "base_damage_min": 12, "base_damage_max": 18,
+            "max_hp": PLAYER_BASE_HP() + WARRIOR_HP_INCREMENT(), "base_damage_min": 12, "base_damage_max": 18,
             "accuracy_rate": 50},
         3: {"level": 3, "level_name": "Paladin", "attack_name": "Heaven's Hammer",
-            "max_hp": BASE_PLAYER_HP() + (WARRIOR_HP_INCREMENT() * 2), "base_damage_min": 18, "base_damage_max": 24,
+            "max_hp": PLAYER_BASE_HP() + (WARRIOR_HP_INCREMENT() * 2), "base_damage_min": 18, "base_damage_max": 24,
             "accuracy_rate": 50}
     }
 
 
 # Monster Specification
 def BASE_MONSTER_HP():
-    """Return the monster's base health as 10.
+    """Return the monster's base health point as 10.
 
     :return: an integer
     """
@@ -484,7 +487,6 @@ def player_class_dictionary(player: dict) -> None:
     current_dictionary = return_class_dictionary(player)
     level = check_level(player)
     player["class_dictionary"] = current_dictionary[level]
-    # return current_dictionary[level]
 
 
 def return_class_dictionary(player: dict) -> dict:
@@ -532,13 +534,9 @@ def make_player() -> dict:
     :postcondition: gets user input and creates player dictionary
     :return: a dictionary
     """
-    # player_name = player_name_generator()
-    # player_hp = MAX_PLAYER_HP()
-    # player_position = PLAYER_STARTING_POSITION()
-    # player_damage = STARTING_PLAYER_DAMAGE()
     player = {"name": player_name_generator(),
               "class": "",
-              "hp": BASE_PLAYER_HP(),
+              "hp": PLAYER_BASE_HP(),
               "position": PLAYER_STARTING_POSITION(),
               "level": 1,
               "experience": 0,
@@ -567,9 +565,6 @@ def display_map(player: dict, boss: dict) -> None:
             else:
                 print("[ ]", end="")
         print()
-# #testing function
-# player = {"position": (1, 1)}
-# display_map(player)
 
 
 def filter_information(player: dict, items: str) -> tuple:
@@ -759,11 +754,13 @@ def heal_player(player: dict) -> None:
     :postcondition: correctly changes the value of character's hp
     :return: the changed hp value in the dictionary
 
-    >>> players = {"name": "Paul", "job": "Witch Doctor", "hp": 10, "position": [1, 2], "level": {"level": 1, "exp": 0}, "damage": 10, "run_away_chance": 3}
+    >>> players = {"name": "Paul", "job": "Witch Doctor", "hp": 10, "position": [1, 2], "level": {"level": 1, "exp": 0},
+     "damage": 10, "run_away_chance": 3}
     >>> heal_player(players)
     >>> players["hp"]
     14
-    >>> players = {"name": "Paul", "job": "Witch Doctor", "hp": 18, "position": [1, 2], "level": {"level": 1, "exp": 0}, "damage": 10, "run_away_chance": 3}
+    >>> players = {"name": "Paul", "job": "Witch Doctor", "hp": 18, "position": [1, 2], "level": {"level": 1, "exp": 0},
+     "damage": 10, "run_away_chance": 3}
     >>> heal_player(players)
     >>> players["hp"]
     20
@@ -788,8 +785,6 @@ def random_monster(player: dict) -> dict:
     """
     random_monster_name = choice(LIST_OF_MONSTERS())
     random_monster_type = choice(LIST_OF_MONSTER_TYPES())
-    # monster_hp = BASE_MONSTER_HP()
-    # monster_damage = BASE_MONSTER_DAMAGE()
     monster = {"name": random_monster_name,
                "type": random_monster_type,
                "hp": "",
@@ -887,14 +882,16 @@ def run_away_player(player: dict, monster: dict) -> dict:
     :postcondition: correctly changed hp depending on situation
     :return: changed player's hp value if attack is successful in a dictionary
 
-    >>> players = {"name": "Paul", "job": "Witch Doctor", "hp": 10, "position": [1, 2], "level": {"level": 1, "exp": 0}, "damage": 10, "run_away_chance": 3}
-    >>> monster = {"name": "Fallen Shamen", "type": "Ureh Caverns", "hp": 10, "damage": 10}
+    >>> players = {"name": "Paul", "job": "Witch Doctor", "hp": 10, "position": [1, 2], "level": {"level": 1, "exp": 0},
+     "damage": 10, "run_away_chance": 3}
+    >>> monster_info = {"name": "Fallen Shamen", "type": "Ureh Caverns", "hp": 10, "damage": 10}
     >>> run_away_player(players, monster)
     >>> run_away_number == 1
     >>> players["hp"] < 10
     True
-    >>> players = {"name": "Paul", "job": "Witch Doctor", "hp": 14, "position": [1, 2], "level": {"level": 1, "exp": 0}, "damage": 10, "run_away_chance": 3}
-    >>> monster = {"name": "Fallen Shamen", "type": "Ureh Caverns", "hp": 10, "damage": 10}
+    >>> players = {"name": "Paul", "job": "Witch Doctor", "hp": 14, "position": [1, 2], "level": {"level": 1, "exp": 0},
+     "damage": 10, "run_away_chance": 3}
+    >>> monster_info = {"name": "Fallen Shamen", "type": "Ureh Caverns", "hp": 10, "damage": 10}
     >>> run_away_player(players, monster)
     >>> run_away_number == 3
     >>> players["hp"] == 14
