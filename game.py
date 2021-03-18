@@ -10,6 +10,7 @@ from itertools import count
 from random import randint, choice
 from time import sleep
 import doctest
+from functools import partial
 from colorama import init, Fore, Back, Style
 init()
 
@@ -277,15 +278,6 @@ def DUNGEON_LIST():
     """
     dungeon_list = {
         (0, 0): "You've started your journey from this room.\nYou feel safer here for some reason.\n",
-        (0, 1): "The room is lit by the light seeping through from the previous location, but you instantly feel the "
-                "difference in the atmosphere already.\nFor some reason, you are just a bit more cold.\n",
-        (0, 2): "You start to move on an instinct as the seeping light no longer covers the entirety of the room "
-                "anymore.\nYou start to feel a shiver up your spine every step you take.\n",
-        (0, 3): "This room is surprisingly warm... You wonder why...\n",
-        (0, 4): "You start to feel more paranoid as time passes, and keep thinking back\non your life and whether "
-                "or not you'll be able to get out of here alive\n",
-        (1, 0): "The room is lit by the light seeping through from the previous location, but you instantly feel the "
-                "difference\nin the atmosphere already. For some reason, you are just a bit more cold.\n",
         (1, 1): "Your steps seem to have slowed down and without confidence...\n",
         (1, 2): "You start to move on an instinct as the seeping light no longer covers the entirety of the room "
                 "anymore.\nYou start to feel a shiver up your spine every step you take.\n",
@@ -399,11 +391,14 @@ def make_board():
     :return: dictionary with coordinate tuples as keys and location description as values
     """
     location_description = [
-        """This room has a cage in the center.""",
-        """This room has a well in the center""",
-        """This room looks like a bar.""",
-        """There are zombies in the opposite corner of you.""",
-        """This room has a wooden chair in the center.""",
+        """The room is lit by the light seeping through from the previous location, but you instantly feel the
+        difference in the atmosphere already.\nFor some reason, you are just a bit more cold.""",
+        """You start to move on an instinct as the seeping light no longer covers the entirety of the room
+        anymore.\nYou start to feel a shiver up your spine every step you take.""",
+        """This room is surprisingly warm... You wonder why...""",
+        """You start to feel more paranoid as time passes, and keep thinking back\non your life and whether
+        or not you'll be able to get out of here alive""",
+        """Your steps seem to have slowed down and without confidence...""",
         """This room has a man hanging upside down from the ceiling."""
     ]
     cycle_location = itertools.cycle(location_description)
@@ -595,6 +590,9 @@ def display_map(player, boss):
 # player = {"position": (1, 1)}
 # display_map(player)
 
+def filter_things(x, strings):
+    return x[0] == strings
+
 
 def display_info(player, board):
     """Print player's position, location description, health point, level, class name, and experience point.
@@ -606,11 +604,12 @@ def display_info(player, board):
     and exp
     """
     coordinate = player["position"]
-    print(f'Location: {player["position"]}')
+    print(f'Location: {list(filter(partial(filter_things, strings="position"), player.items()))[0][1]}')
     print(f'Description: {board[tuple(coordinate)]["location_description"]}')
     print(f'Health point: {player["hp"]}/{player["class_dictionary"]["max_hp"]}')
     print(f'Level: {player["level"]}, {player["class_dictionary"]["level_name"]}')
     print(f'Experience: {player["experience"]}')
+    print(f'Experience: {list(filter(partial(filter_things, strings="level"), player.items()))[0][1]}')
 
 
 # #testing function
@@ -914,7 +913,7 @@ def run_away_player(player, monster):
         press_enter_to_continue()
         return player
     else:
-        delayed_message(f"You've run away successfully from {monster['name']}!"
+        delayed_message(f"You've run away successfully from {monster['name']}!\n"
                         f"You were very lucky this time...\n", 1)
         press_enter_to_continue()
         return player

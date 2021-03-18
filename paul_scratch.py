@@ -412,6 +412,19 @@ def make_player():
     return player
 
 
+def filter_hp(player):
+    hp_values = ["hp", "max_hp"]
+    if player in hp_values:
+        return True
+    else:
+        return False
+def print_test(player)
+    filtered_hp = filter(filter_hp, player)
+    for hp in filtered_hp:
+        print(hp, end="/")
+
+
+
 def display_map(player, boss):
     """Print player's position on a map.
 
@@ -982,7 +995,7 @@ def game():
 def main():
     """Execute the program"""
     # doctest.testmod(verbose=True)
-    game()
+    # game()
 
 if __name__ == "__main__":
     main()
