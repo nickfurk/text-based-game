@@ -263,6 +263,24 @@ def attacking_round(attacker, opponent):
 
 
 
+def choices(x, y):
+    return x + " : " + y
+
+numbers = ["1", "2", "3", "4"]
+types = ["Mage", "Warrior", "Horse", "Duck"]
+
+result = map(choices, numbers, types)
+print(list(result))
+
+#
+# def addition(x, y):
+#     return print(f'{x}:{y}')
+#
+# numbers1 = [5, 6, 2, 8]
+# numbers2 = [7, 1, 4, 9]
+# result = map(addition, numbers1, numbers2)
+# print(list(result))
+
 # def player():
 #     player_info = {"class_dictionary": player_job_generator()[0], "exp": 200}
 #     return player_info
