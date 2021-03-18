@@ -16,7 +16,7 @@ from typing import Union
 
 
 # Player Specifications
-def PLAYER_BASE_HP():
+def PLAYER_BASE_HP() -> int:
     """Return player base health point as a number 20.
 
     :return: player base health point as an integer 20
@@ -24,7 +24,7 @@ def PLAYER_BASE_HP():
     return 20
 
 
-def PLAYER_HEAL_HP():
+def PLAYER_HEAL_HP() -> int:
     """Return player maximum heal health point as a number 4.
 
     :return: player heal health point as an integer 4
@@ -32,7 +32,7 @@ def PLAYER_HEAL_HP():
     return 4
 
 
-def PLAYER_STARTING_POSITION():
+def PLAYER_STARTING_POSITION() -> list:
     """Return the player's starting position as coordinate [0, 0].
 
     :return: player's starting position coordinate as a list with two elements that are integers
@@ -41,7 +41,7 @@ def PLAYER_STARTING_POSITION():
 
 
 # Class Specification
-def MAGE_HP_INCREMENT():
+def MAGE_HP_INCREMENT() -> int:
     """Return Mage class health increment as 10.
 
     :return: Mage class health point increment as integer 10
@@ -49,7 +49,7 @@ def MAGE_HP_INCREMENT():
     return 10
 
 
-def THIEF_HP_INCREMENT():
+def THIEF_HP_INCREMENT() -> int:
     """Return Thief class health increment as 10.
 
     :return: Thief class health point increment as integer 10
@@ -57,7 +57,7 @@ def THIEF_HP_INCREMENT():
     return 10
 
 
-def RANGER_HP_INCREMENT():
+def RANGER_HP_INCREMENT() -> int:
     """Return Ranger class health increment as 10.
 
     :return: Ranger class health point increment as integer 10
@@ -65,7 +65,7 @@ def RANGER_HP_INCREMENT():
     return 10
 
 
-def WARRIOR_HP_INCREMENT():
+def WARRIOR_HP_INCREMENT() -> int:
     """Return Warrior class health increment as 10.
 
     :return: Warrior class health point increment as integer 10
@@ -73,7 +73,7 @@ def WARRIOR_HP_INCREMENT():
     return 10
 
 
-def MAGE():
+def MAGE() -> dict:
     """Return Mage class dictionary.
 
     The key represents the player's level, which changes the specifications when the player levels up.
@@ -95,7 +95,7 @@ def MAGE():
     }
 
 
-def THIEF():
+def THIEF() -> dict:
     """Return Thief class dictionary.
 
     The key represents the player's level, which changes the specifications when the player levels up.
@@ -114,7 +114,7 @@ def THIEF():
     }
 
 
-def RANGER():
+def RANGER() -> dict:
     """Return Ranger class dictionary.
 
     The key represents the player's level, which changes the specifications when the player levels up.
@@ -133,7 +133,7 @@ def RANGER():
     }
 
 
-def WARRIOR():
+def WARRIOR() -> dict:
     """Return Warrior class dictionary.
 
     The key represents the player's level, which change the player's status when they level up.
@@ -153,7 +153,7 @@ def WARRIOR():
 
 
 # Monster Specification
-def BASE_MONSTER_HP():
+def BASE_MONSTER_HP() -> int:
     """Return the monster's base health point as 10.
 
     :return: monster's base health point as an integer 10
@@ -161,7 +161,7 @@ def BASE_MONSTER_HP():
     return 10
 
 
-def MONSTER_HP_INCREMENT():
+def MONSTER_HP_INCREMENT() -> int:
     """Return the monster's health point increment as 5.
 
     :return: monster's health point increment as an integer 5
@@ -169,7 +169,7 @@ def MONSTER_HP_INCREMENT():
     return 5
 
 
-def MONSTER_HP():
+def MONSTER_HP() -> dict:
     """Return monster health point dictionary.
 
     The key represents the player's level, and the value is a dictionary that indicates the monster new health point
@@ -184,7 +184,7 @@ def MONSTER_HP():
     }
 
 
-def MONSTER_BASE_DAMAGE():  # need to get rid of at the end
+def MONSTER_BASE_DAMAGE() -> int:  # need to get rid of at the end
     """Return monster's base damage as 10.
 
     The number is used in the roll_die function to give an output of 1 - 10 inclusive.
@@ -194,7 +194,7 @@ def MONSTER_BASE_DAMAGE():  # need to get rid of at the end
     return 10
 
 
-def MONSTER_DAMAGE_INCREMENT():
+def MONSTER_DAMAGE_INCREMENT() -> int:
     """Return the monster's damage increment as 5.
 
     :return: Monster's damage increment as an integer 5
@@ -202,7 +202,7 @@ def MONSTER_DAMAGE_INCREMENT():
     return 5
 
 
-def MONSTER_DAMAGE():
+def MONSTER_DAMAGE() -> dict:
     """Return monster damage dictionary.
 
     The key represents the player's level, and the value is a dictionary that indicates the monster's new damage limit
@@ -218,7 +218,7 @@ def MONSTER_DAMAGE():
 
 
 # Boss Specifications
-def PICK_RANDOM_BOSS_NAME():
+def PICK_RANDOM_BOSS_NAME() -> str:
     """Return a random string from the list of strings.
 
     The function will pick a random name from the provided list of boss names.
@@ -229,7 +229,7 @@ def PICK_RANDOM_BOSS_NAME():
     return choice(boss_names)
 
 
-def BOSS_MAX_HP():
+def BOSS_MAX_HP() -> int:
     """Return boss health point as 30.
 
     :return: an integer 30
@@ -237,7 +237,7 @@ def BOSS_MAX_HP():
     return 30
 
 
-def BOSS_MAX_DAMAGE():
+def BOSS_MAX_DAMAGE() -> int:
     """Return boss damage as 10.
 
     :return: an integer 10
@@ -245,7 +245,7 @@ def BOSS_MAX_DAMAGE():
     return 10
 
 
-def BOSS_POSITION():
+def BOSS_POSITION() -> list:
     """Return boss' fixed position as [25, 25]
 
     :return: a list with two number elements
@@ -254,7 +254,7 @@ def BOSS_POSITION():
 
 
 # Game helper functions
-def RUN_AWAY_PROBABILITY():
+def RUN_AWAY_PROBABILITY() -> int:
     """Return the number for probability of running away.
 
     The number is used in the roll_die function to simulate a 20% chance.
@@ -264,7 +264,7 @@ def RUN_AWAY_PROBABILITY():
     return 5
 
 
-def RUN_AWAY_DAMAGE_RANGE():
+def RUN_AWAY_DAMAGE_RANGE() -> int:
     """Return the maximum run away damage as 4.
 
     The number is used in the roll_die function to give an output of 1 - 4 inclusive.
@@ -274,7 +274,7 @@ def RUN_AWAY_DAMAGE_RANGE():
     return 4
 
 
-def INITIAL_ATTACK_PROBABILITY():
+def INITIAL_ATTACK_PROBABILITY() -> int:
     """Return the number 100.
 
     The number is used in the roll_die function to give an output of 1 - 100 inclusive.
@@ -284,7 +284,7 @@ def INITIAL_ATTACK_PROBABILITY():
     return 100
 
 
-def BATTLE_CHANCE():
+def BATTLE_CHANCE() -> int:
     """Return the probability of encountering an enemy upon movement.
 
     The number is used in the roll_die function to simulate a 20% chance.
@@ -294,7 +294,7 @@ def BATTLE_CHANCE():
     return 2
 
 
-def BOARD_SIZE():
+def BOARD_SIZE() -> int:
     """Return the size of the board.
 
     The number is used as the width and height to create a board.
@@ -304,7 +304,7 @@ def BOARD_SIZE():
     return 25
 
 
-def CLASS_LIST():
+def CLASS_LIST() -> list:
     """Return the list of possible class choices.
 
     The list is put through the input checker function to allow the player to choose.
@@ -314,7 +314,7 @@ def CLASS_LIST():
     return ["Mage", "Thief", "Ranger", "Warrior"]
 
 
-def DIRECTION_LIST():
+def DIRECTION_LIST() -> list:
     """Return the list of possible direction choices.
 
     The list is put through the input checker function to allow the player to choose.
@@ -324,18 +324,18 @@ def DIRECTION_LIST():
     return ["W", "E", "S", "N", "quit"]
 
 
-def YES_OR_NO():
-    """Return the list of possible Y/N choices.
+def YES_OR_NO() -> list:
+    """Return a Yes or No list.
 
-    The list is put through the input checker to allow the player to choose.
+    The list is put through the input checker function to allow the player to choose.
 
     :return: a list
     """
     return ["Yes", "No"]
 
 
-def LIST_OF_MONSTERS():
-    """Return the list of possible monster names.
+def LIST_OF_MONSTERS() -> list:
+    """Return the list of monster names.
 
     The list is put through the random module to pick a random name.
 
@@ -345,7 +345,7 @@ def LIST_OF_MONSTERS():
             "Dust Imp", "Demonic Hellflyer"]
 
 
-def LIST_OF_MONSTER_TYPES():
+def LIST_OF_MONSTER_TYPES() -> list:
     """Return the list of possible monster types.
 
     The list is put through the random module to pick a random type.
