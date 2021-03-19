@@ -460,9 +460,10 @@ def player_name_generator() -> str:
     return capitalized_input
 
 
-def player_job_generator(player: dict) -> str:
+def player_class_generator(player: dict) -> str:
     """Designate player class based on user choice.
 
+    :param player: dictionary
     :postcondition: gets user input and assigns it to variable
     :return: a string
     """
@@ -545,7 +546,7 @@ def make_player() -> dict:
               "experience": 0,
               "category": "player",
               "class_dictionary": ""}
-    player["class"] = player_job_generator(player)
+    player["class"] = player_class_generator(player)
     player_class_dictionary(player)
     return player
 
