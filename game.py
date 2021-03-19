@@ -498,7 +498,7 @@ def return_class_dictionary(player: dict) -> dict:
     """Return the class dictionary depending on user class.
 
     :param player: a dictionary
-    :precondition: player must be a proper dictionary with correct character and information
+    :precondition: player must be a proper dictionary with key "class"
     :postcondition: correctly return the corresponding class dictionary
     :return: a dictionary
 
@@ -1165,7 +1165,7 @@ def game() -> None:
 
 def main():
     """Execute the program"""
-    # doctest.testmod(verbose=True)
+    doctest.testmod(verbose=True)
     init()
     game()
 
