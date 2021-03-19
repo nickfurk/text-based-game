@@ -1023,13 +1023,14 @@ def leveling_package(player: dict) -> None:
 def player_damage(player: dict) -> int:
     """Return player's damage for the round.
 
-    The function first picks a random number to assess if the player succeeded in the attack depending on their accuracy
-    rates. It will return 0 if they fail, otherwise, the correct damage value depending on situation.
+    The function first picks a random number to assess if the player successful in the attack depending on their
+    accuracy rate. It will return 0 if they fail, otherwise, return the correct damage value.
 
     :param player: a dictionary
-    :precondition: player must be a proper dictionary with correct character and information
-    :postcondition: correct damage number depending on situation
-    :return: an integer
+    :precondition: player must be a proper dictionary with keys "class_dictionary", "accuracy_rate",
+                   "base_damage_min", and "base_damage_max"
+    :postcondition: return correct damage integer depending the dice roll result
+    :return: zero or a positive integer
     """
     accuracy_roll = randint(1, 100)
     if accuracy_roll <= player["class_dictionary"]["accuracy_rate"]:
