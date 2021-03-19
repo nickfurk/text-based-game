@@ -503,13 +503,12 @@ def return_class_dictionary(player: dict) -> dict:
     :return: a dictionary
 
     >>> player_info = {"class": "Thief"}
-    >>> return_class_dictionary(player_info)
+    >>> return_class_dictionary(player_info) #doctest: +NORMALIZE_WHITESPACE
     {1: {'level': 1, 'level_name': 'Apprentice Thief', 'experience_needed': 100, 'attack_name': 'Pickpocket',
     'max_hp': 20, 'base_damage_min': 1, 'base_damage_max': 5, 'accuracy_rate': 85}, 2: {'level': 2,
     'level_name': 'Bandit', 'experience_needed': 300, 'attack_name': 'Boomerang Step', 'max_hp': 30,
     'base_damage_min': 5, 'base_damage_max': 10, 'accuracy_rate': 95}, 3: {'level': 3, 'level_name': 'Hermit',
     'attack_name': 'Assassinate', 'max_hp': 40, 'base_damage_min': 10, 'base_damage_max': 15, 'accuracy_rate': 100}}
-
     """
     if player["class"] == "Mage":
         return MAGE()
@@ -762,17 +761,6 @@ def heal_player(player: dict) -> None:
     :precondition: player must be a proper dictionary with correct character and information
     :postcondition: correctly changes the value of character's hp
     :return: the changed hp value in the dictionary
-
-    >>> players = {"name": "Paul", "job": "Witch Doctor", "hp": 10, "position": [1, 2], "level": {"level": 1, "exp": 0},
-     "damage": 10, "run_away_chance": 3}
-    >>> heal_player(players)
-    >>> players["hp"]
-    14
-    >>> players = {"name": "Paul", "job": "Witch Doctor", "hp": 18, "position": [1, 2], "level": {"level": 1, "exp": 0},
-     "damage": 10, "run_away_chance": 3}
-    >>> heal_player(players)
-    >>> players["hp"]
-    20
     """
     delayed_message("It seems like there's no one in the room. You are healed by 4 hp!\n", 1)
     if 0 <= player["hp"] <= player["class_dictionary"]["max_hp"]:
@@ -890,21 +878,6 @@ def run_away_player(player: dict, monster: dict) -> dict:
     :precondition: player and monster must be a proper dictionary with correct character and information
     :postcondition: correctly changed hp depending on situation
     :return: changed player's hp value if attack is successful in a dictionary
-
-    >>> players = {"name": "Paul", "job": "Witch Doctor", "hp": 10, "position": [1, 2], "level": {"level": 1, "exp": 0},
-     "damage": 10, "run_away_chance": 3}
-    >>> monster_info = {"name": "Fallen Shamen", "type": "Ureh Caverns", "hp": 10, "damage": 10}
-    >>> run_away_player(players, monster)
-    >>> run_away_number == 1
-    >>> players["hp"] < 10
-    True
-    >>> players = {"name": "Paul", "job": "Witch Doctor", "hp": 14, "position": [1, 2], "level": {"level": 1, "exp": 0},
-     "damage": 10, "run_away_chance": 3}
-    >>> monster_info = {"name": "Fallen Shamen", "type": "Ureh Caverns", "hp": 10, "damage": 10}
-    >>> run_away_player(players, monster)
-    >>> run_away_number == 3
-    >>> players["hp"] == 14
-    True
     """
     run_away_number = roll_die(1, RUN_AWAY_PROBABILITY())
     if run_away_number == 1:
