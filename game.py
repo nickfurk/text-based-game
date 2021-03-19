@@ -1048,10 +1048,27 @@ def attacking_round(attacker: dict, opponent: dict, damage_amount: int) -> dict:
     :param attacker: a dictionary
     :param opponent: a dictionary
     :param damage_amount: an integer
-    :precondition: attacker and damaged must be a proper dictionary with correct character and information
-    :precondition: damage_amount must be a positive integer
-    :postcondition: correctly changed hp of opponent
+    :precondition: attacker must be a dictionary with key "name"
+    :precondition: opponent must be a dictionary with key "name" and key "hp"
+    :precondition: damage_amount must be an zero or positive integer
+    :postcondition: correctly change "hp" value of the opponent in a dictionary
     :return: changed hp value of opponent in a dictionary
+
+    >>> player_info = {"name": "Leo"}
+    >>> monster_info = {"name": "Zelda", "hp": 10}
+    >>> attacking_round(player_info, monster_info, 0)
+    <BLANKLINE>
+    Leo has missed the attack!
+    <BLANKLINE>
+    {'name': 'Zelda', 'hp': 10}
+
+    >>> player_info = {"name": "Leo"}
+    >>> monster_info = {"name": "Zelda", "hp": 10}
+    >>> attacking_round(player_info, monster_info, 5)
+    Leo has done 5 damage to Zelda!
+    Zelda has 5 hp left!
+    <BLANKLINE>
+    {'name': 'Zelda', 'hp': 5}
     """
     if damage_amount == 0:
         delayed_message(f"\n{attacker['name']} has missed the attack!\n", 0.5)
