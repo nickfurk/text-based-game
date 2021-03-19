@@ -143,7 +143,7 @@ def WARRIOR() -> dict:
     return {
         1: {"level": 1, "level_name": "Apprentice Warrior", "experience_needed": 200, "attack_name": "Threaten",
             "max_hp": PLAYER_BASE_HP(), "base_damage_min": 7, "base_damage_max": 12, "accuracy_rate": 50},
-        2: {"level": 2, "level_name": "Knight", "experience_needed": 1000, "attack_name": "Power Crash",
+        2: {"level": 2, "level_name": "Knight", "experience_needed": 500, "attack_name": "Power Crash",
             "max_hp": PLAYER_BASE_HP() + WARRIOR_HP_INCREMENT(), "base_damage_min": 12, "base_damage_max": 18,
             "accuracy_rate": 50},
         3: {"level": 3, "level_name": "Paladin", "attack_name": "Heaven's Hammer",
@@ -532,7 +532,7 @@ def check_level(player: dict) -> int:
     level = 1
     if player["experience"] >= class_dictionary[1]["experience_needed"]:
         level += 1
-    elif player["experience"] >= class_dictionary[2]["experience_needed"]:
+    if player["experience"] >= class_dictionary[2]["experience_needed"]:
         level += 1
     player["level"] = level
     return level
@@ -611,7 +611,7 @@ def display_info(player: dict, board: dict) -> None:
           f'/{list(filter(partial(filter_information, items="class_dictionary"), player.items()))[0][1]["max_hp"]}')
     print(f'Level: {list(filter(partial(filter_information, items="level"), player.items()))[0][1]}, '
           f'{list(filter(partial(filter_information, items="class_dictionary"), player.items()))[0][1]["level_name"]}')
-    print(f'Experience: {list(filter(partial(filter_information, items="level"), player.items()))[0][1]}')
+    print(f'Experience: {list(filter(partial(filter_information, items="experience"), player.items()))[0][1]}')
 
 
 # #testing function
@@ -1165,7 +1165,7 @@ def game() -> None:
 
 def main():
     """Execute the program"""
-    doctest.testmod(verbose=True)
+    # doctest.testmod(verbose=True)
     init()
     game()
 
