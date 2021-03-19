@@ -131,7 +131,7 @@ def check_level(player):
         level += 1
     return level
 # #testing function
-# player_info = {"class": "warrior", "experience": 600}
+# player_info = {"class": "warrior", "experience": 1000}
 # print(check_level(player_info))
 
 
@@ -150,10 +150,10 @@ def update_monster_hp(monster, player):
     monster_hp_dictionary = MONSTER_HP()
     monster["hp"] = monster_hp_dictionary[player_current_level]["hp"]
 # #testing function
-monster_info = {"hp": 10}
-player_info = {"class": "warrior", "experience": 1000}
-update_monster_hp(monster_info, player_info)
-print(monster_info)
+# monster_info = {"hp": 10}
+# player_info = {"class": "warrior", "experience": 1000}
+# update_monster_hp(monster_info, player_info)
+# print(monster_info)
 
 def MONSTER_DAMAGE():
     return {
@@ -183,10 +183,10 @@ def update_monster_damage(monster, player):
     monster_damage_dictionary = MONSTER_DAMAGE()
     monster["damage"] = monster_damage_dictionary[player_current_level]["damage"]
 # #testing function
-# monster_info = {"hp": 10}
-# player_info = {"class": "warrior", "experience": 800}
-# update_monster_damage(monster_info, player_info)
-# print(monster_info)
+monster_info = {"damage": 10}
+player_info = {"class": "warrior", "experience": 1000}
+update_monster_damage(monster_info, player_info)
+print(monster_info)
 
 
 def input_checker(list_of_options):
@@ -270,7 +270,7 @@ numbers = ["1", "2", "3", "4"]
 types = ["Mage", "Warrior", "Horse", "Duck"]
 
 result = map(choices, numbers, types)
-print(list(result))
+# print(list(result))
 
 #
 # def addition(x, y):
