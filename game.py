@@ -457,7 +457,7 @@ def player_name_generator() -> str:
         user_input = input("What will your name be for this game?: ")
     print(f"\nWelcome to the game, {capitalized_input}. \n")
     sleep(1)
-    return user_input
+    return capitalized_input
 
 
 def player_job_generator(player: dict) -> str:
