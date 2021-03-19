@@ -463,20 +463,21 @@ def player_name_generator() -> str:
 def player_class_generator(player: dict) -> str:
     """Designate player class based on user choice.
 
-    :param player: dictionary
-    :postcondition: gets user input and assigns it to variable
-    :return: a string
+    :param player: a dictionary
+    :precondition: dictionary should include a key called "class"
+    :postcondition: correctly gets the user input and assigns a class to the player's dictionary
+    :return: a string indicating the player's class
     """
-    print("Below is the list of jobs you can choose to play throughout the game. Choose wisely so that you'll be able "
+    print("Below is the list of characters you can choose to play in the game. Choose wisely so that you'll be able "
           "to win the game successfully... \n")
-    new_list_for_user = {str(keys): jobs for keys, jobs in zip(count(start=1, step=1), CLASS_LIST())}
-    player_job = input_checker(new_list_for_user)
-    while player_job not in CLASS_LIST():
+    new_list_for_user = {str(keys): characters for keys, characters in zip(count(start=1, step=1), CLASS_LIST())}
+    player_class = input_checker(new_list_for_user)
+    while player_class not in CLASS_LIST():
         print("That's not in the list of jobs you can choose from!")
-        player_job = input_checker(new_list_for_user)
-    player["class"] = player_job
-    delayed_message(f"\n{player_job} is a great choice!\n", 0.75)
-    return player_job
+        player_class = input_checker(new_list_for_user)
+    player["class"] = player_class
+    delayed_message(f"\n{player_class} is a great choice!\n", 0.75)
+    return player_class
 
 
 def player_class_dictionary(player: dict) -> None:
