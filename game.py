@@ -481,13 +481,13 @@ def player_class_generator(player: dict) -> str:
 
 
 def player_class_dictionary(player: dict) -> None:
-    """Change the class_dictionary depending on player's level.
+    """Change the "class_dictionary" value depending on player's class.
 
-    The function will check the player's current level and change the class_dictionary accordingly.
+    The function will check the player's "class_dictionary" value based on the player's class choice.
 
     :param player: a dictionary
-    :precondition: player must be a proper dictionary with correct character and information
-    :postcondition: correctly change the class_dictionary depending on player's level
+    :precondition: player must be a proper dictionary with key "class_dictionary" and key "class"
+    :postcondition: correctly change the "class_dictionary" value depending on the player's key "class"
     """
     current_dictionary = return_class_dictionary(player)
     level = check_level(player)
