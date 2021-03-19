@@ -573,13 +573,15 @@ def make_player() -> dict:
 
 
 def display_map(player: dict, boss: dict) -> None:
-    """Print player's position on a map.
+    """Print player's and boss' position on the map.
+
+    Player's position will be printed as green, whereas the boss' position will be printed as red.
 
     :param player: a dictionary
     :param boss: a dictionary
-    :precondition: player and boss must be a proper dictionary with correct character and information
-    :precondition: player position in the dictionary must be a list
-    :return: print player's position on a map
+    :precondition: player and boss must be a proper dictionary with the key "position"
+    :precondition: player and boss position in the dictionary must be a list with two integer elements
+    :return: print player's and boss' position on a map
     """
     for row in range(BOARD_SIZE()):
         for column in range(BOARD_SIZE()):
