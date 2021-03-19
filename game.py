@@ -524,9 +524,21 @@ def check_level(player: dict) -> int:
     """Change the player's level depending on user experience, and return the level.
 
     :param player: a dictionary
-    :precondition: player must be a proper dictionary with correct character and information
+    :precondition: player must be a proper dictionary with key "experience" and key "class"
     :postcondition: correctly return the changed level
     :return: an integer
+
+    >>> player_info = {"class": "Mage", "experience": 0}
+    >>> check_level(player_info)
+    1
+
+    >>> player_info = {"class": "Mage", "experience": 500}
+    >>> check_level(player_info)
+    2
+
+    >>> player_info = {"class": "Mage", "experience": 1000}
+    >>> check_level(player_info)
+    3
     """
     class_dictionary = return_class_dictionary(player)
     level = 1
