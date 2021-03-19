@@ -4,7 +4,6 @@ from game import press_enter_to_continue
 import io
 
 class TestPressEnterToContinue(TestCase):
-
     @patch('builtins.input', side_effect=[''])
     def test_press_enter_to_continue_output(self, mock_input):
         actual = press_enter_to_continue()
