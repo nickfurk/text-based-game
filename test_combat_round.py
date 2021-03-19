@@ -14,7 +14,7 @@ class TestCombatRound(TestCase):
     @patch('game.run_or_fight_again', return_value="Yes")
     @patch('game.press_enter_to_continue', return_value='')
     @patch('sys.stdout', new_callable=io.StringIO)
-    def test_combat_round(self, mock_stdout, mock_continue, mock_fight_again, mock_monster_run, mock_damage,
+    def test_combat_round_fight_to_death(self, mock_stdout, mock_continue, mock_fight_again, mock_monster_run, mock_damage,
                                   mock_attack_order, mock_decision, mock_roll_die):
         monster = {"name": "Zelda", "hp": 1}
         player = {'name': 'Paul', 'class': 'Warrior', 'hp': 20, 'position': [0, 0], 'level': 1, 'experience': 0,
