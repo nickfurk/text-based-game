@@ -24,7 +24,7 @@ class TestRunAwayPlayer(TestCase):
     @patch('game.roll_die', return_value=2)
     @patch('game.press_enter_to_continue', return_value='')
     @patch('sys.stdout', new_callable=io.StringIO)
-    def test_run_away_player_damaged(self, mock_stdout, mock_continue, mock_die):
+    def test_run_away_player_not_damaged(self, mock_stdout, mock_continue, mock_die):
         monster = {"name": "Zelda", "hp": 2, "damage": 1}
         player = {'name': 'Paul', 'class': 'Warrior', 'hp': 20, 'position': [0, 0], 'level': 1, 'experience': 0,
                   'category': 'player', 'class_dictionary': {'level': 1, 'level_name': 'Apprentice Warrior',
