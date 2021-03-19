@@ -501,6 +501,15 @@ def return_class_dictionary(player: dict) -> dict:
     :precondition: player must be a proper dictionary with correct character and information
     :postcondition: correctly return the corresponding class dictionary
     :return: a dictionary
+
+    >>> player_info = {"class": "Thief"}
+    >>> return_class_dictionary(player_info)
+    {1: {'level': 1, 'level_name': 'Apprentice Thief', 'experience_needed': 100, 'attack_name': 'Pickpocket',
+    'max_hp': 20, 'base_damage_min': 1, 'base_damage_max': 5, 'accuracy_rate': 85}, 2: {'level': 2,
+    'level_name': 'Bandit', 'experience_needed': 300, 'attack_name': 'Boomerang Step', 'max_hp': 30,
+    'base_damage_min': 5, 'base_damage_max': 10, 'accuracy_rate': 95}, 3: {'level': 3, 'level_name': 'Hermit',
+    'attack_name': 'Assassinate', 'max_hp': 40, 'base_damage_min': 10, 'base_damage_max': 15, 'accuracy_rate': 100}}
+
     """
     if player["class"] == "Mage":
         return MAGE()
@@ -1183,7 +1192,7 @@ def game() -> None:
 
 def main():
     """Execute the program"""
-    # doctest.testmod(verbose=True)
+    doctest.testmod(verbose=True)
     init()
     game()
 
