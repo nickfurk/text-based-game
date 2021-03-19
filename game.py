@@ -284,7 +284,7 @@ def INITIAL_ATTACK_PROBABILITY() -> int:
     return 100
 
 
-def BATTLE_CHANCE() -> int:
+def BATTLE_CHANCE_PROBABILITY() -> int:
     """Return the probability of encountering an enemy upon movement.
 
     The number is used in the roll_die function to simulate a 20% chance.
@@ -740,7 +740,7 @@ def battle_chance(player: dict, monster: dict) -> None:
     :precondition: player and monster must be a proper dictionary with correct character and information
     :postcondition: correctly lead to corresponding functions depending on situation
     """
-    battle_chance_number = roll_die(1, BATTLE_CHANCE())
+    battle_chance_number = roll_die(1, BATTLE_CHANCE_PROBABILITY())
     if battle_chance_number == 1:
         delayed_message("There's someone lurking in the dark!", 1)
         combat_round(player, monster)
