@@ -884,7 +884,7 @@ def run_away_player(player: dict, monster: dict) -> dict:
         run_away_damage = roll_die(1, RUN_AWAY_DAMAGE_RANGE())
         player["hp"] -= run_away_damage
         delayed_message(f"You've been damaged {run_away_damage} hp by {monster['name']} while running away!"
-                        f"\nYou only have{player['hp']} hp left! Be careful {player['name']}!", 1)
+                        f"\nYou only have {player['hp']} hp left! Be careful {player['name']}!", 1)
         press_enter_to_continue()
         return player
     else:
