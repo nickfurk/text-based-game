@@ -418,7 +418,9 @@ def filter_hp(player):
         return True
     else:
         return False
-def print_test(player)
+
+
+def print_test(player):
     filtered_hp = filter(filter_hp, player)
     for hp in filtered_hp:
         print(hp, end="/")

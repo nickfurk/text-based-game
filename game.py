@@ -642,13 +642,8 @@ def validate_move(current_position: list, user_direction: str) -> bool:
     >>> validate_move(position, direction)
     False
     """
-    if user_direction == "W" and current_position[1] == 0:
-        return True
-    elif user_direction == "E" and current_position[1] == 24:
-        return True
-    elif user_direction == "S" and current_position[0] == 24:
-        return True
-    elif user_direction == "N" and current_position[0] == 0:
+    if (user_direction == "W" and current_position[1] == 0) or (user_direction == "E" and current_position[1] == 24) or\
+       (user_direction == "S" and current_position[0] == 24) or (user_direction == "N" and current_position[0] == 0):
         return True
     else:
         return False
