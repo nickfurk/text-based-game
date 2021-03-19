@@ -397,7 +397,7 @@ def make_board() -> dict:
 def input_checker(list_of_options: dict) -> str:
     """Generate user choice from provided dictionary.
 
-    The function will take the provided dictionary, and ask for the user for input. It will then match the user input
+    The function will take the provided dictionary, and ask the user for input. It will then match the user input
     with the corresponding number so the user can choose by number.
 
     :param list_of_options: a dictionary
@@ -451,10 +451,11 @@ def player_name_generator() -> str:
     :return: a string
     """
     user_input = input("What will your name be for this game?: ")
-    while user_input == "":
+    capitalized_input = user_input.title()
+    while capitalized_input == "":
         print("You can't have nothing for your name, but anything else works! Try again.")
         user_input = input("What will your name be for this game?: ")
-    print(f"\nWelcome to the game, {user_input}. \n")
+    print(f"\nWelcome to the game, {capitalized_input}. \n")
     sleep(1)
     return user_input
 
