@@ -466,7 +466,7 @@ def player_class_generator(player: dict) -> str:
     :param player: a dictionary
     :precondition: dictionary should include a key called "class"
     :postcondition: correctly gets the user input and assigns a class to the player's dictionary
-    :return: a string indicating the player's class
+    :return: a string the player's selected class
     """
     print("Below is the list of characters you can choose to play in the game. Choose wisely so that you'll be able "
           "to win the game successfully... \n")
