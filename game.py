@@ -979,16 +979,17 @@ def battle_attack_order() -> bool:
 def battle_start(player: dict, monster: dict, attacker: bool) -> None:
     """Simulate a battle between two characters.
 
-    The function identifies the player through attacker boolean value, then runs the attacking_round in a correct order,
-    and also implementing the correct damage amount. If the monster dies, it will also run the leveling_package function
-    to change the player's information.
+    The function identifies who attacks first based on the boolean value, if the opponent is still alive then the
+    opponent will attack after. If the monster dies, then the leveling_package function runs to update player's
+    information.
 
     :param player: a dictionary
     :param monster: a dictionary
     :param attacker: a boolean
-    :precondition: first_attack and second_attack must be a proper dictionary with correct character and information
-    :postcondition: correctly continue to run the round until one of the characters are dead
-    :postcondition: correctly lead to leveling_package if the monster is dead
+    :precondition: player must be a dictionary with correct player information and with key "hp"
+    :precondition: monster must be a dictionary with correct monster information and with key "hp" and "damage"
+    :postcondition: correctly changes the "hp" of both characters if bother are alive
+    :postcondition: correctly changes the "experience" and or "level" of player if kill monster
     """
     if attacker:
         attacking_round(player, monster, player_damage(player))
