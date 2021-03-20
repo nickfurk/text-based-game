@@ -143,7 +143,7 @@ def WARRIOR() -> dict:
     return {
         1: {"level": 1, "level_name": "Apprentice Warrior", "experience_needed": 200, "attack_name": "Threaten",
             "max_hp": PLAYER_BASE_HP(), "base_damage_min": 7, "base_damage_max": 12, "accuracy_rate": 50},
-        2: {"level": 2, "level_name": "Knight", "experience_needed": 1000, "attack_name": "Power Crash",
+        2: {"level": 2, "level_name": "Knight", "experience_needed": 500, "attack_name": "Power Crash",
             "max_hp": PLAYER_BASE_HP() + WARRIOR_HP_INCREMENT(), "base_damage_min": 12, "base_damage_max": 18,
             "accuracy_rate": 50},
         3: {"level": 3, "level_name": "Paladin", "attack_name": "Heaven's Hammer",
@@ -498,7 +498,7 @@ def return_class_dictionary(player: dict) -> dict:
     """Return the class dictionary depending on user class.
 
     :param player: a dictionary
-    :precondition: player must be a proper dictionary with correct character and information
+    :precondition: player must be a proper dictionary with key "class"
     :postcondition: correctly return the corresponding class dictionary
     :return: a dictionary
 
@@ -524,15 +524,27 @@ def check_level(player: dict) -> int:
     """Change the player's level depending on user experience, and return the level.
 
     :param player: a dictionary
-    :precondition: player must be a proper dictionary with correct character and information
+    :precondition: player must be a proper dictionary with key "experience" and key "class"
     :postcondition: correctly return the changed level
     :return: an integer
+
+    >>> player_info = {"class": "Mage", "experience": 0}
+    >>> check_level(player_info)
+    1
+
+    >>> player_info = {"class": "Mage", "experience": 500}
+    >>> check_level(player_info)
+    2
+
+    >>> player_info = {"class": "Mage", "experience": 1000}
+    >>> check_level(player_info)
+    3
     """
     class_dictionary = return_class_dictionary(player)
     level = 1
     if player["experience"] >= class_dictionary[1]["experience_needed"]:
         level += 1
-    elif player["experience"] >= class_dictionary[2]["experience_needed"]:
+    if player["experience"] >= class_dictionary[2]["experience_needed"]:
         level += 1
     player["level"] = level
     return level
@@ -561,13 +573,15 @@ def make_player() -> dict:
 
 
 def display_map(player: dict, boss: dict) -> None:
-    """Print player's position on a map.
+    """Print player's and boss' position on the map.
+
+    Player's position will be printed as green, whereas the boss' position will be printed as red.
 
     :param player: a dictionary
     :param boss: a dictionary
-    :precondition: player and boss must be a proper dictionary with correct character and information
-    :precondition: player position in the dictionary must be a list
-    :return: print player's position on a map
+    :precondition: player and boss must be a proper dictionary with the key "position"
+    :precondition: player and boss position in the dictionary must be a list with two integer elements
+    :return: print player's and boss' position on a map
     """
     for row in range(BOARD_SIZE()):
         for column in range(BOARD_SIZE()):
@@ -611,7 +625,7 @@ def display_info(player: dict, board: dict) -> None:
           f'/{list(filter(partial(filter_information, items="class_dictionary"), player.items()))[0][1]["max_hp"]}')
     print(f'Level: {list(filter(partial(filter_information, items="level"), player.items()))[0][1]}, '
           f'{list(filter(partial(filter_information, items="class_dictionary"), player.items()))[0][1]["level_name"]}')
-    print(f'Experience: {list(filter(partial(filter_information, items="level"), player.items()))[0][1]}')
+    print(f'Experience: {list(filter(partial(filter_information, items="experience"), player.items()))[0][1]}')
 
 
 # #testing function
@@ -965,16 +979,17 @@ def battle_attack_order() -> bool:
 def battle_start(player: dict, monster: dict, attacker: bool) -> None:
     """Simulate a battle between two characters.
 
-    The function identifies the player through attacker boolean value, then runs the attacking_round in a correct order,
-    and also implementing the correct damage amount. If the monster dies, it will also run the leveling_package function
-    to change the player's information.
+    The function identifies who attacks first based on the boolean value, if the opponent is still alive then the
+    opponent will attack after. If the monster dies, then the leveling_package function runs to update player's
+    information.
 
     :param player: a dictionary
     :param monster: a dictionary
     :param attacker: a boolean
-    :precondition: first_attack and second_attack must be a proper dictionary with correct character and information
-    :postcondition: correctly continue to run the round until one of the characters are dead
-    :postcondition: correctly lead to leveling_package if the monster is dead
+    :precondition: player must be a dictionary with correct player information and with key "hp"
+    :precondition: monster must be a dictionary with correct monster information and with key "hp" and "damage"
+    :postcondition: correctly changes the "hp" of both characters if bother are alive
+    :postcondition: correctly changes the "experience" and or "level" of player if kill monster
     """
     if attacker:
         attacking_round(player, monster, player_damage(player))
@@ -1009,13 +1024,14 @@ def leveling_package(player: dict) -> None:
 def player_damage(player: dict) -> int:
     """Return player's damage for the round.
 
-    The function first picks a random number to assess if the player succeeded in the attack depending on their accuracy
-    rates. It will return 0 if they fail, otherwise, the correct damage value depending on situation.
+    The function first picks a random number to assess if the player successful in the attack depending on their
+    accuracy rate. It will return 0 if they fail, otherwise, return the correct damage value.
 
     :param player: a dictionary
-    :precondition: player must be a proper dictionary with correct character and information
-    :postcondition: correct damage number depending on situation
-    :return: an integer
+    :precondition: player must be a proper dictionary with keys "class_dictionary", "accuracy_rate",
+                   "base_damage_min", and "base_damage_max"
+    :postcondition: return correct damage integer depending the dice roll result
+    :return: zero or a positive integer
     """
     accuracy_roll = randint(1, 100)
     if accuracy_roll <= player["class_dictionary"]["accuracy_rate"]:
@@ -1034,10 +1050,27 @@ def attacking_round(attacker: dict, opponent: dict, damage_amount: int) -> dict:
     :param attacker: a dictionary
     :param opponent: a dictionary
     :param damage_amount: an integer
-    :precondition: attacker and damaged must be a proper dictionary with correct character and information
-    :precondition: damage_amount must be a positive integer
-    :postcondition: correctly changed hp of opponent
+    :precondition: attacker must be a dictionary with key "name"
+    :precondition: opponent must be a dictionary with key "name" and key "hp"
+    :precondition: damage_amount must be an zero or positive integer
+    :postcondition: correctly change "hp" value of the opponent in a dictionary
     :return: changed hp value of opponent in a dictionary
+
+    >>> player_info = {"name": "Leo"}
+    >>> monster_info = {"name": "Zelda", "hp": 10}
+    >>> attacking_round(player_info, monster_info, 0)
+    <BLANKLINE>
+    Leo has missed the attack!
+    <BLANKLINE>
+    {'name': 'Zelda', 'hp': 10}
+
+    >>> player_info = {"name": "Leo"}
+    >>> monster_info = {"name": "Zelda", "hp": 10}
+    >>> attacking_round(player_info, monster_info, 5)
+    Leo has done 5 damage to Zelda!
+    Zelda has 5 hp left!
+    <BLANKLINE>
+    {'name': 'Zelda', 'hp': 5}
     """
     if damage_amount == 0:
         delayed_message(f"\n{attacker['name']} has missed the attack!\n", 0.5)
