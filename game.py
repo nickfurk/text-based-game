@@ -1124,10 +1124,10 @@ def fight_or_run_decision_boss_round(boss: dict) -> str:
     """
     delayed_message(f"\nYou have encountered {boss['name']}!\nThe boss hp is {boss['hp']}, and the damage is "
                     f"{boss['damage']}.\nIf you beat him, you will finish the game with a victory, if you fail however,"
-                    f"the game will be finished.\nYou can choose to run away anytime you'd like and come back when you"
-                    f"believe you are ready to defeat the boss!\n", 1)
+                    f" the game will be finished.\nYou can choose to run away anytime you'd like and come back when you"
+                    f" believe you are ready to defeat the boss!\n", 1)
     delayed_message(f"\nWould you like to fight?\n(We recommend going up against the boss at level 3, as you will have"
-                    f"higher chances of winning)", 1)
+                    f" higher chances of winning)", 1)
     user_battle_decision = {str(keys): jobs for keys, jobs in zip(count(start=1, step=1), YES_OR_NO())}
     user_choice = input_checker(user_battle_decision)
     while user_choice not in YES_OR_NO():
