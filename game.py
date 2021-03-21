@@ -217,6 +217,10 @@ def MONSTER_DAMAGE() -> dict:
     }
 
 
+def RANDOM_MONSTER_ATTACK():
+    return ['Bite', 'Slash', 'Poisonous Trap']
+
+
 # Boss Specifications
 def PICK_RANDOM_BOSS_NAME() -> str:
     """Return a random string from the list of strings.
@@ -251,6 +255,10 @@ def BOSS_POSITION() -> list:
     :return: a list with two number elements
     """
     return [15, 15]
+
+
+def RANDOM_BOSS_ATTACK():
+    return ['Massacre', "Demolish", "Torture", "Execute", "Harvest"]
 
 
 # Game helper functions
@@ -394,20 +402,20 @@ def make_board() -> dict:
     return board
 
 
-def input_checker(list_of_options: dict) -> str:
+def input_checker(dict_of_options: dict) -> str:
     """Generate user choice from provided dictionary.
 
     The function will take the provided dictionary, and ask the user for input. It will then match the user input
     with the corresponding number so the user can choose by number.
 
-    :param list_of_options: a dictionary
+    :param dict_of_options: a dictionary
     :precondition: the dictionary must have the correct key/value pair, where the key is a number and value is a string
     :postcondition: correctly matches the user choice for key and returns the corresponding value
     :return: value of the chosen key as a string
     """
-    print(str(list_of_options).replace(",", "\n"))
+    print(str(dict_of_options).replace(",", "\n"))
     user_input = input("\nPlease choose from the following list of options by typing in the corresponding number: \n")
-    for keys, values in list_of_options.items():
+    for keys, values in dict_of_options.items():
         if user_input == keys:
             user_choice = values
             return user_choice
@@ -800,7 +808,8 @@ def random_monster(player: dict) -> dict:
                "type": random_monster_type,
                "hp": "",
                "category": "monster",
-               "damage": ""}
+               "damage": "",
+               "attack_name": RANDOM_MONSTER_ATTACK()}
     check_monster_hp(player, monster)
     check_monster_damage(player, monster)
     return monster
@@ -1075,9 +1084,16 @@ def attacking_round(attacker: dict, opponent: dict, damage_amount: int) -> dict:
     if damage_amount == 0:
         delayed_message(f"\n{attacker['name']} has missed the attack!\n", 0.5)
     else:
-        opponent['hp'] -= damage_amount
-        delayed_message(f"{attacker['name']} has done {damage_amount} damage to {opponent['name']}!"
-                        f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
+        if attacker['category'] == 'player':
+            opponent['hp'] -= damage_amount
+            delayed_message(f"{attacker['name']} has used {attacker['class_dictionary']['attack_name']} "
+                            f"and has done {damage_amount} damage to {opponent['name']}!"
+                            f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
+        else:
+            opponent['hp'] -= damage_amount
+            delayed_message(f"{attacker['name']} has used {choice(attacker['attack_name'])} and "
+                            f"has done {damage_amount} damage to {opponent['name']}!"
+                            f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
     return opponent
 
 
@@ -1107,7 +1123,8 @@ def make_boss() -> dict:
     boss = {"name": PICK_RANDOM_BOSS_NAME(),
             "hp": BOSS_MAX_HP(),
             "damage": BOSS_MAX_DAMAGE(),
-            "position": BOSS_POSITION()}
+            "position": BOSS_POSITION(),
+            "attack_name": RANDOM_BOSS_ATTACK()}
     return boss
 
 
@@ -1198,7 +1215,7 @@ def game() -> None:
 
 def main():
     """Execute the program"""
-    doctest.testmod(verbose=True)
+    # doctest.testmod(verbose=True)
     init()
     game()
 
