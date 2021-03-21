@@ -793,15 +793,39 @@ def battle_chance(player: dict, monster: dict) -> None:
 
 
 def heal_player(player: dict) -> None:
-    """Update character_info based on their current hp.
+    """Increase player hp by integer 4.
 
-    The function will heal the player's hp based on their current amount. The heal amount will only be up to the
-    player's maximum hp which increases every level.
+    The function will heal the player's hp by integer 4. The heal amount will only be up to the player's maximum
+    hp for the particular level.
 
     :param player: a dictionary
     :precondition: player must be a proper dictionary with correct character and information
-    :postcondition: correctly changes the value of character's hp
+    :postcondition: correctly changes the value of player's hp
     :return: the changed hp value in the dictionary
+
+    #heal player with low hp, healed amount should be 10
+    >>> player_info = {'hp': 6, 'class_dictionary': {'max_hp': 20}}
+    >>> heal_player(player_info)
+    It seems like there's no one in the room. You are healed by 4 hp!
+    <BLANKLINE>
+    >>> player_info["hp"]
+    10
+
+    #heal player with high hp, healed amount should be 20
+    >>> player_info = {'hp': 18, 'class_dictionary': {'max_hp': 20}}
+    >>> heal_player(player_info)
+    It seems like there's no one in the room. You are healed by 4 hp!
+    <BLANKLINE>
+    >>> player_info["hp"]
+    20
+
+    #heal player with different max hp, healed amount should be 22
+    >>> player_info = {'hp': 18, 'class_dictionary': {'max_hp': 25}}
+    >>> heal_player(player_info)
+    It seems like there's no one in the room. You are healed by 4 hp!
+    <BLANKLINE>
+    >>> player_info["hp"]
+    22
     """
     delayed_message("It seems like there's no one in the room. You are healed by 4 hp!\n", 1)
     if 0 <= player["hp"] <= player["class_dictionary"]["max_hp"]:
@@ -818,7 +842,7 @@ def random_monster(player: dict) -> dict:
 
     :param player: a dictionary
     :precondition: player must be a proper dictionary with correct character and information
-    :postcondition: correctly chooses random elements and puts them into a dictionary
+    :postcondition: correctly chooses random name, type, and attacks and puts them into a monster dictionary
     :return: a dictionary
     """
     random_monster_name = choice(LIST_OF_MONSTERS())
