@@ -686,6 +686,10 @@ def validate_move(current_position: list, user_direction: str) -> bool:
     >>> direction = "N"
     >>> validate_move(position, direction)
     True
+    >>> position = [0, 0]
+    >>> direction = "S"
+    >>> validate_move(position, direction)
+    False
     >>> position = [0, 1]
     >>> direction = "quit"
     >>> validate_move(position, direction)
