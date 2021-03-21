@@ -842,6 +842,14 @@ def check_monster_hp_and_damage(player, monster):
     :param monster: a dictionary
     :precondition: player and monster must be a proper dictionary with correct character and information
     :postcondition: correctly updates the monster' "hp" and "damage" value in the monster's dictionary
+
+    >>> player_info = {'class': 'Warrior', 'hp': 20, 'position': [0, 0], 'level': 2, 'experience': 400,
+    ... 'category': 'player', 'class_dictionary': {'level': 2, 'level_name': 'Apprentice Warrior',
+    ... 'experience_needed': 500, 'attack_name': 'Threaten', 'max_hp': 20, 'base_damage_min': 7, 'base_damage_max': 12,
+    ... 'accuracy_rate': 50}}
+    >>> monster_info = {'name': 'Zelda', 'type': 'Cat', 'hp': 10, 'category': 'monster', 'damage': 10}
+    >>> check_monster_hp_and_damage(player_info, monster_info) +NORMALIZE_WHITESPACE
+    {'name': 'Zelda', 'type': 'Cat', 'hp': 15, 'category': 'monster', 'damage': 15}
     """
     player_current_level = check_level(player)
     monster_hp_dictionary = MONSTER_HP()
@@ -1103,13 +1111,13 @@ def attacking_round(attacker: dict, opponent: dict, damage_amount: int) -> dict:
     <BLANKLINE>
     {'name': 'Zelda', 'hp': 10}
 
-    >>> player_info = {"name": "Leo"}
-    >>> monster_info = {"name": "Zelda", "hp": 10}
+    >>> player_info = {"name": "Leo", "category": "player", 'class_dictionary': {'attack_name': 'Pet the head'}}
+    >>> monster_info = {"name": "Zelda", "hp": 10, "category": "monster", 'attack_name': 'Scratch'}
     >>> attacking_round(player_info, monster_info, 5)
-    Leo has done 5 damage to Zelda!
+    Leo has used Pet the head and has done 5 damage to Zelda!
     Zelda has 5 hp left!
     <BLANKLINE>
-    {'name': 'Zelda', 'hp': 5}
+    {'name': 'Zelda', 'hp': 5, 'category': 'monster', 'attack_name': 'Scratch'}
     """
     if damage_amount == 0:
         delayed_message(f"\n{attacker['name']} has missed the attack!\n", 0.5)
