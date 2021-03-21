@@ -1169,6 +1169,12 @@ def game_win_art() -> None:
     quit()
 
 
+def player_dead_art():
+    print("You are dead!")
+    press_enter_to_continue()
+    quit()
+
+
 def game() -> None:
     """Execute the game.
 
@@ -1191,7 +1197,7 @@ def game() -> None:
             if boss["hp"] < 1:
                 game_win_art()
             move_character(player, board, boss)
-    game_over()
+    player_dead_art()
 
 
 def main():
