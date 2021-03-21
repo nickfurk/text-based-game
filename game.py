@@ -708,14 +708,22 @@ def player_movement_change(current_position: list, user_direction: str) -> Union
     :postcondition: the player's position will correctly change according to user_direction
     :return: a changed list of the player's new position
 
-    >>> position = [0, 0]
+    >>> position = [2, 2]
+    >>> direction = "W"
+    >>> player_movement_change(position, direction)
+    [2, 1]
+    >>> position = [2, 2]
     >>> direction = "E"
     >>> player_movement_change(position, direction)
-    [0, 1]
-    >>> position = [0, 0]
+    [2, 3]
+    >>> position = [2, 2]
+    >>> direction = "N"
+    >>> player_movement_change(position, direction)
+    [1, 2]
+    >>> position = [2, 2]
     >>> direction = "S"
     >>> player_movement_change(position, direction)
-    [1, 0]
+    [3, 2]
     """
     if user_direction == "W":
         current_position[1] -= 1
@@ -740,7 +748,7 @@ def move_character(player: dict, board: dict, boss: dict) -> list:
     :param board: a dictionary
     :param boss: a dictionary
     :precondition: player, board, and boss must be a proper dictionary with correct character and information
-    :postcondition: the player's position will correctly change according to user input
+    :postcondition: the player's position will correctly change according to the user's input
     :return: a changed player's new position in a list
     """
     player_game_descriptions(player, board, boss)
@@ -775,8 +783,8 @@ def roll_die(number_of_rolls: int, number_of_sides: int) -> int:
 def battle_chance(player: dict, monster: dict) -> None:
     """Roll a die to determine if the player will meet an enemy.
 
-    The player has a 40% chance to meet an enemy everytime they move. This is determined by rolling a 10 sided die once,
-    and if the rolled number is less than or equal to 4, it will lead to the combat_round function. Else, heal_player
+    The player has a 20% chance to meet an enemy everytime they move. This is determined by rolling a 5 sided die once,
+    and if the rolled number is less than or equal to 1, it will lead to the combat_round function. Else, heal_player
     function.
 
     :param player: a dictionary
