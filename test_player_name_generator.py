@@ -1,24 +1,43 @@
 from unittest import TestCase
 from unittest.mock import patch
 from game import player_name_generator
+import io
 
 
 class TestPlayerNameGenerator(TestCase):
-
-    @patch('builtins.input', return_value="Paula")
-    def test_player_name_is_same_as_input(self, mock_input):
+    @patch('builtins.input', side_effect=["1"])
+    def test_player_name_generator_choice_from_list(self, mock_input):
         actual = player_name_generator()
-        expected_output = "Paula"
+        expected_output = "Paul"
         self.assertEqual(actual, expected_output)
 
-    @patch('builtins.input', return_value="apaul")
-    def test_player_name_first_letter_becomes_capital(self, mock_input):
+    @patch('builtins.input', side_effect=["5", "Paul"])
+    def test_player_name_generator_player_chooses(self, mock_input):
+        actual = player_name_generator()
+        expected_output = "Paul"
+        self.assertEqual(actual, expected_output)
+
+    @patch('builtins.input', side_effect=["5", "apaul"])
+    def test_player_name_generator_first_letter_becomes_capital(self, mock_input):
         actual = player_name_generator()
         expected_output = "Apaul"
         self.assertEqual(actual, expected_output)
 
-    @patch('builtins.input', return_value="lirpa")
-    def test_output_is_string(self, mock_input):
+    @patch('builtins.input', side_effect=["5", "lirpa"])
+    def test_player_name_generator_output_is_string(self, mock_input):
         actual = player_name_generator()
         expected_output = "Lirpa"
         self.assertEqual(type(actual), type(expected_output))
+
+    @patch('builtins.input', side_effect=["5", "lirpa"])
+    @patch('sys.stdout', new_callable=io.StringIO)
+    def test_player_name_generator_correct_print(self, mock_stdout, mock_input):
+        player_name_generator()
+        expected_output = "Please choose one of the provided names, or your own.\n" \
+                          "{'1': 'Paul'\n" \
+                          " '2': 'April'\n" \
+                          " '3': 'Leo'\n" \
+                          " '4': 'Michelle'\n" \
+                          " '5': 'Choose my own'}\n\n" \
+                          "Welcome to the game, Lirpa.\n\n"
+        self.assertEqual(mock_stdout.getvalue(), expected_output)

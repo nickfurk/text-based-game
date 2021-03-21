@@ -482,7 +482,7 @@ def player_name_generator() -> str:
             print("You can't have nothing for your name, but anything else works! Try again.")
             user_input = input("What will your name be for this game?: ")
     capitalized_input = user_input.title()
-    print(f"\nWelcome to the game, {user_input}. \n")
+    print(f"\nWelcome to the game, {capitalized_input}.\n")
     sleep(1)
     return capitalized_input
 
