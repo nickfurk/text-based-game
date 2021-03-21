@@ -834,6 +834,15 @@ def random_monster(player: dict) -> dict:
 
 
 def check_monster_hp_and_damage(player, monster):
+    """Updates monster hp and damage level depending on the level of the player.
+
+    As the player levels up, the monster hp and damage amount also increases incrementally.
+
+    :param player: a dictionary
+    :param monster: a dictionary
+    :precondition: player and monster must be a proper dictionary with correct character and information
+    :postcondition: correctly updates the monster' "hp" and "damage" value in the monster's dictionary
+    """
     player_current_level = check_level(player)
     monster_hp_dictionary = MONSTER_HP()
     monster["hp"] = monster_hp_dictionary[player_current_level]["hp"]
@@ -842,13 +851,13 @@ def check_monster_hp_and_damage(player, monster):
 
 
 def fight_or_run_decision(monster: dict) -> str:
-    """Return user choice for combat initiation when meeting enemy.
+    """Return user choice for combat initiation when meeting an enemy.
 
     The function asks the player if they would like to fight when encountering an enemy.
 
     :param monster: a dictionary
     :precondition: monster must be a proper dictionary with correct character and information
-    :postcondition: return the correct choice from the list of options
+    :postcondition: return the correct choice from the list of options, Yes or No
     :return: a string
     """
     print(f"\nYou have encountered {monster['name']}! Would you like to fight?\n")
@@ -861,9 +870,9 @@ def fight_or_run_decision(monster: dict) -> str:
 
 
 def combat_round(player: dict, monster: dict) -> Union[dict, None]:
-    """Direct the user to different functions based on their input.
+    """Direct the player to different functions based on their input.
 
-    This function will give the user an option to run or fight. Either options will send the user to other functions.
+    This function gives the user an option to run or fight. Either options will send the user to other functions.
     The battle_start has a while loop implemented to keep the battle going until one of their hp values reach 0.
 
     :param player: a dictionary
@@ -893,7 +902,7 @@ def run_away_player(player: dict, monster: dict) -> dict:
     """Roll a die to determine if the player will get damaged while fleeing.
 
     The player has a 20% chance to avoid damage while running away. This is determined by rolling a 5 sided die once,
-    and if the rolled number is 1, they will be damaged. The damage amount will be determined by rolling a 4 sided die
+    and if the rolled number is 1, player will be damaged. The damage amount will be determined by rolling a 4 sided die
     once, and the player hp is updated by the damage amount. Else, no damage taken while fleeing.
 
     :param player: a dictionary
@@ -918,11 +927,11 @@ def run_away_player(player: dict, monster: dict) -> dict:
 
 
 def run_or_fight_again() -> str:
-    """Return the user choice for continuation of combat after rounds.
+    """Return the user choice for continuation of combat after one round.
 
     The function asks the player if they would like to continue fighting after every round.
 
-    :postcondition: return the correct choice from the list of options
+    :postcondition: return the correct choice from the list of options, Yes or No
     :return: a string
     """
     print(f"\nWould you like to keep fighting?\n")
@@ -1024,6 +1033,27 @@ def leveling_package(player: dict) -> None:
     :precondition: player must be a proper dictionary with correct character and information
     :postcondition: add correct amount to player's experience points
     :postcondition: correctly change the player's level and class_dictionary based on experience accumulated
+
+    >>> player_info = {'category': 'player', 'class': 'Warrior',
+    ... 'class_dictionary': {'accuracy_rate': 50, 'attack_name': 'Threaten', 'base_damage_max': 12,
+    ... 'base_damage_min': 7, 'experience_needed': 200, 'level': 1, 'level_name': 'Apprentice Warrior',
+    ... 'max_hp': 20}, 'experience': 0, 'hp': 20, 'level': 1, 'name': 'Leo', 'position': [0, 0]}
+    >>> leveling_package(player_info) #doctest: +NORMALIZE_WHITESPACE
+    {'category': 'player',
+                    'class': 'Warrior',
+                    'class_dictionary': {'accuracy_rate': 50,
+                                         'attack_name': 'Threaten',
+                                         'base_damage_max': 12,
+                                         'base_damage_min': 7,
+                                         'experience_needed': 200,
+                                         'level': 1,
+                                         'level_name': 'Apprentice Warrior',
+                                         'max_hp': 20},
+                    'experience': 100,
+                    'hp': 20,
+                    'level': 1,
+                    'name': 'Leo',
+                    'position': [0, 0]}
     """
     player["experience"] += 100
     check_level(player)
@@ -1221,7 +1251,7 @@ def game() -> None:
 
 def main():
     """Execute the program"""
-    # doctest.testmod(verbose=True)
+    doctest.testmod(verbose=True)
     init()
     game()
 
