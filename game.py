@@ -16,6 +16,10 @@ from typing import Union
 
 
 # Player Specifications
+def PLAYER_NAME_GENERATE():
+    return ['Paul', 'April', 'Leo', 'Michelle', "Choose my own"]
+
+
 def PLAYER_BASE_HP() -> int:
     """Return player base health point as a number 20.
 
@@ -218,6 +222,10 @@ def MONSTER_DAMAGE() -> dict:
 
 
 def RANDOM_MONSTER_ATTACK():
+    """Return a list of attack names.
+
+    :return: a list
+    """
     return ['Bite', 'Slash', 'Poisonous Trap']
 
 
@@ -238,7 +246,7 @@ def BOSS_MAX_HP() -> int:
 
     :return: an integer 30
     """
-    return 30
+    return 60
 
 
 def BOSS_MAX_DAMAGE() -> int:
@@ -258,6 +266,10 @@ def BOSS_POSITION() -> list:
 
 
 def RANDOM_BOSS_ATTACK():
+    """Return a list of attack names.
+
+    :return: a list
+    """
     return ['Massacre', "Demolish", "Torture", "Execute", "Harvest"]
 
 
@@ -458,12 +470,16 @@ def player_name_generator() -> str:
     :postcondition: gets user input and assigns it to variable
     :return: a string
     """
-    user_input = input("What will your name be for this game?: ")
-    capitalized_input = user_input.title()
-    while capitalized_input == "":
-        print("You can't have nothing for your name, but anything else works! Try again.")
+    print("Please choose one of the provided names, or your own.")
+    name_list = {str(keys): jobs for keys, jobs in enumerate(PLAYER_NAME_GENERATE(), 1)}
+    user_input = input_checker(name_list)
+    if user_input == "Choose my own":
         user_input = input("What will your name be for this game?: ")
-    print(f"\nWelcome to the game, {capitalized_input}. \n")
+        while user_input == "":
+            print("You can't have nothing for your name, but anything else works! Try again.")
+            user_input = input("What will your name be for this game?: ")
+    capitalized_input = user_input.title()
+    print(f"\nWelcome to the game, {user_input}. \n")
     sleep(1)
     return capitalized_input
 
