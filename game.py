@@ -473,6 +473,9 @@ def player_name_generator() -> str:
     print("Please choose one of the provided names, or your own.")
     name_list = {str(keys): jobs for keys, jobs in enumerate(PLAYER_NAME_GENERATE(), 1)}
     user_input = input_checker(name_list)
+    while user_input not in PLAYER_NAME_GENERATE():
+        print("That's not in the list of names you can choose from!")
+        user_input = input_checker(name_list)
     if user_input == "Choose my own":
         user_input = input("What will your name be for this game?: ")
         while user_input == "":
