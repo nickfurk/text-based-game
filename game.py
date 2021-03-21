@@ -643,7 +643,7 @@ def display_info(player: dict, board: dict) -> None:
     :param board: a dictionary
     :precondition: player and board must be a proper dictionary with correct character and information
     :postcondition: correctly prints the f strings of player position, location description, hp, level, class name,
-    and exp
+    and experience
     """
     coordinate = player["position"]
     print(f'Location: {list(filter(partial(filter_information, items="position"), player.items()))[0][1]}')
@@ -653,11 +653,6 @@ def display_info(player: dict, board: dict) -> None:
     print(f'Level: {list(filter(partial(filter_information, items="level"), player.items()))[0][1]}, '
           f'{list(filter(partial(filter_information, items="class_dictionary"), player.items()))[0][1]["level_name"]}')
     print(f'Experience: {list(filter(partial(filter_information, items="experience"), player.items()))[0][1]}')
-
-
-# #testing function
-# player_test = {"position": (2, 2), "description": "huanted room", "hp": 30, "level": 2, "experience": 800}
-# print(display_info(player_test, make_board()))
 
 
 def validate_move(current_position: list, user_direction: str) -> bool:
