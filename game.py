@@ -810,33 +810,14 @@ def random_monster(player: dict) -> dict:
                "category": "monster",
                "damage": "",
                "attack_name": RANDOM_MONSTER_ATTACK()}
-    check_monster_hp(player, monster)
-    check_monster_damage(player, monster)
+    check_monster_hp_and_damage(player, monster)
     return monster
 
 
-def check_monster_hp(player: dict, monster: dict) -> None:
-    """Check the player level to change the maximum monster hp.
-
-    :param player: a dictionary
-    :param monster: a dictionary
-    :precondition: player and monster must be a proper dictionary with correct character and information
-    :postcondition: correctly change the monster's hp value
-    """
+def check_monster_hp_and_damage(player, monster):
     player_current_level = check_level(player)
     monster_hp_dictionary = MONSTER_HP()
     monster["hp"] = monster_hp_dictionary[player_current_level]["hp"]
-
-
-def check_monster_damage(player: dict, monster: dict) -> None:
-    """Check the player level to change the maximum monster damage.
-
-    :param player: a dictionary
-    :param monster: a dictionary
-    :precondition: player and monster must be a proper dictionary with correct character and information
-    :postcondition: correctly change the monster's maximum damage value
-    """
-    player_current_level = check_level(player)
     monster_damage_dictionary = MONSTER_DAMAGE()
     monster["damage"] = monster_damage_dictionary[player_current_level]["damage"]
 
