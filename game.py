@@ -374,14 +374,12 @@ def LIST_OF_MONSTER_TYPES() -> list:
     return ["Cave of Alcarnus", "Necropolis Mines", "River of Kehjan", "Black Canyon Mines", "Ureh Caverns"]
 
 
-def make_board() -> dict:
-    """Generate game board as a dictionary.
+def LOCATION_DESCRIPTION() -> list:
+    """Return list of location description.
 
-    Function generates a dictionary with coordinate tuples as keys and location description as values.
-
-    :return: dictionary with coordinate tuples as keys and location description as values
+    :return: a list
     """
-    location_description = [
+    return [
         """The room is lit by the light seeping through from the previous location, but you instantly feel the
              difference in the atmosphere already. For some reason, you are just a bit more cold.""",
         """You start to move on an instinct as the seeping light no longer covers the entirety of the room
@@ -407,7 +405,16 @@ def make_board() -> dict:
              in the room. Although you are exhausted and hungry, you aren't sure these are safe to eat.""",
         """The room is pitch dark and makes you want to give up everything."""
     ]
-    cycle_location = itertools.cycle(location_description)
+
+
+def make_board() -> dict:
+    """Generate game board as a dictionary.
+
+    Function generates a dictionary with coordinate tuples as keys and location description as values.
+
+    :return: dictionary with coordinate tuples as keys and location description as values
+    """
+    cycle_location = itertools.cycle(LOCATION_DESCRIPTION())
     board = {(row, column): {"location_description": next(cycle_location)} for row in range(BOARD_SIZE())
              for column in range(BOARD_SIZE())}
     return board
@@ -612,7 +619,7 @@ def display_map(player: dict, boss: dict) -> None:
     for row in range(BOARD_SIZE()):
         for column in range(BOARD_SIZE()):
             if player["position"] == [row, column]:
-                print(u"\u001b[32;1m[X]\u001b[0m", end="")
+                print("\u001b[32m[X]\u001b[0m", end="")
             elif boss["position"] == [row, column]:
                 print(u"\u001b[31m[#]\u001b[0m", end="")
             else:
@@ -1279,13 +1286,12 @@ def game() -> None:
 
 def main():
     """Execute the program"""
-    doctest.testmod(verbose=True)
-    os.system("")
-    # game()
-    player = {"position": [1, 1]}
-    boss = {"position": [3, 2]}
-    display_map(player, boss)
-    press_enter_to_continue()
+    # doctest.testmod(verbose=True)
+    # init()
+    game()
+    # player = {"position": [1, 1]}
+    # boss = {"position": [3, 2]}
+    # display_map(player, boss)
 
 
 if __name__ == "__main__":
