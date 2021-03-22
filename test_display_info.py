@@ -36,12 +36,5 @@ class TestDisplayInfo(TestCase):
         board = {(0, 0): "The room is lit by the light seeping through from the previous location, but you instantly "
                          "feel the difference in the atmosphere already. For some reason, "
                          "you are just a bit more cold."}
-        expected_output = 'Location: [0, 0]\n' \
-                          'Description: The room is lit by the light seeping through from the previous location, but ' \
-                          'you instantly feel the difference in the atmosphere already. For some reason, you are ' \
-                          'just a bit more cold.\n' \
-                          'Health point: 20/20\n' \
-                          'Level: 1, / Apprentice Warrior\n' \
-                          'Experience: 0\n'
         display_info(player, board)
         self.assertEqual(type(mock_stdout.getvalue()), str)
