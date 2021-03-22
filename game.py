@@ -619,7 +619,7 @@ def display_map(player: dict, boss: dict) -> None:
     for row in range(BOARD_SIZE()):
         for column in range(BOARD_SIZE()):
             if player["position"] == [row, column]:
-                print(u"\u001b[32m;1m[X]\u001b[0m", end="")
+                print(u"\u001b[32;1m[X]\u001b[0m", end="")
             elif boss["position"] == [row, column]:
                 print(u"\u001b[31m[#]\u001b[0m", end="")
             else:
