@@ -521,6 +521,13 @@ def player_class_dictionary(player: dict) -> None:
     :param player: a dictionary
     :precondition: player must be a proper dictionary with key "class_dictionary" and key "class"
     :postcondition: correctly change the "class_dictionary" value depending on the player's key "class"
+
+    >>> player_info = {"class": "Mage", "experience": 500, "class_dictionary": ""}
+    >>> player_class_dictionary(player_info)
+    >>> print(player_info) #doctest: +NORMALIZE_WHITESPACE
+    {'class': 'Mage', 'experience': 500, 'class_dictionary': {'level': 2, 'level_name': 'Mage',
+    'experience_needed': 1000, 'attack_name': 'Firestorm', 'max_hp': 30, 'base_damage_min': 20,
+    'base_damage_max': 25, 'accuracy_rate': 40}, 'level': 2}
     """
     current_dictionary = return_class_dictionary(player)
     level = check_level(player)
@@ -1286,7 +1293,7 @@ def game() -> None:
 
 def main():
     """Execute the program"""
-    # doctest.testmod(verbose=True)
+    doctest.testmod(verbose=True)
     os.system("")
     game()
 
