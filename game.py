@@ -10,9 +10,8 @@ from itertools import count
 from random import randint, choice
 from time import sleep
 import doctest
-from functools import partial
-# from colorama import init, Fore, Style
 from typing import Union
+import os
 
 
 # Player Specifications
@@ -613,7 +612,7 @@ def display_map(player: dict, boss: dict) -> None:
     for row in range(BOARD_SIZE()):
         for column in range(BOARD_SIZE()):
             if player["position"] == [row, column]:
-                print("\u001b[32m[X]\u001b[0m", end="")
+                print(u"\u001b[32;1m[X]\u001b[0m", end="")
             elif boss["position"] == [row, column]:
                 print(u"\u001b[31m[#]\u001b[0m", end="")
             else:
@@ -1282,11 +1281,12 @@ def game() -> None:
 def main():
     """Execute the program"""
     doctest.testmod(verbose=True)
-    # init()
+    os.system("")
     # game()
     player = {"position": [1, 1]}
     boss = {"position": [3, 2]}
     display_map(player, boss)
+    press_enter_to_continue()
 
 
 if __name__ == "__main__":
