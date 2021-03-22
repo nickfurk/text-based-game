@@ -619,7 +619,7 @@ def display_map(player: dict, boss: dict) -> None:
     for row in range(BOARD_SIZE()):
         for column in range(BOARD_SIZE()):
             if player["position"] == [row, column]:
-                print("\u001b[32m[X]\u001b[0m", end="")
+                print(u"\u001b[32m;1m[X]\u001b[0m", end="")
             elif boss["position"] == [row, column]:
                 print(u"\u001b[31m[#]\u001b[0m", end="")
             else:
@@ -627,17 +627,17 @@ def display_map(player: dict, boss: dict) -> None:
         print()
 
 
-def filter_information(player: dict, item_string: str) -> tuple:
+def filter_information(player: dict, item_string: str) -> Union[int, str]:
     """Filter player dictionary by the items string.
 
-    The function is used for filtering through taking the parameter, items, and matching with the keys in player to
-    return the correct key/value pairs from the dictionary.
+    The function is used for filtering through taking the parameter, item_string, and matching with the keys in player
+    to filter the correct key/value from the dictionary and return the value.
 
     :param player: a dictionary
     :param item_string: a string
     :precondition: player must be a proper dictionary with correct character and information
-    :postcondition: correctly returns the correct filtered elements
-    :return: the correct filtered elements in a tuple
+    :postcondition: correctly returns the correct filtered value
+    :return: the correct filtered elements as a integer or string depending on value
 
     >>> player_info = {"level": 1, "experience": 300}
     >>> string = "level"
@@ -1287,11 +1287,8 @@ def game() -> None:
 def main():
     """Execute the program"""
     # doctest.testmod(verbose=True)
-    # init()
+    os.system("")
     game()
-    # player = {"position": [1, 1]}
-    # boss = {"position": [3, 2]}
-    # display_map(player, boss)
 
 
 if __name__ == "__main__":
