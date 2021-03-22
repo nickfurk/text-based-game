@@ -608,7 +608,7 @@ def display_map(player: dict, boss: dict) -> None:
     :param boss: a dictionary
     :precondition: player and boss must be a proper dictionary with the key "position"
     :precondition: player and boss position in the dictionary must be a list with two integer elements
-    :return: print player's and boss' position on a map
+    :postcondition: print the correct player's and boss' position on a correctly sized map
     """
     for row in range(BOARD_SIZE()):
         for column in range(BOARD_SIZE()):
@@ -621,19 +621,25 @@ def display_map(player: dict, boss: dict) -> None:
         print()
 
 
-def filter_information(player: dict, items: str) -> tuple:
+def filter_information(player: dict, item_string: str) -> tuple:
     """Filter player dictionary by the items string.
 
     The function is used for filtering through taking the parameter, items, and matching with the keys in player to
     return the correct key/value pairs from the dictionary.
 
     :param player: a dictionary
-    :param items: a string
+    :param item_string: a string
     :precondition: player must be a proper dictionary with correct character and information
     :postcondition: correctly returns the correct filtered elements
     :return: the correct filtered elements in a tuple
+
+    >>> player_info = {"level": 1, "experience": 300}
+    >>> string = "level"
+    >>> filter_information(player_info, string)
+    1
     """
-    return player[0] == items
+    filtered_dict = dict(filter(lambda item: item_string in item[0], player.items()))
+    return filtered_dict[item_string]
 
 
 def display_info(player: dict, board: dict) -> None:
@@ -646,13 +652,13 @@ def display_info(player: dict, board: dict) -> None:
     and experience
     """
     coordinate = player["position"]
-    print(f'Location: {list(filter(partial(filter_information, items="position"), player.items()))[0][1]}')
+    print(f'Location: {(filter_information(player, "position"))}')
     print(f'Description: {board[tuple(coordinate)]["location_description"]}')
-    print(f'Health point: {list(filter(partial(filter_information, items="hp"), player.items()))[0][1]}'
-          f'/{list(filter(partial(filter_information, items="class_dictionary"), player.items()))[0][1]["max_hp"]}')
-    print(f'Level: {list(filter(partial(filter_information, items="level"), player.items()))[0][1]}, '
-          f'{list(filter(partial(filter_information, items="class_dictionary"), player.items()))[0][1]["level_name"]}')
-    print(f'Experience: {list(filter(partial(filter_information, items="experience"), player.items()))[0][1]}')
+    print(f'Health point: {(filter_information(player, "hp"))}'
+          f'/{(filter_information(player["class_dictionary"], "max_hp"))}')
+    print(f'Level: {(filter_information(player, "level"))}, '
+          f'/{(filter_information(player["class_dictionary"], "level_name"))}')
+    print(f'Experience: {(filter_information(player, "experience"))}')
 
 
 def validate_move(current_position: list, user_direction: str) -> bool:
@@ -874,12 +880,10 @@ def check_monster_hp_and_damage(player, monster):
     :precondition: player and monster must be a proper dictionary with correct character and information
     :postcondition: correctly updates the monster' "hp" and "damage" value in the monster's dictionary
 
-    >>> player_info = {'class': 'Warrior', 'hp': 20, 'position': [0, 0], 'level': 2, 'experience': 400,
-    ... 'category': 'player', 'class_dictionary': {'level': 2, 'level_name': 'Apprentice Warrior',
-    ... 'experience_needed': 500, 'attack_name': 'Threaten', 'max_hp': 20, 'base_damage_min': 7, 'base_damage_max': 12,
-    ... 'accuracy_rate': 50}}
+    >>> player_info = {'class': 'Warrior', 'level': 2, 'experience': 400,'class_dictionary': {'experience_needed': 500}}
     >>> monster_info = {'name': 'Zelda', 'type': 'Cat', 'hp': 10, 'category': 'monster', 'damage': 10}
-    >>> check_monster_hp_and_damage(player_info, monster_info) +NORMALIZE_WHITESPACE
+    >>> check_monster_hp_and_damage(player_info, monster_info)
+    >>> print(monster_info)
     {'name': 'Zelda', 'type': 'Cat', 'hp': 15, 'category': 'monster', 'damage': 15}
     """
     player_current_level = check_level(player)
@@ -995,9 +999,7 @@ def run_away_monster(monster: dict, player: dict) -> bool:
     :postcondition: correctly return boolean value depending on situation
     :return: a boolean
     """
-    if monster["hp"] < 1:
-        return False
-    elif player["hp"] < 1:
+    if monster["hp"] < 1 or player["hp"] < 1:
         return False
     else:
         run_away_number = roll_die(1, RUN_AWAY_PROBABILITY())
@@ -1077,22 +1079,11 @@ def leveling_package(player: dict) -> None:
     ... 'class_dictionary': {'accuracy_rate': 50, 'attack_name': 'Threaten', 'base_damage_max': 12,
     ... 'base_damage_min': 7, 'experience_needed': 200, 'level': 1, 'level_name': 'Apprentice Warrior',
     ... 'max_hp': 20}, 'experience': 0, 'hp': 20, 'level': 1, 'name': 'Leo', 'position': [0, 0]}
-    >>> leveling_package(player_info) #doctest: +NORMALIZE_WHITESPACE
-    {'category': 'player',
-                    'class': 'Warrior',
-                    'class_dictionary': {'accuracy_rate': 50,
-                                         'attack_name': 'Threaten',
-                                         'base_damage_max': 12,
-                                         'base_damage_min': 7,
-                                         'experience_needed': 200,
-                                         'level': 1,
-                                         'level_name': 'Apprentice Warrior',
-                                         'max_hp': 20},
-                    'experience': 100,
-                    'hp': 20,
-                    'level': 1,
-                    'name': 'Leo',
-                    'position': [0, 0]}
+    >>> leveling_package(player_info)
+    >>> print(player_info) #doctest: +NORMALIZE_WHITESPACE
+    {'category': 'player', 'class': 'Warrior', 'class_dictionary': {'level': 1, 'level_name': 'Apprentice Warrior',
+    'experience_needed': 200, 'attack_name': 'Threaten', 'max_hp': 20, 'base_damage_min': 7, 'base_damage_max': 12,
+    'accuracy_rate': 50}, 'experience': 100, 'hp': 20, 'level': 1, 'name': 'Leo', 'position': [0, 0]}
     """
     player["experience"] += 100
     check_level(player)
@@ -1292,7 +1283,7 @@ def main():
     """Execute the program"""
     doctest.testmod(verbose=True)
     init()
-    game()
+    # game()
 
 
 if __name__ == "__main__":
