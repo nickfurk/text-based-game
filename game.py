@@ -11,7 +11,7 @@ from random import randint, choice
 from time import sleep
 import doctest
 from functools import partial
-from colorama import init, Fore, Style
+# from colorama import init, Fore, Style
 from typing import Union
 
 
@@ -613,9 +613,9 @@ def display_map(player: dict, boss: dict) -> None:
     for row in range(BOARD_SIZE()):
         for column in range(BOARD_SIZE()):
             if player["position"] == [row, column]:
-                print(Fore.GREEN + "[X]" + Style.RESET_ALL, end="")
+                print("\u001b[32m[X]\u001b[0m", end="")
             elif boss["position"] == [row, column]:
-                print(Fore.RED + "[#]" + Style.RESET_ALL, end="")
+                print(u"\u001b[31m[#]\u001b[0m", end="")
             else:
                 print("[ ]", end="")
         print()
@@ -1282,8 +1282,11 @@ def game() -> None:
 def main():
     """Execute the program"""
     doctest.testmod(verbose=True)
-    init()
+    # init()
     # game()
+    player = {"position": [1, 1]}
+    boss = {"position": [3, 2]}
+    display_map(player, boss)
 
 
 if __name__ == "__main__":
