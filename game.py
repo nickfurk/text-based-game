@@ -650,13 +650,12 @@ def display_info(player: dict, board: dict) -> None:
     :postcondition: correctly prints the f strings of player position, location description, hp, level, class name,
     and experience
     """
-    coordinate = player["position"]
     print(f'Location: {(filter_information(player, "position"))}')
-    print(f'Description: {board[tuple(coordinate)]["location_description"]}')
+    print(f'Description: {board[tuple((filter_information(player, "position")))]}')
     print(f'Health point: {(filter_information(player, "hp"))}'
           f'/{(filter_information(player["class_dictionary"], "max_hp"))}')
     print(f'Level: {(filter_information(player, "level"))}, '
-          f'/{(filter_information(player["class_dictionary"], "level_name"))}')
+          f'/ {(filter_information(player["class_dictionary"], "level_name"))}')
     print(f'Experience: {(filter_information(player, "experience"))}')
 
 
