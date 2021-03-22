@@ -466,7 +466,7 @@ def press_enter_to_continue() -> None:
 def game_over() -> None:
     """Generate a prompt to end the game."""
     print("\nThanks for playing! The game is over, goodbye!")
-    input("Press enter to end the game :)")
+    input("Type anything and press enter to close the game!")
     quit()
 
 
@@ -1249,13 +1249,13 @@ def fight_boss(player: dict, boss: dict) -> Union[dict, None]:
 def game_win_art() -> None:
     """Print ASCII art to congratulate the player for winning the game."""
     print("you win!")
-    press_enter_to_continue()
+    input("\nType anything and press enter to close the game!")
     quit()
 
 
 def player_dead_art():
     print("You are dead!")
-    press_enter_to_continue()
+    input("\nType anything and press enter to close the game!")
     quit()
 
 
