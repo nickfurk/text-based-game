@@ -94,7 +94,7 @@ def MAGE() -> dict:
             "accuracy_rate": 55},
         3: {"level": 3, "level_name": "Arch Mage", "attack_name": "Hellfire",
             "max_hp": PLAYER_BASE_HP() + (MAGE_HP_INCREMENT() * 2), "base_damage_min": 25, "base_damage_max": 35,
-            "accuracy_rate": 60}
+            "accuracy_rate": 70}
     }
 
 
@@ -107,13 +107,13 @@ def THIEF() -> dict:
     """
     return {
         1: {"level": 1, "level_name": "Apprentice Thief", "experience_needed": 200, "attack_name": "Pickpocket",
-            "max_hp": PLAYER_BASE_HP(), "base_damage_min": 5, "base_damage_max": 10, "accuracy_rate": 55},
+            "max_hp": PLAYER_BASE_HP(), "base_damage_min": 5, "base_damage_max": 10, "accuracy_rate": 65},
         2: {"level": 2, "level_name": "Bandit", "experience_needed": 500, "attack_name": "Boomerang Step",
             "max_hp": PLAYER_BASE_HP() + THIEF_HP_INCREMENT(), "base_damage_min": 10, "base_damage_max": 15,
-            "accuracy_rate": 70},
+            "accuracy_rate": 75},
         3: {"level": 3, "level_name": "Hermit", "attack_name": "Assassinate",
             "max_hp": PLAYER_BASE_HP() + (THIEF_HP_INCREMENT() * 2), "base_damage_min": 10, "base_damage_max": 15,
-            "accuracy_rate": 75}
+            "accuracy_rate": 80}
     }
 
 
@@ -126,13 +126,13 @@ def RANGER() -> dict:
     """
     return {
         1: {"level": 1, "level_name": "Apprentice Ranger", "experience_needed": 400, "attack_name": "Iron Arrow",
-            "max_hp": PLAYER_BASE_HP(), "base_damage_min": 5, "base_damage_max": 10, "accuracy_rate": 80},
+            "max_hp": PLAYER_BASE_HP(), "base_damage_min": 5, "base_damage_max": 10, "accuracy_rate": 85},
         2: {"level": 2, "level_name": "Sniper", "experience_needed": 800, "attack_name": "Mortal Blow",
             "max_hp": PLAYER_BASE_HP() + RANGER_HP_INCREMENT(), "base_damage_min": 10, "base_damage_max": 15,
-            "accuracy_rate": 85},
+            "accuracy_rate": 90},
         3: {"level": 3, "level_name": "Marksman", "attack_name": "Dragon's Breath",
             "max_hp": PLAYER_BASE_HP() + (RANGER_HP_INCREMENT() * 2), "base_damage_min": 15, "base_damage_max": 20,
-            "accuracy_rate": 90}
+            "accuracy_rate": 95}
     }
 
 
@@ -145,13 +145,13 @@ def WARRIOR() -> dict:
     """
     return {
         1: {"level": 1, "level_name": "Apprentice Warrior", "experience_needed": 500, "attack_name": "Threaten",
-            "max_hp": PLAYER_BASE_HP(), "base_damage_min": 5, "base_damage_max": 10, "accuracy_rate": 33},
+            "max_hp": PLAYER_BASE_HP(), "base_damage_min": 5, "base_damage_max": 10, "accuracy_rate": 50},
         2: {"level": 2, "level_name": "Knight", "experience_needed": 1000, "attack_name": "Power Crash",
             "max_hp": PLAYER_BASE_HP() + WARRIOR_HP_INCREMENT(), "base_damage_min": 10, "base_damage_max": 15,
-            "accuracy_rate": 33},
+            "accuracy_rate": 50},
         3: {"level": 3, "level_name": "Paladin", "attack_name": "Heaven's Hammer",
             "max_hp": PLAYER_BASE_HP() + (WARRIOR_HP_INCREMENT() * 2), "base_damage_min": 15, "base_damage_max": 20,
-            "accuracy_rate": 33}
+            "accuracy_rate": 50}
     }
 
 
@@ -310,7 +310,7 @@ def BATTLE_CHANCE_PROBABILITY() -> int:
 
     :return: an integer 5
     """
-    return 2
+    return 5
 
 
 def BOARD_SIZE() -> int:
@@ -465,8 +465,8 @@ def press_enter_to_continue() -> None:
 
 def game_over() -> None:
     """Generate a prompt to end the game."""
-    print("\nThanks for playing! The game is over, goodbye!")
-    input("Type anything and press enter to close the game!")
+    print("\n\n\nThanks for playing! The game is over, goodbye!")
+    input("\nType anything and press enter to close the game!")
     quit()
 
 
@@ -665,7 +665,7 @@ def display_info(player: dict, board: dict) -> None:
     and experience
     """
     print(f'Location: {(filter_information(player, "position"))}')
-    print(f'Description: {board[tuple((filter_information(player, "position")))]}')
+    print(f'Description: {board[tuple((filter_information(player, "position")))]["location_description"]}')
     print(f'Health point: {(filter_information(player, "hp"))}'
           f'/{(filter_information(player["class_dictionary"], "max_hp"))}')
     print(f'Level: {(filter_information(player, "level"))}, '
@@ -1193,6 +1193,7 @@ def make_boss() -> dict:
     :return: a dictionary
     """
     boss = {"name": PICK_RANDOM_BOSS_NAME(),
+            "category": "boss",
             "hp": BOSS_MAX_HP(),
             "damage": BOSS_MAX_DAMAGE(),
             "position": BOSS_POSITION(),
@@ -1255,13 +1256,13 @@ def fight_boss(player: dict, boss: dict) -> Union[dict, None]:
 
 def game_win_art() -> None:
     """Print ASCII art to congratulate the player for winning the game."""
-    print("you win!")
+    print("\n\n\nyou win!")
     input("\nType anything and press enter to close the game!")
     quit()
 
 
 def player_dead_art():
-    print("You are dead!")
+    print("\n\n\nYou are dead!")
     input("\nType anything and press enter to close the game!")
     quit()
 
@@ -1293,7 +1294,7 @@ def game() -> None:
 
 def main():
     """Execute the program"""
-    doctest.testmod(verbose=True)
+    # doctest.testmod(verbose=True)
     os.system("")
     game()
 
