@@ -15,7 +15,7 @@ import os
 
 
 # Player Specifications
-def PLAYER_NAME_GENERATE():
+def PLAYER_NAME_GENERATE() -> list:
     return ['Paul', 'April', 'Leo', 'Michelle', "Choose my own"]
 
 
@@ -49,7 +49,7 @@ def MAGE_HP_INCREMENT() -> int:
 
     :return: Mage class health point increment as integer 10
     """
-    return 10
+    return 5
 
 
 def THIEF_HP_INCREMENT() -> int:
@@ -220,7 +220,7 @@ def MONSTER_DAMAGE() -> dict:
     }
 
 
-def RANDOM_MONSTER_ATTACK():
+def RANDOM_MONSTER_ATTACK() -> list:
     """Return a list of attack names.
 
     :return: a list
@@ -264,7 +264,7 @@ def BOSS_POSITION() -> list:
     return [15, 15]
 
 
-def RANDOM_BOSS_ATTACK():
+def RANDOM_BOSS_ATTACK() -> list:
     """Return a list of attack names.
 
     :return: a list
@@ -882,7 +882,7 @@ def random_monster(player: dict) -> dict:
     return monster
 
 
-def check_monster_hp_and_damage(player, monster):
+def check_monster_hp_and_damage(player, monster) -> None:
     """Updates monster hp and damage level depending on the level of the player.
 
     As the player levels up, the monster hp and damage amount also increases incrementally.
@@ -1261,7 +1261,7 @@ def game_win_art() -> None:
     quit()
 
 
-def player_dead_art():
+def player_dead_art() -> None:
     print("\n\n\nYou are dead!")
     input("\nType anything and press enter to close the game!")
     quit()
