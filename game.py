@@ -433,6 +433,11 @@ def input_checker(dict_of_options: dict) -> str:
     """
     print(str(dict_of_options).replace(",", "\n"))
     user_input = input("\nPlease choose from the following list of options by typing in the corresponding number: \n")
+    while user_input not in dict_of_options:
+        print("That's not in the list of options. Please choose again!")
+        print(str(dict_of_options).replace(",", "\n"))
+        user_input = input("\nPlease choose from the following list of options by typing in the "
+                           "corresponding number: \n")
     for keys, values in dict_of_options.items():
         if user_input == keys:
             user_choice = values
@@ -472,15 +477,14 @@ def game_over() -> None:
 
 def random_name_generator():
     random_name = ' '.join(name.capitalize() for name in generate())
-    print(f"\n\u001b[32;1m{random_name}\u001b[0m was created randomly! Would you like to choose your own name or create"
-          f" another at random?\n")
+    print(f"\n\u001b[32;1m{random_name}\u001b[0m was created randomly! Would you like to choose your own name or create "
+          f"another at random?\n")
     list_choices = ["I would like to choose this name!", "I would like to choose another one at random",
                     "I would like to choose my own name!"]
     choices = {str(keys): jobs for keys, jobs in enumerate(list_choices, 1)}
     user_choice = input_checker(choices)
-    while choices not in list_choices:
-        print("That's not part of the choices. Please try again!")
-        user_choice = input_checker(choices)
+    if user_choice == "I would like to choose this name!":
+        user_choice = random_name
     return user_choice
 
 
@@ -516,9 +520,6 @@ def player_class_generator(player: dict) -> str:
           "to win the game successfully... \n")
     new_list_for_user = {str(keys): characters for keys, characters in zip(count(start=1, step=1), CLASS_LIST())}
     player_class = input_checker(new_list_for_user)
-    while player_class not in CLASS_LIST():
-        print("That's not in the list of jobs you can choose from!")
-        player_class = input_checker(new_list_for_user)
     player["class"] = player_class
     delayed_message(f"\n{player_class} is a great choice!\n", 0.75)
     return player_class
@@ -783,7 +784,7 @@ def move_character(player: dict, board: dict, boss: dict) -> list:
     if player["hp"] > 0:
         new_direction_list = {str(keys): jobs for keys, jobs in enumerate(DIRECTION_LIST(), 1)}
         user_input = input_checker(new_direction_list)
-        while user_input not in DIRECTION_LIST() or validate_move(player['position'], user_input):
+        while validate_move(player['position'], user_input):
             print("\nYou can't go that way! Choose again wisely.")
             user_input = input_checker(new_direction_list)
         player_movement_change(player["position"], user_input)
@@ -929,9 +930,6 @@ def fight_or_run_decision(monster: dict) -> str:
     print(f"\nYou have encountered {monster['name']}! Would you like to fight?\n")
     user_battle_decision = {str(keys): jobs for keys, jobs in zip(count(start=1, step=1), YES_OR_NO())}
     user_choice = input_checker(user_battle_decision)
-    while user_choice not in YES_OR_NO():
-        print(f"{user_choice} is not a valid choice!, Please choose again: ")
-        user_choice = input_checker(user_battle_decision)
     return user_choice
 
 
@@ -1003,9 +1001,6 @@ def run_or_fight_again() -> str:
     print(f"\nWould you like to keep fighting?\n")
     user_battle_decision = {str(keys): jobs for keys, jobs in zip(count(start=1, step=1), YES_OR_NO())}
     user_choice = input_checker(user_battle_decision)
-    while user_choice not in YES_OR_NO():
-        print(f"{user_choice} is not a valid choice!, Please choose again: ")
-        user_choice = input_checker(user_battle_decision)
     return user_choice
 
 
@@ -1231,9 +1226,6 @@ def fight_or_run_decision_boss_round(boss: dict) -> str:
                     f" higher chances of winning)", 1)
     user_battle_decision = {str(keys): jobs for keys, jobs in zip(count(start=1, step=1), YES_OR_NO())}
     user_choice = input_checker(user_battle_decision)
-    while user_choice not in YES_OR_NO():
-        print(f"{user_choice} is not a valid choice!, Please choose again: ")
-        user_choice = input_checker(user_battle_decision)
     return user_choice
 
 
