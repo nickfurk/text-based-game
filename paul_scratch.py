@@ -10,13 +10,12 @@ from itertools import count
 from random import randint, choice
 from time import sleep
 import doctest
-from functools import partial
-from colorama import init, Fore, Style
 from typing import Union
-
+import os
+from coolname import generate
 
 # Player Specifications
-def PLAYER_NAME_GENERATE():
+def PLAYER_NAME_GENERATE() -> list:
     return ['Paul', 'April', 'Leo', 'Michelle', "Choose my own"]
 
 
@@ -50,7 +49,7 @@ def MAGE_HP_INCREMENT() -> int:
 
     :return: Mage class health point increment as integer 10
     """
-    return 10
+    return 5
 
 
 def THIEF_HP_INCREMENT() -> int:
@@ -58,7 +57,7 @@ def THIEF_HP_INCREMENT() -> int:
 
     :return: Thief class health point increment as integer 10
     """
-    return 10
+    return 20
 
 
 def RANGER_HP_INCREMENT() -> int:
@@ -74,7 +73,7 @@ def WARRIOR_HP_INCREMENT() -> int:
 
     :return: Warrior class health point increment as integer 10
     """
-    return 10
+    return 30
 
 
 def MAGE() -> dict:
@@ -88,14 +87,14 @@ def MAGE() -> dict:
     :return: a dictionary
     """
     return {
-        1: {"level": 1, "level_name": "Apprentice Mage", "experience_needed": 500, "attack_name": "Fireball",
-            "max_hp": PLAYER_BASE_HP(), "base_damage_min": 15, "base_damage_max": 20, "accuracy_rate": 25},
-        2: {"level": 2, "level_name": "Mage", "experience_needed": 1000, "attack_name": "Firestorm",
+        1: {"level": 1, "level_name": "Apprentice Mage", "experience_needed": 300, "attack_name": "Fireball",
+            "max_hp": PLAYER_BASE_HP(), "base_damage_min": 15, "base_damage_max": 20, "accuracy_rate": 45},
+        2: {"level": 2, "level_name": "Mage", "experience_needed": 600, "attack_name": "Firestorm",
             "max_hp": PLAYER_BASE_HP() + MAGE_HP_INCREMENT(), "base_damage_min": 20, "base_damage_max": 25,
-            "accuracy_rate": 40},
+            "accuracy_rate": 55},
         3: {"level": 3, "level_name": "Arch Mage", "attack_name": "Hellfire",
-            "max_hp": PLAYER_BASE_HP() + (MAGE_HP_INCREMENT() * 2), "base_damage_min": 25, "base_damage_max": 30,
-            "accuracy_rate": 50}
+            "max_hp": PLAYER_BASE_HP() + (MAGE_HP_INCREMENT() * 2), "base_damage_min": 25, "base_damage_max": 35,
+            "accuracy_rate": 70}
     }
 
 
@@ -107,14 +106,14 @@ def THIEF() -> dict:
     :return: a dictionary
     """
     return {
-        1: {"level": 1, "level_name": "Apprentice Thief", "experience_needed": 100, "attack_name": "Pickpocket",
-            "max_hp": PLAYER_BASE_HP(), "base_damage_min": 1, "base_damage_max": 5, "accuracy_rate": 85},
-        2: {"level": 2, "level_name": "Bandit", "experience_needed": 300, "attack_name": "Boomerang Step",
-            "max_hp": PLAYER_BASE_HP() + THIEF_HP_INCREMENT(), "base_damage_min": 5, "base_damage_max": 10,
-            "accuracy_rate": 95},
+        1: {"level": 1, "level_name": "Apprentice Thief", "experience_needed": 200, "attack_name": "Pickpocket",
+            "max_hp": PLAYER_BASE_HP(), "base_damage_min": 5, "base_damage_max": 10, "accuracy_rate": 65},
+        2: {"level": 2, "level_name": "Bandit", "experience_needed": 500, "attack_name": "Boomerang Step",
+            "max_hp": PLAYER_BASE_HP() + THIEF_HP_INCREMENT(), "base_damage_min": 10, "base_damage_max": 15,
+            "accuracy_rate": 75},
         3: {"level": 3, "level_name": "Hermit", "attack_name": "Assassinate",
             "max_hp": PLAYER_BASE_HP() + (THIEF_HP_INCREMENT() * 2), "base_damage_min": 10, "base_damage_max": 15,
-            "accuracy_rate": 100}
+            "accuracy_rate": 80}
     }
 
 
@@ -126,14 +125,14 @@ def RANGER() -> dict:
     :return: a dictionary
     """
     return {
-        1: {"level": 1, "level_name": "Apprentice Ranger", "experience_needed": 500, "attack_name": "Iron Arrow",
-            "max_hp": PLAYER_BASE_HP(), "base_damage_min": 5, "base_damage_max": 10, "accuracy_rate": 50},
-        2: {"level": 2, "level_name": "Sniper", "experience_needed": 1000, "attack_name": "Mortal Blow",
+        1: {"level": 1, "level_name": "Apprentice Ranger", "experience_needed": 400, "attack_name": "Iron Arrow",
+            "max_hp": PLAYER_BASE_HP(), "base_damage_min": 5, "base_damage_max": 10, "accuracy_rate": 85},
+        2: {"level": 2, "level_name": "Sniper", "experience_needed": 800, "attack_name": "Mortal Blow",
             "max_hp": PLAYER_BASE_HP() + RANGER_HP_INCREMENT(), "base_damage_min": 10, "base_damage_max": 15,
-            "accuracy_rate": 60},
+            "accuracy_rate": 90},
         3: {"level": 3, "level_name": "Marksman", "attack_name": "Dragon's Breath",
             "max_hp": PLAYER_BASE_HP() + (RANGER_HP_INCREMENT() * 2), "base_damage_min": 15, "base_damage_max": 20,
-            "accuracy_rate": 75}
+            "accuracy_rate": 95}
     }
 
 
@@ -145,13 +144,13 @@ def WARRIOR() -> dict:
     :return: a dictionary
     """
     return {
-        1: {"level": 1, "level_name": "Apprentice Warrior", "experience_needed": 200, "attack_name": "Threaten",
-            "max_hp": PLAYER_BASE_HP(), "base_damage_min": 7, "base_damage_max": 12, "accuracy_rate": 50},
-        2: {"level": 2, "level_name": "Knight", "experience_needed": 500, "attack_name": "Power Crash",
-            "max_hp": PLAYER_BASE_HP() + WARRIOR_HP_INCREMENT(), "base_damage_min": 12, "base_damage_max": 18,
+        1: {"level": 1, "level_name": "Apprentice Warrior", "experience_needed": 500, "attack_name": "Threaten",
+            "max_hp": PLAYER_BASE_HP(), "base_damage_min": 5, "base_damage_max": 10, "accuracy_rate": 50},
+        2: {"level": 2, "level_name": "Knight", "experience_needed": 1000, "attack_name": "Power Crash",
+            "max_hp": PLAYER_BASE_HP() + WARRIOR_HP_INCREMENT(), "base_damage_min": 10, "base_damage_max": 15,
             "accuracy_rate": 50},
         3: {"level": 3, "level_name": "Paladin", "attack_name": "Heaven's Hammer",
-            "max_hp": PLAYER_BASE_HP() + (WARRIOR_HP_INCREMENT() * 2), "base_damage_min": 18, "base_damage_max": 24,
+            "max_hp": PLAYER_BASE_HP() + (WARRIOR_HP_INCREMENT() * 2), "base_damage_min": 15, "base_damage_max": 20,
             "accuracy_rate": 50}
     }
 
@@ -170,7 +169,7 @@ def MONSTER_HP_INCREMENT() -> int:
 
     :return: monster's health point increment as an integer 5
     """
-    return 5
+    return 7
 
 
 def MONSTER_HP() -> dict:
@@ -221,7 +220,7 @@ def MONSTER_DAMAGE() -> dict:
     }
 
 
-def RANDOM_MONSTER_ATTACK():
+def RANDOM_MONSTER_ATTACK() -> list:
     """Return a list of attack names.
 
     :return: a list
@@ -254,7 +253,7 @@ def BOSS_MAX_DAMAGE() -> int:
 
     :return: an integer 10
     """
-    return 10
+    return 20
 
 
 def BOSS_POSITION() -> list:
@@ -265,7 +264,7 @@ def BOSS_POSITION() -> list:
     return [15, 15]
 
 
-def RANDOM_BOSS_ATTACK():
+def RANDOM_BOSS_ATTACK() -> list:
     """Return a list of attack names.
 
     :return: a list
@@ -311,7 +310,7 @@ def BATTLE_CHANCE_PROBABILITY() -> int:
 
     :return: an integer 5
     """
-    return 2
+    return 5
 
 
 def BOARD_SIZE() -> int:
@@ -375,14 +374,12 @@ def LIST_OF_MONSTER_TYPES() -> list:
     return ["Cave of Alcarnus", "Necropolis Mines", "River of Kehjan", "Black Canyon Mines", "Ureh Caverns"]
 
 
-def make_board() -> dict:
-    """Generate game board as a dictionary.
+def LOCATION_DESCRIPTION() -> list:
+    """Return list of location description.
 
-    Function generates a dictionary with coordinate tuples as keys and location description as values.
-
-    :return: dictionary with coordinate tuples as keys and location description as values
+    :return: a list
     """
-    location_description = [
+    return [
         """The room is lit by the light seeping through from the previous location, but you instantly feel the
              difference in the atmosphere already. For some reason, you are just a bit more cold.""",
         """You start to move on an instinct as the seeping light no longer covers the entirety of the room
@@ -408,7 +405,16 @@ def make_board() -> dict:
              in the room. Although you are exhausted and hungry, you aren't sure these are safe to eat.""",
         """The room is pitch dark and makes you want to give up everything."""
     ]
-    cycle_location = itertools.cycle(location_description)
+
+
+def make_board() -> dict:
+    """Generate game board as a dictionary.
+
+    Function generates a dictionary with coordinate tuples as keys and location description as values.
+
+    :return: dictionary with coordinate tuples as keys and location description as values
+    """
+    cycle_location = itertools.cycle(LOCATION_DESCRIPTION())
     board = {(row, column): {"location_description": next(cycle_location)} for row in range(BOARD_SIZE())
              for column in range(BOARD_SIZE())}
     return board
@@ -459,9 +465,20 @@ def press_enter_to_continue() -> None:
 
 def game_over() -> None:
     """Generate a prompt to end the game."""
-    print("\nThanks for playing! The game is over, goodbye!")
-    input("Press enter to end the game :)")
+    print("\n\n\nThanks for playing! The game is over, goodbye!")
+    input("\nType anything and press enter to close the game!")
     quit()
+
+
+def random_name_generator():
+    random_name = ' '.join(name.capitalize() for name in generate())
+    print(f"\n\u001b[32;1m{random_name}\u001b[0m was created randomly! Would you like to choose your own name or create "
+          f"another at random?\n")
+    list_choices = ["I would like to choose this name!", "I would like to choose another one at random",
+                    "I would like to choose my own name!"]
+    choices = {str(keys): jobs for keys, jobs in enumerate(list_choices, 1)}
+    user_choice = input_checker(choices)
+    return user_choice
 
 
 def player_name_generator() -> str:
@@ -470,19 +487,16 @@ def player_name_generator() -> str:
     :postcondition: gets user input and assigns it to variable
     :return: a string
     """
-    print("Please choose one of the provided names, or your own.")
-    name_list = {str(keys): jobs for keys, jobs in enumerate(PLAYER_NAME_GENERATE(), 1)}
-    user_input = input_checker(name_list)
-    while user_input not in PLAYER_NAME_GENERATE():
-        print("That's not in the list of names you can choose from!")
-        user_input = input_checker(name_list)
-    if user_input == "Choose my own":
+    user_input = random_name_generator()
+    while user_input == "I would like to choose another one at random":
+        user_input = random_name_generator()
+    if user_input == "I would like to choose my own name!":
         user_input = input("What will your name be for this game?: ")
         while user_input == "":
             print("You can't have nothing for your name, but anything else works! Try again.")
             user_input = input("What will your name be for this game?: ")
     capitalized_input = user_input.title()
-    print(f"\nWelcome to the game, {capitalized_input}.\n")
+    print(f"\nWelcome to the game, \u001b[32;1m{capitalized_input}\u001b[0m.\n")
     sleep(1)
     return capitalized_input
 
@@ -515,6 +529,13 @@ def player_class_dictionary(player: dict) -> None:
     :param player: a dictionary
     :precondition: player must be a proper dictionary with key "class_dictionary" and key "class"
     :postcondition: correctly change the "class_dictionary" value depending on the player's key "class"
+
+    >>> player_info = {"class": "Mage", "experience": 500, "class_dictionary": ""}
+    >>> player_class_dictionary(player_info)
+    >>> print(player_info) #doctest: +NORMALIZE_WHITESPACE
+    {'class': 'Mage', 'experience': 500, 'class_dictionary': {'level': 2, 'level_name': 'Mage',
+    'experience_needed': 1000, 'attack_name': 'Firestorm', 'max_hp': 30, 'base_damage_min': 20,
+    'base_damage_max': 25, 'accuracy_rate': 40}, 'level': 2}
     """
     current_dictionary = return_class_dictionary(player)
     level = check_level(player)
@@ -613,33 +634,33 @@ def display_map(player: dict, boss: dict) -> None:
     for row in range(BOARD_SIZE()):
         for column in range(BOARD_SIZE()):
             if player["position"] == [row, column]:
-                print(Fore.GREEN + "[X]" + Style.RESET_ALL, end="")
+                print(u"\u001b[32;1m[X]\u001b[0m", end="")
             elif boss["position"] == [row, column]:
-                print(Fore.RED + "[#]" + Style.RESET_ALL, end="")
+                print(u"\u001b[31m[#]\u001b[0m", end="")
             else:
                 print("[ ]", end="")
         print()
 
 
-def filter_information(player, randomstring: str) -> tuple:
+def filter_information(player: dict, item_string: str) -> Union[int, str]:
     """Filter player dictionary by the items string.
 
-    The function is used for filtering through taking the parameter, items, and matching with the keys in player to
-    return the correct key/value pairs from the dictionary.
+    The function is used for filtering through taking the parameter, item_string, and matching with the keys in player
+    to filter the correct key/value from the dictionary and return the value.
 
     :param player: a dictionary
-    :param items: a string
+    :param item_string: a string
     :precondition: player must be a proper dictionary with correct character and information
-    :postcondition: correctly returns the correct filtered elements
-    :return: the correct filtered elements in a tuple
+    :postcondition: correctly returns the correct filtered value
+    :return: the correct filtered elements as a integer or string depending on value
 
-    >>> player = {"level": 1, "experience": 300, "position": [1, 1]}
-    >>> randomstring = "position"
-    >>> filter_information(player, randomstring)
-    [1, 1]
+    >>> player_info = {"level": 1, "experience": 300}
+    >>> string = "level"
+    >>> filter_information(player_info, string)
+    1
     """
-    filtered_dict = dict(filter(lambda item: randomstring in item[0], player.items()))
-    return filtered_dict[randomstring]
+    filtered_dict = dict(filter(lambda item: item_string in item[0], player.items()))
+    return filtered_dict[item_string]
 
 
 def display_info(player: dict, board: dict) -> None:
@@ -651,14 +672,13 @@ def display_info(player: dict, board: dict) -> None:
     :postcondition: correctly prints the f strings of player position, location description, hp, level, class name,
     and experience
     """
-    coordinate = player["position"]
     print(f'Location: {(filter_information(player, "position"))}')
-    # print(f'Description: {board[tuple(coordinate)]["location_description"]}')
-    # print(f'Health point: {list(filter(partial(filter_information, items="hp"), player.items()))[0][1]}'
-    #       f'/{list(filter(partial(filter_information, items="class_dictionary"), player.items()))[0][1]["max_hp"]}')
-    # print(f'Level: {list(filter(partial(filter_information, items="level"), player.items()))[0][1]}, '
-    #       f'{list(filter(partial(filter_information, items="class_dictionary"), player.items()))[0][1]["level_name"]}')
-    # print(f'Experience: {list(filter(partial(filter_information, items="experience"), player.items()))[0][1]}')
+    print(f'Description: {board[tuple((filter_information(player, "position")))]["location_description"]}')
+    print(f'Health point: {(filter_information(player, "hp"))}'
+          f'/{(filter_information(player["class_dictionary"], "max_hp"))}')
+    print(f'Level: {(filter_information(player, "level"))}, '
+          f'{(filter_information(player["class_dictionary"], "level_name"))}')
+    print(f'Experience: {(filter_information(player, "experience"))}')
 
 
 def validate_move(current_position: list, user_direction: str) -> bool:
@@ -870,7 +890,7 @@ def random_monster(player: dict) -> dict:
     return monster
 
 
-def check_monster_hp_and_damage(player, monster):
+def check_monster_hp_and_damage(player, monster) -> None:
     """Updates monster hp and damage level depending on the level of the player.
 
     As the player levels up, the monster hp and damage amount also increases incrementally.
@@ -1181,6 +1201,7 @@ def make_boss() -> dict:
     :return: a dictionary
     """
     boss = {"name": PICK_RANDOM_BOSS_NAME(),
+            "category": "boss",
             "hp": BOSS_MAX_HP(),
             "damage": BOSS_MAX_DAMAGE(),
             "position": BOSS_POSITION(),
@@ -1243,14 +1264,14 @@ def fight_boss(player: dict, boss: dict) -> Union[dict, None]:
 
 def game_win_art() -> None:
     """Print ASCII art to congratulate the player for winning the game."""
-    print("you win!")
-    press_enter_to_continue()
+    print("\n\n\nyou win!")
+    input("\nType anything and press enter to close the game!")
     quit()
 
 
-def player_dead_art():
-    print("You are dead!")
-    press_enter_to_continue()
+def player_dead_art() -> None:
+    print("\n\n\nYou are dead!")
+    input("\nType anything and press enter to close the game!")
     quit()
 
 
@@ -1281,17 +1302,9 @@ def game() -> None:
 
 def main():
     """Execute the program"""
-    doctest.testmod(verbose=True)
-    init()
-    # game()
-    # player_info = {"level": 1, "experience": 300, "position": [1, 1]}
-    # board = {}
-    # player_items = player_info.items()
-    # item = "level"
-    # filter_information(player_info, item)
-    # print(player_info.items())
-    # display_info(player_info, board)
-
+    # doctest.testmod(verbose=True)
+    os.system("")
+    game()
 
 
 if __name__ == "__main__":
