@@ -472,12 +472,15 @@ def game_over() -> None:
 
 def random_name_generator():
     random_name = ' '.join(name.capitalize() for name in generate())
-    print(f"\n\u001b[32;1m{random_name}\u001b[0m was created randomly! Would you like to choose your own name or create "
-          f"another at random?\n")
+    print(f"\n\u001b[32;1m{random_name}\u001b[0m was created randomly! Would you like to choose your own name or create"
+          f" another at random?\n")
     list_choices = ["I would like to choose this name!", "I would like to choose another one at random",
                     "I would like to choose my own name!"]
     choices = {str(keys): jobs for keys, jobs in enumerate(list_choices, 1)}
     user_choice = input_checker(choices)
+    while choices not in list_choices:
+        print("That's not part of the choices. Please try again!")
+        user_choice = input_checker(choices)
     return user_choice
 
 
