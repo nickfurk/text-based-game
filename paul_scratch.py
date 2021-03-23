@@ -487,6 +487,16 @@ def random_name_generator():
         user_choice = random_name
     return user_choice
 
+#
+# def confirm_choice():
+#     print("Are you sure?")
+#     choice_list = {str(keys): characters for keys, characters in zip(count(start=1, step=1), YES_OR_NO())}
+#     user_choice = input_checker(choice_list)
+#     if user_choice == "Yes":
+#         return False
+#     else:
+#         return True
+
 
 def player_name_generator() -> str:
     """Create a name based on user input.

@@ -469,7 +469,11 @@ def press_enter_to_continue() -> None:
 
 
 def game_over() -> None:
-    """Generate a prompt to end the game."""
+    """Generate a prompt to end the game.
+
+    The function will run when the player chooses "quit" in move_character function. This will print a message, and
+    the game will be terminated.
+    """
     print("\n\n\nThanks for playing! The game is over, goodbye!")
     input("\nType anything and press enter to close the game!")
     quit()
