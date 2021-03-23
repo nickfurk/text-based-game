@@ -485,7 +485,7 @@ def random_name_generator():
           f"another at random?\n")
     list_choices = ["I would like to choose this name!", "I would like to choose another one at random",
                     "I would like to choose my own name!"]
-    choices = {str(keys): jobs for keys, jobs in enumerate(list_choices, 1)}
+    choices = {str(keys): names for keys, names in enumerate(list_choices, 1)}
     user_choice = input_checker(choices)
     if user_choice == "I would like to choose this name!":
         user_choice = random_name
