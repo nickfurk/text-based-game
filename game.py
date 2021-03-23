@@ -12,7 +12,7 @@ from time import sleep
 import doctest
 from typing import Union
 import os
-
+from coolname import generate
 
 # Player Specifications
 def PLAYER_NAME_GENERATE() -> list:
@@ -470,25 +470,33 @@ def game_over() -> None:
     quit()
 
 
+def random_name_generator():
+    random_name = ' '.join(name.capitalize() for name in generate())
+    print(f"\n\u001b[32;1m{random_name}\u001b[0m was created randomly! Would you like to choose your own name or create "
+          f"another at random?\n")
+    list_choices = ["I would like to choose this name!", "I would like to choose another one at random",
+                    "I would like to choose my own name!"]
+    choices = {str(keys): jobs for keys, jobs in enumerate(list_choices, 1)}
+    user_choice = input_checker(choices)
+    return user_choice
+
+
 def player_name_generator() -> str:
     """Create a name based on user input.
 
     :postcondition: gets user input and assigns it to variable
     :return: a string
     """
-    print("Please choose one of the provided names, or your own.")
-    name_list = {str(keys): jobs for keys, jobs in enumerate(PLAYER_NAME_GENERATE(), 1)}
-    user_input = input_checker(name_list)
-    while user_input not in PLAYER_NAME_GENERATE():
-        print("That's not in the list of names you can choose from!")
-        user_input = input_checker(name_list)
-    if user_input == "Choose my own":
+    user_input = random_name_generator()
+    while user_input == "I would like to choose another one at random":
+        user_input = random_name_generator()
+    if user_input == "I would like to choose my own name!":
         user_input = input("What will your name be for this game?: ")
         while user_input == "":
             print("You can't have nothing for your name, but anything else works! Try again.")
             user_input = input("What will your name be for this game?: ")
     capitalized_input = user_input.title()
-    print(f"\nWelcome to the game, {capitalized_input}.\n")
+    print(f"\nWelcome to the game, \u001b[32;1m{capitalized_input}\u001b[0m.\n")
     sleep(1)
     return capitalized_input
 
