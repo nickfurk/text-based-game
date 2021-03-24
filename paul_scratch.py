@@ -432,16 +432,14 @@ def input_checker(dict_of_options: dict) -> str:
     :return: value of the chosen key as a string
     """
     print(str(dict_of_options).replace(",", "\n"))
-    user_input = input("\nPlease choose from the following list of options by typing in the corresponding number: \n")
+    user_input = int(input("\nPlease choose from the following list of options by typing in the corresponding "
+                           "number: \n"))
     while user_input not in dict_of_options:
         print("That's not in the list of options. Please choose again!")
         print(str(dict_of_options).replace(",", "\n"))
-        user_input = input("\nPlease choose from the following list of options by typing in the "
-                           "corresponding number: \n")
-    for keys, values in dict_of_options.items():
-        if user_input == keys:
-            user_choice = values
-            return user_choice
+        user_input = int(input("\nPlease choose from the following list of options by typing in the corresponding "
+                               "number: \n"))
+    return dict_of_options[user_input]
 
 
 def delayed_message(message: str, delay: float) -> None:
@@ -469,7 +467,11 @@ def press_enter_to_continue() -> None:
 
 
 def game_over() -> None:
-    """Generate a prompt to end the game."""
+    """Generate a prompt to end the game.
+
+    The function will run when the player chooses "quit" in move_character function. This will print a message, and
+    the game will be terminated.
+    """
     print("\n\n\nThanks for playing! The game is over, goodbye!")
     input("\nType anything and press enter to close the game!")
     quit()
@@ -481,21 +483,11 @@ def random_name_generator():
           f"another at random?\n")
     list_choices = ["I would like to choose this name!", "I would like to choose another one at random",
                     "I would like to choose my own name!"]
-    choices = {str(keys): jobs for keys, jobs in enumerate(list_choices, 1)}
+    choices = {int(keys): names for keys, names in enumerate(list_choices, 1)}
     user_choice = input_checker(choices)
     if user_choice == "I would like to choose this name!":
         user_choice = random_name
     return user_choice
-
-#
-# def confirm_choice():
-#     print("Are you sure?")
-#     choice_list = {str(keys): characters for keys, characters in zip(count(start=1, step=1), YES_OR_NO())}
-#     user_choice = input_checker(choice_list)
-#     if user_choice == "Yes":
-#         return False
-#     else:
-#         return True
 
 
 def player_name_generator() -> str:
@@ -515,7 +507,7 @@ def player_name_generator() -> str:
     capitalized_input = user_input.title()
     print(f"\nWelcome to the game, \u001b[32;1m{capitalized_input}\u001b[0m.\n")
     sleep(1)
-    return capitalized_input
+    return f"\u001b[32;1m" + capitalized_input + f"\u001b[0m"
 
 
 def player_class_generator(player: dict) -> str:
@@ -528,7 +520,7 @@ def player_class_generator(player: dict) -> str:
     """
     print("Below is the list of characters you can choose to play in the game. Choose wisely so that you'll be able "
           "to win the game successfully... \n")
-    new_list_for_user = {str(keys): characters for keys, characters in zip(count(start=1, step=1), CLASS_LIST())}
+    new_list_for_user = {int(keys): characters for keys, characters in zip(count(start=1, step=1), CLASS_LIST())}
     player_class = input_checker(new_list_for_user)
     player["class"] = player_class
     delayed_message(f"\n{player_class} is a great choice!\n", 0.75)
@@ -737,7 +729,7 @@ def validate_move(current_position: list, user_direction: str) -> bool:
         return False
 
 
-def player_movement_change(current_position: list, user_direction: str) -> Union[list, None]:
+def player_movement_change(current_position: list, user_direction: str) -> None:
     """Change the current_position to the desired direction.
 
     :param current_position: a list
@@ -766,21 +758,17 @@ def player_movement_change(current_position: list, user_direction: str) -> Union
     """
     if user_direction == "W":
         current_position[1] -= 1
-        return current_position
     elif user_direction == "E":
         current_position[1] += 1
-        return current_position
     elif user_direction == "S":
         current_position[0] += 1
-        return current_position
     elif user_direction == "N":
         current_position[0] -= 1
-        return current_position
     else:
         game_over()
 
 
-def move_character(player: dict, board: dict, boss: dict) -> list:
+def move_character(player: dict, board: dict, boss: dict) -> None:
     """Change the position of the player to a new position based on user input.
 
     :param player: a dictionary
@@ -791,14 +779,12 @@ def move_character(player: dict, board: dict, boss: dict) -> list:
     :return: a changed player's new position in a list
     """
     player_game_descriptions(player, board, boss)
-    if player["hp"] > 0:
-        new_direction_list = {str(keys): jobs for keys, jobs in enumerate(DIRECTION_LIST(), 1)}
+    new_direction_list = {int(keys): jobs for keys, jobs in enumerate(DIRECTION_LIST(), 1)}
+    user_input = input_checker(new_direction_list)
+    while validate_move(player['position'], user_input):
+        print("\nYou can't go that way! Choose again wisely.")
         user_input = input_checker(new_direction_list)
-        while validate_move(player['position'], user_input):
-            print("\nYou can't go that way! Choose again wisely.")
-            user_input = input_checker(new_direction_list)
-        player_movement_change(player["position"], user_input)
-        return player["position"]
+    player_movement_change(player["position"], user_input)
 
 
 
@@ -939,7 +925,7 @@ def fight_or_run_decision(monster: dict) -> str:
     :return: a string
     """
     print(f"\nYou have encountered {monster['name']}! Would you like to fight?\n")
-    user_battle_decision = {str(keys): jobs for keys, jobs in zip(count(start=1, step=1), YES_OR_NO())}
+    user_battle_decision = {int(keys): jobs for keys, jobs in zip(count(start=1, step=1), YES_OR_NO())}
     user_choice = input_checker(user_battle_decision)
     return user_choice
 
@@ -959,21 +945,18 @@ def combat_round(player: dict, monster: dict) -> Union[dict, None]:
         while player["hp"] > 0 and monster["hp"] > 0:
             battle_start(player, monster, battle_attack_order())
             if run_away_monster(monster, player) and (monster["hp"] > 0 and player["hp"] > 0):
+                return
+            if run_or_fight_again() == "No" and (monster["hp"] > 0 and player["hp"] > 0):
+                run_away_player(player, monster)
                 return player
-            elif monster["hp"] > 0 and player["hp"] > 0:
-                if run_or_fight_again() == "No":
-                    run_away_player(player, monster)
-                    return player
-                else:
-                    continue
-            elif monster["hp"] < 1 and player["hp"] > 0:
+            else:
                 continue
         press_enter_to_continue()
     else:
         run_away_player(player, monster)
 
 
-def run_away_player(player: dict, monster: dict) -> dict:
+def run_away_player(player: dict, monster: dict) -> None:
     """Roll a die to determine if the player will get damaged while fleeing.
 
     The player has a 20% chance to avoid damage while running away. This is determined by rolling a 5 sided die once,
@@ -992,13 +975,10 @@ def run_away_player(player: dict, monster: dict) -> dict:
         player["hp"] -= run_away_damage
         delayed_message(f"You've been damaged {run_away_damage} hp by {monster['name']} while running away!"
                         f"\nYou only have {player['hp']} hp left! Be careful {player['name']}!", 1)
-        press_enter_to_continue()
-        return player
     else:
         delayed_message(f"You've run away successfully from {monster['name']}!\n"
                         f"You were very lucky this time...\n", 1)
-        press_enter_to_continue()
-        return player
+    press_enter_to_continue()
 
 
 def run_or_fight_again() -> str:
@@ -1010,7 +990,7 @@ def run_or_fight_again() -> str:
     :return: a string
     """
     print(f"\nWould you like to keep fighting?\n")
-    user_battle_decision = {str(keys): jobs for keys, jobs in zip(count(start=1, step=1), YES_OR_NO())}
+    user_battle_decision = {int(keys): jobs for keys, jobs in zip(count(start=1, step=1), YES_OR_NO())}
     user_choice = input_checker(user_battle_decision)
     return user_choice
 
@@ -1085,7 +1065,7 @@ def battle_start(player: dict, monster: dict, attacker: bool) -> None:
             attacking_round(monster, player, roll_die(1, monster["damage"]))
         else:
             leveling_package(player)
-    elif attacker is False:
+    else:
         attacking_round(monster, player, roll_die(1, monster["damage"]))
         if player['hp'] > 0:
             attacking_round(player, monster, player_damage(player))
@@ -1131,7 +1111,7 @@ def player_damage(player: dict) -> int:
     :postcondition: return correct damage integer depending the dice roll result
     :return: zero or a positive integer
     """
-    accuracy_roll = randint(1, 100)
+    accuracy_roll = randint(1, 101)
     if accuracy_roll <= player["class_dictionary"]["accuracy_rate"]:
         damage = randint(player["class_dictionary"]["base_damage_min"],
                          player["class_dictionary"]["base_damage_max"])
@@ -1183,7 +1163,6 @@ def attacking_round(attacker: dict, opponent: dict, damage_amount: int) -> dict:
             delayed_message(f"{attacker['name']} has used {choice(attacker['attack_name'])} and "
                             f"has done {damage_amount} damage to {opponent['name']}!"
                             f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
-    return opponent
 
 
 def player_game_descriptions(player: dict, board: dict, boss: dict) -> None:
@@ -1235,12 +1214,12 @@ def fight_or_run_decision_boss_round(boss: dict) -> str:
                     f" believe you are ready to defeat the boss!\n", 1)
     delayed_message(f"\nWould you like to fight?\n(We recommend going up against the boss at level 3, as you will have"
                     f" higher chances of winning)", 1)
-    user_battle_decision = {str(keys): jobs for keys, jobs in zip(count(start=1, step=1), YES_OR_NO())}
+    user_battle_decision = {int(keys): jobs for keys, jobs in zip(count(start=1, step=1), YES_OR_NO())}
     user_choice = input_checker(user_battle_decision)
     return user_choice
 
 
-def fight_boss(player: dict, boss: dict) -> Union[dict, None]:
+def fight_boss(player: dict, boss: dict) -> None:
     """Direct the user to different functions based on their input.
 
     This function will give the user an option to run or fight when meeting boss. Either options will send the user to
@@ -1258,7 +1237,6 @@ def fight_boss(player: dict, boss: dict) -> Union[dict, None]:
             if boss["hp"] > 0 and player["hp"] > 0:
                 if run_or_fight_again() == "No":
                     run_away_player(player, boss)
-                    return player
                 else:
                     continue
             elif boss["hp"] < 1 and player["hp"] > 0:

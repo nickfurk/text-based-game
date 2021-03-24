@@ -7,8 +7,8 @@ from coolname import generate
 class TestRandomNameGenerator(TestCase):
 
     @patch('builtins.input', side_effect=["1"])
-    @patch('coolname.generate', return_value="Stirring Lyrebird")
-    def test_select_generated_name(self, mock_name, mock_input):
+    @patch('game.generate', side_effect=["Stirring Lyrebird"])
+    def test_select_generated_name(self, mock_generate, mock_input):
         actual = random_name_generator()
         expected = "Stirring Lyrebird"
         self.assertEqual(actual, expected)
