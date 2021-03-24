@@ -314,7 +314,7 @@ def BATTLE_CHANCE_PROBABILITY() -> int:
 
     :return: an integer 5
     """
-    return 4
+    return 5
 
 
 def BOARD_SIZE() -> int:
@@ -658,13 +658,12 @@ def display_info(player: dict, board: dict) -> None:
     :postcondition: correctly prints the f strings of player position, location description, hp, level, class name,
     and experience
     """
+    coordinate = player["position"]
     print(f'Location: {player["position"]}')
-    print(f'Description: {board[tuple((filter_information(player, "position")))]["location_description"]}')
-    print(f'Health point: {(filter_information(player, "hp"))}'
-          f'/{(filter_information(player["class_dictionary"], "max_hp"))}')
-    print(f'Level: {(filter_information(player, "level"))}, '
-          f'{(filter_information(player["class_dictionary"], "level_name"))}')
-    print(f'Experience: {(filter_information(player, "experience"))}')
+    print(f'Description: {board[tuple(coordinate)]["location_description"]}')
+    print(f'Health point: {player["hp"]}/ {player["class_dictionary"]["max_hp"]}')
+    print(f'Level: {player["level"]} {player["class_dictionary"]["level_name"]}')
+    print(f'Experience: {player["experience"]}')
 
 
 def validate_move(current_position: list, user_direction: str) -> bool:
