@@ -15,6 +15,11 @@ import os
 from coolname import generate
 
 # Player Specifications
+def PLAYER_NAME_CHOICES():
+    return ["I would like to choose this name!", "I would like to choose another one at random",
+            "I would like to choose my own name!"]
+
+
 def PLAYER_NAME_GENERATE() -> list:
     return ['Paul', 'April', 'Leo', 'Michelle', "Choose my own"]
 
@@ -481,9 +486,7 @@ def random_name_generator():
     random_name = ' '.join(name.capitalize() for name in generate())
     print(f"\n\u001b[32;1m{random_name}\u001b[0m was created randomly! Would you like to choose your own name or create"
           f" another at random?\n")
-    list_choices = ["I would like to choose this name!", "I would like to choose another one at random",
-                    "I would like to choose my own name!"]
-    choices = {int(keys): names for keys, names in enumerate(list_choices, 1)}
+    choices = {int(keys): names for keys, names in enumerate(PLAYER_NAME_CHOICES(), 1)}
     user_choice = input_checker(choices)
     if user_choice == "I would like to choose this name!":
         user_choice = random_name
@@ -507,7 +510,7 @@ def player_name_generator() -> str:
     capitalized_input = user_input.title()
     print(f"\nWelcome to the game, \u001b[32;1m{capitalized_input}\u001b[0m.\n")
     sleep(1)
-    return capitalized_input
+    return f"\u001b[32;1m" + capitalized_input + f"\u001b[0m"
 
 
 def player_class_generator(player: dict) -> str:
@@ -523,7 +526,8 @@ def player_class_generator(player: dict) -> str:
     new_list_for_user = {int(keys): characters for keys, characters in zip(count(start=1, step=1), CLASS_LIST())}
     player_class = input_checker(new_list_for_user)
     player["class"] = player_class
-    delayed_message(f"\n{player_class} is a great choice!\n", 0.75)
+    print(f"\n{player_class} is a great choice!\n")
+    sleep(1)
     return player_class
 
 
@@ -785,7 +789,6 @@ def move_character(player: dict, board: dict, boss: dict) -> list:
         print("\nYou can't go that way! Choose again wisely.")
         user_input = input_checker(new_direction_list)
     player_movement_change(player["position"], user_input)
-    return player["position"]
 
 
 def roll_die(number_of_rolls: int, number_of_sides: int) -> int:
@@ -881,7 +884,7 @@ def random_monster(player: dict) -> dict:
     """
     random_monster_name = choice(LIST_OF_MONSTERS())
     random_monster_type = choice(LIST_OF_MONSTER_TYPES())
-    monster = {"name": random_monster_name,
+    monster = {"name": f"\u001b[33;1m" + random_monster_name + f"\u001b[0m",
                "type": random_monster_type,
                "hp": "",
                "category": "monster",

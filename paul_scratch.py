@@ -407,6 +407,11 @@ def LOCATION_DESCRIPTION() -> list:
     ]
 
 
+def PLAYER_NAME_CHOICES():
+    return ["I would like to choose this name!", "I would like to choose another one at random",
+            "I would like to choose my own name!"]
+
+
 def make_board() -> dict:
     """Generate game board as a dictionary.
 
@@ -477,13 +482,11 @@ def game_over() -> None:
     quit()
 
 
-def random_name_generator():
+def RANDOM_NAME_GENERATOR():
     random_name = ' '.join(name.capitalize() for name in generate())
-    print(f"\n\u001b[32;1m{random_name}\u001b[0m was created randomly! Would you like to choose your own name or create "
-          f"another at random?\n")
-    list_choices = ["I would like to choose this name!", "I would like to choose another one at random",
-                    "I would like to choose my own name!"]
-    choices = {int(keys): names for keys, names in enumerate(list_choices, 1)}
+    print(f"\n\u001b[32;1m{random_name}\u001b[0m was created randomly! Would you like to choose your own name or create"
+          f" another at random?\n")
+    choices = {int(keys): names for keys, names in enumerate(PLAYER_NAME_CHOICES(), 1)}
     user_choice = input_checker(choices)
     if user_choice == "I would like to choose this name!":
         user_choice = random_name
