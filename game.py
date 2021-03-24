@@ -233,15 +233,14 @@ def RANDOM_MONSTER_ATTACK() -> list:
 
 
 # Boss Specifications
-def PICK_RANDOM_BOSS_NAME() -> str:
+def LIST_OF_BOSS_NAME() -> list:
     """Return a random string from the list of strings.
 
     The function will pick a random name from the provided list of boss names.
 
     :return: a string
     """
-    boss_names = ["Kalzeruth", "Mandrasath", "Claughuth", "Felscathor"]
-    return choice(boss_names)
+    return ["Kalzeruth", "Mandrasath", "Claughuth", "Felscathor"]
 
 
 def BOSS_MAX_HP() -> int:
@@ -1173,7 +1172,8 @@ def make_boss() -> dict:
 
     :return: a dictionary
     """
-    boss = {"name": f"\u001b[31m" + PICK_RANDOM_BOSS_NAME() + f"\u001b[0m",
+    boss_name = choice(LIST_OF_BOSS_NAME())
+    boss = {"name": f"\u001b[31m" + boss_name + f"\u001b[0m",
             "category": "boss",
             "hp": BOSS_MAX_HP(),
             "damage": BOSS_MAX_DAMAGE(),
