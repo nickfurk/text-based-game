@@ -3,7 +3,6 @@ from game import check_level
 
 
 class TestCheckLevel(TestCase):
-
     def test_check_level_return_1(self):
         player_info = {"class": "Mage", "experience": 0}
         actual = check_level(player_info)

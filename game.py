@@ -129,9 +129,9 @@ def RANGER() -> dict:
     :return: a dictionary
     """
     return {
-        1: {"level": 1, "level_name": "Apprentice Ranger", "experience_needed": 400, "attack_name": "Iron Arrow",
+        1: {"level": 1, "level_name": "Apprentice Ranger", "experience_needed": 300, "attack_name": "Iron Arrow",
             "max_hp": PLAYER_BASE_HP(), "base_damage_min": 5, "base_damage_max": 10, "accuracy_rate": 85},
-        2: {"level": 2, "level_name": "Sniper", "experience_needed": 800, "attack_name": "Mortal Blow",
+        2: {"level": 2, "level_name": "Sniper", "experience_needed": 600, "attack_name": "Mortal Blow",
             "max_hp": PLAYER_BASE_HP() + RANGER_HP_INCREMENT(), "base_damage_min": 10, "base_damage_max": 15,
             "accuracy_rate": 90},
         3: {"level": 3, "level_name": "Marksman", "attack_name": "Dragon's Breath",
@@ -148,9 +148,9 @@ def WARRIOR() -> dict:
     :return: a dictionary
     """
     return {
-        1: {"level": 1, "level_name": "Apprentice Warrior", "experience_needed": 500, "attack_name": "Threaten",
+        1: {"level": 1, "level_name": "Apprentice Warrior", "experience_needed": 400, "attack_name": "Threaten",
             "max_hp": PLAYER_BASE_HP(), "base_damage_min": 5, "base_damage_max": 10, "accuracy_rate": 50},
-        2: {"level": 2, "level_name": "Knight", "experience_needed": 1000, "attack_name": "Power Crash",
+        2: {"level": 2, "level_name": "Knight", "experience_needed": 700, "attack_name": "Power Crash",
             "max_hp": PLAYER_BASE_HP() + WARRIOR_HP_INCREMENT(), "base_damage_min": 10, "base_damage_max": 15,
             "accuracy_rate": 50},
         3: {"level": 3, "level_name": "Paladin", "attack_name": "Heaven's Hammer",
