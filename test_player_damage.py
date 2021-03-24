@@ -63,5 +63,4 @@ class TestPlayerDamage(TestCase):
                   'level': 1,
                   'name': 'Leo',
                   'position': [0, 0]}
-        actual = player_damage(player)
-        self.assertEqual(type(actual), int)
+        self.assertEqual(type(player_damage(player)), int)

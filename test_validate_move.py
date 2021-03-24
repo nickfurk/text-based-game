@@ -4,8 +4,7 @@ from game import validate_move
 
 class TestValidateMove(TestCase):
     def test_validate_move_bool(self):
-        expected_output = validate_move([1, 2], "N")
-        self.assertEqual(type(expected_output), bool)
+        self.assertEqual(type(validate_move([1, 2], "N")), bool)
 
     def test_validate_move_valid_north(self):
         expected_output = validate_move([24, 21], "N")
