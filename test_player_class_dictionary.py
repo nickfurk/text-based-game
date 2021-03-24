@@ -36,4 +36,3 @@ class TestPlayerClassDictionary(TestCase):
                     'experience': 500,
                     'level': 2}
         self.assertEqual(actual, expected)
-

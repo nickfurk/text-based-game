@@ -6,7 +6,7 @@ from game import player_class_generator
 class TestPlayerClassGenerator(TestCase):
 
     @patch('builtins.input', side_effect=["2"])
-    def test_player_dictionary_class_gets_updated(self, mock_input):
+    def test_player_class_generator_dictionary_class_gets_updated(self, mock_input):
         player_dictionary = {"class": ""}
         player_class_generator(player_dictionary)
         actual = player_dictionary
@@ -14,14 +14,14 @@ class TestPlayerClassGenerator(TestCase):
         self.assertEqual(actual, expected)
 
     @patch('builtins.input', side_effect=["2"])
-    def test_return_correct_class(self, mock_input):
+    def test_player_class_generator_return_correct_class(self, mock_input):
         player_dictionary = {"class": ""}
         actual = player_class_generator(player_dictionary)
         expected = "Thief"
         self.assertEqual(actual, expected)
 
     @patch('builtins.input', side_effect=["4"])
-    def test_return_string(self, mock_input):
+    def test_player_class_generator_return_string(self, mock_input):
         player_dictionary = {"class": ""}
         actual = player_class_generator(player_dictionary)
         self.assertEqual(type(actual), str)
