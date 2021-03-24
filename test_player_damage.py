@@ -4,9 +4,8 @@ from game import player_damage
 
 
 class TestPlayerDamage(TestCase):
-
     @patch('game.randint', return_value=60)
-    def test_no_damage_returns(self, random_number_generator):
+    def test_player_damage_no_damage_returns(self, random_number_generator):
         player = {'category': 'player',
                   'class': 'Warrior',
                   'class_dictionary': {'accuracy_rate': 50,
@@ -27,7 +26,7 @@ class TestPlayerDamage(TestCase):
         self.assertEqual(actual, expected)
 
     @patch('game.randint', side_effect=[30, 12])
-    def test_damage_returns(self, random_number_generator):
+    def test_player_damage_damage_returns(self, random_number_generator):
         player = {'category': 'player',
                   'class': 'Warrior',
                   'class_dictionary': {'accuracy_rate': 50,
@@ -48,7 +47,7 @@ class TestPlayerDamage(TestCase):
         self.assertEqual(actual, expected)
 
     @patch('game.randint', side_effect=[30, 12])
-    def test_damage_is_integer(self, random_number_generator):
+    def test_player_damage_damage_is_integer(self, random_number_generator):
         player = {'category': 'player',
                   'class': 'Warrior',
                   'class_dictionary': {'accuracy_rate': 50,

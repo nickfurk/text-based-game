@@ -4,6 +4,7 @@ from game import battle_attack_order
 import game
 import io
 
+
 class TestBattleAttackOrder(TestCase):
     @patch('game.roll_die', side_effect=[50, 1])
     @patch('sys.stdout', new_callable=io.StringIO)

@@ -34,7 +34,7 @@ class TestRandomMonster(TestCase):
                   'level': 2,
                   'name': '\u001b[32;1mplayer\u001b[0m',
                   'position': [0, 0]}
-        expected_output = {'name': '\x1b[33;1mNickFurry\x1b[0m', 'type': 'Tiger', 'hp': 15, 'category': 'monster',
+        expected_output = {'name': '\x1b[33;1mNickFurry\x1b[0m', 'type': 'Tiger', 'hp': 17, 'category': 'monster',
                            'damage': 15, 'attack_name': 'Rawr'}
         actual = random_monster(player)
         self.assertEqual(expected_output, actual)

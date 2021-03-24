@@ -6,7 +6,7 @@ import io
 
 class TestAttackingRound(TestCase):
     @patch('sys.stdout', new_callable=io.StringIO)
-    def test_missed_attack(self, mock_output):
+    def test_attacking_round_missed_attack(self, mock_output):
         player = {"name": "Leo", "category": "player", 'class_dictionary': {'attack_name': 'Pet the head'}}
         monster = {"hp": 5, "category": "monster", 'attack_name': 'Scratch'}
         attacking_round(player, monster, 0)
@@ -14,7 +14,7 @@ class TestAttackingRound(TestCase):
         self.assertEqual(mock_output.getvalue(), expected)
 
     @patch('sys.stdout', new_callable=io.StringIO)
-    def test_damage_on_opponent(self, mock_output):
+    def test_attacking_round_damage_on_opponent(self, mock_output):
         player = {"name": "Leo", "category": "player", 'class_dictionary': {'attack_name': 'Pet the head'}}
         monster = {"name": "Zelda", "hp": 10, "category": "monster", 'attack_name': 'Scratch'}
         attacking_round(player, monster, 5)
@@ -22,9 +22,9 @@ class TestAttackingRound(TestCase):
                    "Zelda has 5 hp left!\n\n"
         self.assertEqual(mock_output.getvalue(), expected)
 
-    def test_return_correct_opponent_dictionary(self):
+    def test_attacking_round_return_correct_opponent_dictionary(self):
         player = {"name": "Leo", "category": "player", 'class_dictionary': {'attack_name': 'Pet the head'}}
         monster = {"name": "Zelda", "hp": 10, "category": "monster", 'attack_name': 'Scratch'}
-        actual = attacking_round(player, monster, 5)
+        attacking_round(player, monster, 5)
         expected = {"name": "Zelda", "hp": 5, "category": "monster", 'attack_name': 'Scratch'}
-        self.assertEqual(actual, expected)
+        self.assertEqual(monster, expected)

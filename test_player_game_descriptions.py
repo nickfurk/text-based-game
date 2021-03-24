@@ -19,15 +19,15 @@ class TestPlayerGameDescriptions(TestCase):
         board = {(0, 0): {'location_description': 'The room is lit by the light seeping through from the previous '
                                                   'location, but you instantly feel the difference in the atmosphere '
                                                   'already. For some reason, you are just a bit more cold.'}}
-        expected_output = Fore.GREEN + '[X]' + Style.RESET_ALL + '[ ][ ][ ]\n[ ][ ][ ][ ]\n[ ][ ]' + Fore.RED + '[#]' \
-                          + Style.RESET_ALL + '[ ]\n[ ][ ][ ][ ]\n' \
-                                              'Location: [0, 0]\n' \
-                                              'Description: The room is lit by the light seeping through from the ' \
-                                              'previous location, but you instantly feel the difference in the ' \
-                                              'atmosphere already. For some reason, you are just a bit more cold.\n' \
-                                              'Health point: 20/20\n' \
-                                              'Level: 1, Apprentice Warrior\n' \
-                                              'Experience: 0\n'
+        expected_output = '\u001b[32;1m[X]\u001b[0m[ ][ ][ ]\n[ ][ ][ ][ ]\n' \
+                          '[ ][ ]\u001b[31m[#]\u001b[0m[ ]\n[ ][ ][ ][ ]\n' \
+                          'Location: [0, 0]\n' \
+                          'Description: The room is lit by the light seeping through from the ' \
+                          'previous location, but you instantly feel the difference in the ' \
+                          'atmosphere already. For some reason, you are just a bit more cold.\n' \
+                          'Health point: 20/20\n' \
+                          'Level: 1, Apprentice Warrior\n' \
+                          'Experience: 0\n'
         player_game_descriptions(player, board, boss)
         self.assertEqual(expected_output, mock_stdout.getvalue())
 

@@ -8,7 +8,7 @@ class TestCheckMonsterHpAndDamage(TestCase):
                                                 3: {'level': 3, 'damage': 10 + 5 * 2}})
     @patch('game.MONSTER_HP', return_value={1: {'level': 1, 'hp': 10}, 2: {'level': 2, 'hp': 10 + 5},
                                             3: {'level': 3, 'hp': 10 + 5 * 2}})
-    def test_check_monster__hp_and_damage_change_equivalent_to_level_2(self, mock_hp, mock_damage):
+    def test_check_monster_hp_and_damage_change_equivalent_to_level_2(self, mock_hp, mock_damage):
         player = {'class': 'Warrior', 'hp': 20, 'position': [0, 0], 'level': 2, 'experience': 400,
                   'category': 'player', 'class_dictionary': {'level': 2, 'level_name': 'Apprentice Warrior',
                                                              'experience_needed': 500, 'attack_name': 'Threaten',
@@ -24,7 +24,7 @@ class TestCheckMonsterHpAndDamage(TestCase):
                                                 3: {'level': 3, 'damage': 10 + (5 * 2)}})
     @patch('game.MONSTER_HP', return_value={1: {'level': 1, 'hp': 10}, 2: {'level': 2, 'hp': 10 + 5},
                                             3: {'level': 3, 'hp': 10 + 5 * 2}})
-    def test_check_monster_damage_change_equivalent_to_level_3(self, mock_hp, mock_damage):
+    def test_check_monster_hp_and_damage_change_equivalent_to_level_3(self, mock_hp, mock_damage):
         player = {'class': 'Warrior', 'hp': 30, 'position': [0, 0], 'level': 3, 'experience': 1000,
                   'category': 'player', 'class_dictionary': {'level': 3, 'level_name': 'Apprentice Warrior',
                                                              'attack_name': 'Havens Hammer',
@@ -40,7 +40,7 @@ class TestCheckMonsterHpAndDamage(TestCase):
                                                 3: {'level': 3, 'damage': 10 + 5 * 2}})
     @patch('game.MONSTER_HP', return_value={1: {'level': 1, 'hp': 10}, 2: {'level': 2, 'hp': 10 + 5},
                                             3: {'level': 3, 'hp': 10 + 5 * 2}})
-    def test_check_monster_damage_no_change(self, mock_hp, mock_damage):
+    def test_check_monster_hp_and_damage_no_change(self, mock_hp, mock_damage):
         player = {'name': 'Paul', 'class': 'Warrior', 'hp': 20, 'position': [0, 0], 'level': 2, 'experience': 400,
                   'category': 'player', 'class_dictionary': {'level': 2, 'level_name': 'Apprentice Warrior',
                                                              'experience_needed': 500, 'attack_name': 'Threaten',

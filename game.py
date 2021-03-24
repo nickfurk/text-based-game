@@ -668,9 +668,9 @@ def display_info(player: dict, board: dict) -> None:
     coordinate = player["position"]
     print(f'Location: {player["position"]}')
     print(f'Description: {board[tuple(coordinate)]["location_description"]}')
-    print(f'Health point: {player["hp"]}/ {player["class_dictionary"]["max_hp"]}')
+    print(f'Health point: {player["hp"]}/{player["class_dictionary"]["max_hp"]}')
     print(f'Level: {player["level"]}, {player["class_dictionary"]["level_name"]}')
-    print(f'Experience: {player["experience"]}')
+    print(f'Experience: {player["experience"]}/{player["class_dictionary"]["experience_needed"]}')
 
 
 def validate_move(current_position: list, user_direction: str) -> bool:
@@ -1173,7 +1173,7 @@ def make_boss() -> dict:
 
     :return: a dictionary
     """
-    boss = {"name": PICK_RANDOM_BOSS_NAME(),
+    boss = {"name": f"\u001b[31m" + PICK_RANDOM_BOSS_NAME() + f"\u001b[0m",
             "category": "boss",
             "hp": BOSS_MAX_HP(),
             "damage": BOSS_MAX_DAMAGE(),
