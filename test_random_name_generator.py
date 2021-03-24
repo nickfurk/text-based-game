@@ -2,7 +2,6 @@ from unittest import TestCase
 from unittest.mock import patch
 from game import random_name_generator
 import io
-from coolname import generate
 
 
 class TestRandomNameGenerator(TestCase):
