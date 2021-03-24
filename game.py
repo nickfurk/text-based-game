@@ -10,7 +10,6 @@ from itertools import count
 from random import randint, choice
 from time import sleep
 import doctest
-from typing import Union
 import os
 from coolname import generate
 
@@ -506,11 +505,10 @@ def player_name_generator() -> str:
         user_input = input("What will your name be for this game?: ")
         while user_input == "":
             print("You can't have nothing for your name, but anything else works! Try again.")
-            user_input = input("What will your name be for this game?: ")
-    capitalized_input = user_input.title()
-    print(f"\nWelcome to the game, \u001b[32;1m{capitalized_input}\u001b[0m.\n")
+            user_input = input("What will your name be for this game?: ").title()
+    print(f"\nWelcome to the game, \u001b[32;1m{user_input}\u001b[0m.\n")
     sleep(1)
-    return f"\u001b[32;1m" + capitalized_input + f"\u001b[0m"
+    return user_input
 
 
 def player_class_generator(player: dict) -> str:
@@ -617,7 +615,7 @@ def make_player() -> dict:
     :postcondition: gets user input and creates player dictionary
     :return: a dictionary
     """
-    player = {"name": player_name_generator(),
+    player = {"name": f"\u001b[32;1m" + player_name_generator() + f"\u001b[0m",
               "class": "",
               "hp": PLAYER_BASE_HP(),
               "position": PLAYER_STARTING_POSITION(),
@@ -652,7 +650,7 @@ def display_map(player: dict, boss: dict) -> None:
         print()
 
 
-def filter_information(player: dict, item_string: str) -> Union[int, str]:
+def filter_information(player: dict, item_string: str):
     """Filter player dictionary by the items string.
 
     The function is used for filtering through taking the parameter, item_string, and matching with the keys in player
@@ -682,7 +680,7 @@ def display_info(player: dict, board: dict) -> None:
     :postcondition: correctly prints the f strings of player position, location description, hp, level, class name,
     and experience
     """
-    print(f'Location: {(filter_information(player, "position"))}')
+    print(f'Location: {player["position"]}')
     print(f'Description: {board[tuple((filter_information(player, "position")))]["location_description"]}')
     print(f'Health point: {(filter_information(player, "hp"))}'
           f'/{(filter_information(player["class_dictionary"], "max_hp"))}')
@@ -726,8 +724,10 @@ def validate_move(current_position: list, user_direction: str) -> bool:
     >>> validate_move(position, direction)
     False
     """
-    if (user_direction == "W" and current_position[1] == 0) or (user_direction == "E" and current_position[1] == 24) or\
-       (user_direction == "S" and current_position[0] == 24) or (user_direction == "N" and current_position[0] == 0):
+    if (user_direction == "W" and current_position[1] == 0) or \
+            (user_direction == "E" and current_position[1] == BOARD_SIZE()) or \
+            (user_direction == "S" and current_position[0] == BOARD_SIZE()) or \
+            (user_direction == "N" and current_position[0] == 0):
         return True
     else:
         return False
@@ -772,7 +772,7 @@ def player_movement_change(current_position: list, user_direction: str) -> None:
         game_over()
 
 
-def move_character(player: dict, board: dict, boss: dict) -> list:
+def move_character(player: dict, board: dict, boss: dict) -> None:
     """Change the position of the player to a new position based on user input.
 
     :param player: a dictionary
@@ -933,7 +933,7 @@ def fight_or_run_decision(monster: dict) -> str:
     return user_choice
 
 
-def combat_round(player: dict, monster: dict) -> Union[dict, None]:
+def combat_round(player: dict, monster: dict) -> None:
     """Direct the player to different functions based on their input.
 
     This function gives the user an option to run or fight. Either options will send the user to other functions.
@@ -944,20 +944,33 @@ def combat_round(player: dict, monster: dict) -> Union[dict, None]:
     :precondition: player and monster must be a proper dictionary with correct character and information
     :postcondition: correctly leads to corresponding functions depending on situation
     """
+    # if fight_or_run_decision(monster) == "Yes":
+    #     while player["hp"] > 0 and monster["hp"] > 0:
+    #         battle_start(player, monster, battle_attack_order())
+    #         if run_away_monster(monster, player) and (monster["hp"] > 0 and player["hp"] > 0):
+    #             break
+    #         elif monster["hp"] > 0 and player["hp"] > 0:
+    #             if run_or_fight_again() == "No":
+    #                 run_away_player(player, monster)
+    #                 break
+    #             else:
+    #                 continue
+    #         elif monster["hp"] < 1 and player["hp"] > 0:
+    #             continue
+    #     press_enter_to_continue()
+    # else:
+    #     run_away_player(player, monster)
     if fight_or_run_decision(monster) == "Yes":
         while player["hp"] > 0 and monster["hp"] > 0:
             battle_start(player, monster, battle_attack_order())
             if run_away_monster(monster, player) and (monster["hp"] > 0 and player["hp"] > 0):
-                return player
-            elif monster["hp"] > 0 and player["hp"] > 0:
-                if run_or_fight_again() == "No":
-                    run_away_player(player, monster)
-                    return player
-                else:
-                    continue
-            elif monster["hp"] < 1 and player["hp"] > 0:
+                break
+            if (monster["hp"] > 0 and player["hp"] > 0) and run_or_fight_again() == "No":
+                run_away_player(player, monster)
+                break
+            else:
                 continue
-        press_enter_to_continue()
+        # press_enter_to_continue()
     else:
         run_away_player(player, monster)
 
@@ -1020,7 +1033,7 @@ def run_away_monster(monster: dict, player: dict) -> bool:
         run_away_number = roll_die(1, RUN_AWAY_PROBABILITY())
         if run_away_number == 1:
             delayed_message(f"{monster['name']} ran away!", 1)
-            press_enter_to_continue()
+            # press_enter_to_continue()
             return True
         else:
             return False

@@ -482,7 +482,7 @@ def game_over() -> None:
     quit()
 
 
-def RANDOM_NAME_GENERATOR():
+def random_name_generator():
     random_name = ' '.join(name.capitalize() for name in generate())
     print(f"\n\u001b[32;1m{random_name}\u001b[0m was created randomly! Would you like to choose your own name or create"
           f" another at random?\n")
@@ -933,7 +933,7 @@ def fight_or_run_decision(monster: dict) -> str:
     return user_choice
 
 
-def combat_round(player: dict, monster: dict) -> Union[dict, None]:
+def combat_round(player: dict, monster: dict) -> None:
     """Direct the player to different functions based on their input.
 
     This function gives the user an option to run or fight. Either options will send the user to other functions.
@@ -948,10 +948,10 @@ def combat_round(player: dict, monster: dict) -> Union[dict, None]:
         while player["hp"] > 0 and monster["hp"] > 0:
             battle_start(player, monster, battle_attack_order())
             if run_away_monster(monster, player) and (monster["hp"] > 0 and player["hp"] > 0):
-                return
+                break
             if run_or_fight_again() == "No" and (monster["hp"] > 0 and player["hp"] > 0):
                 run_away_player(player, monster)
-                return player
+                break
             else:
                 continue
         press_enter_to_continue()
