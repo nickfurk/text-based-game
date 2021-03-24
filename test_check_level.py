@@ -21,7 +21,7 @@ class TestCheckLevel(TestCase):
         expected = 3
         self.assertEqual(actual, expected)
 
-    def test_check_leve_return_integer(self):
+    def test_check_level_return_integer(self):
         player_info = {"class": "Mage", "experience": 1000}
         actual = check_level(player_info)
         expected = 3

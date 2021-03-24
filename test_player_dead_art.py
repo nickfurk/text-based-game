@@ -17,4 +17,5 @@ class TestPlayerDeadArt(TestCase):
     @patch('builtins.input', side_effect=[""])
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_player_dead_art_correct_type(self, mock_stdout, mock_input, mock_quit):
+        player_dead_art()
         self.assertEqual(str, type(mock_stdout.getvalue()))

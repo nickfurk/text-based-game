@@ -17,4 +17,5 @@ class TestGameOver(TestCase):
     @patch('builtins.input', side_effect=[""])
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_game_over_correct_type(self, mock_stdout, mock_input, mock_quit):
+        game_over()
         self.assertEqual(str, type(mock_stdout.getvalue()))
