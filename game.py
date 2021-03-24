@@ -970,7 +970,7 @@ def combat_round(player: dict, monster: dict) -> None:
                 break
             else:
                 continue
-        # press_enter_to_continue()
+        press_enter_to_continue()
     else:
         run_away_player(player, monster)
 
@@ -1253,11 +1253,9 @@ def fight_boss(player: dict, boss: dict) -> None:
     if fight_or_run_decision_boss_round(boss) == "Yes":
         while player["hp"] > 0 and boss["hp"] > 0:
             battle_start(player, boss, battle_attack_order())
-            if boss["hp"] > 0 and player["hp"] > 0:
-                if run_or_fight_again() == "No":
-                    run_away_player(player, boss)
-                else:
-                    continue
+            if (boss["hp"] > 0 and player["hp"] > 0) and run_or_fight_again() == "No":
+                run_away_player(player, boss)
+                break
             elif boss["hp"] < 1 and player["hp"] > 0:
                 continue
         press_enter_to_continue()
@@ -1293,13 +1291,12 @@ def game() -> None:
     boss = make_boss()
     while player['hp'] > 0:
         move_character(player, board, boss)
-        battle_chance(player, random_monster(player))
-        move_character(player, board, boss)
         if player["position"] == boss["position"]:
             fight_boss(player, boss)
             if boss["hp"] < 1:
                 game_win_art()
-            move_character(player, board, boss)
+        else:
+            battle_chance(player, random_monster(player))
     player_dead_art()
 
 

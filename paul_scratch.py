@@ -949,7 +949,7 @@ def combat_round(player: dict, monster: dict) -> None:
             battle_start(player, monster, battle_attack_order())
             if run_away_monster(monster, player) and (monster["hp"] > 0 and player["hp"] > 0):
                 break
-            if run_or_fight_again() == "No" and (monster["hp"] > 0 and player["hp"] > 0):
+            if (monster["hp"] > 0 and player["hp"] > 0) and run_or_fight_again() == "No":
                 run_away_player(player, monster)
                 break
             else:
