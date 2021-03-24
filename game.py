@@ -314,7 +314,7 @@ def BATTLE_CHANCE_PROBABILITY() -> int:
 
     :return: an integer 5
     """
-    return 5
+    return 4
 
 
 def BOARD_SIZE() -> int:
@@ -436,14 +436,13 @@ def input_checker(dict_of_options: dict) -> str:
     :return: value of the chosen key as a string
     """
     print(str(dict_of_options).replace(",", "\n"))
-    user_input = int(input("\nPlease choose from the following list of options by typing in the corresponding "
-                           "number: \n"))
-    while user_input not in dict_of_options:
+    user_input = input("\nPlease choose from the following list of options by typing in the corresponding number: \n")
+    while (user_input.isnumeric() is False) or (int(user_input) not in dict_of_options):
         print("That's not in the list of options. Please choose again!")
         print(str(dict_of_options).replace(",", "\n"))
-        user_input = int(input("\nPlease choose from the following list of options by typing in the corresponding "
-                               "number: \n"))
-    return dict_of_options[user_input]
+        user_input = input("\nPlease choose from the following list of options by typing in the corresponding "
+                           "number: \n")
+    return dict_of_options[int(user_input)]
 
 
 def delayed_message(message: str, delay: float) -> None:
@@ -1083,13 +1082,13 @@ def battle_start(player: dict, monster: dict, attacker: bool) -> None:
         if monster['hp'] > 0:
             attacking_round(monster, player, roll_die(1, monster["damage"]))
         else:
-            leveling_package(player)
+            player["experience"] += 100
     else:
         attacking_round(monster, player, roll_die(1, monster["damage"]))
         if player['hp'] > 0:
             attacking_round(player, monster, player_damage(player))
         if monster['hp'] < 1:
-            leveling_package(player)
+            player["experience"] += 100
 
 
 def leveling_package(player: dict) -> None:
@@ -1113,7 +1112,7 @@ def leveling_package(player: dict) -> None:
     'experience_needed': 200, 'attack_name': 'Threaten', 'max_hp': 20, 'base_damage_min': 7, 'base_damage_max': 12,
     'accuracy_rate': 50}, 'experience': 100, 'hp': 20, 'level': 1, 'name': 'Leo', 'position': [0, 0]}
     """
-    player["experience"] += 100
+    # player["experience"] += 100
     check_level(player)
     player_class_dictionary(player)
 
@@ -1290,6 +1289,7 @@ def game() -> None:
     player = make_player()
     boss = make_boss()
     while player['hp'] > 0:
+        leveling_package(player)
         move_character(player, board, boss)
         if player["position"] == boss["position"]:
             fight_boss(player, boss)
