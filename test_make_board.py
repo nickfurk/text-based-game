@@ -5,7 +5,7 @@ from game import make_board
 
 class TestMakeBoard(TestCase):
     @patch('game.BOARD_SIZE', return_value=2)
-    def test_make_board(self, mock_board):
+    def test_board_correct(self, mock_board):
         actual = make_board()
         expected = {(0, 0): {'location_description': 'The room is lit by the light seeping '
                                                      'through from the previous location, but you '

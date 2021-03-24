@@ -480,7 +480,14 @@ def game_over() -> None:
     quit()
 
 
-def random_name_generator():
+def random_name_generator() -> str:
+    """Generate random name.
+
+    The function will generate a random name and the player has the choice to either keep the name, choose another name
+    at random, or choose make own name.
+
+    :return: user's choice in string
+    """
     random_name = ' '.join(name.capitalize() for name in generate())
     print(f"\n\u001b[32;1m{random_name}\u001b[0m was created randomly! Would you like to choose your own name or create"
           f" another at random?\n")
