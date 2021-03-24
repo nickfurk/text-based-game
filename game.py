@@ -709,8 +709,8 @@ def validate_move(current_position: list, user_direction: str) -> bool:
     False
     """
     if (user_direction == "W" and current_position[1] == 0) or \
-            (user_direction == "E" and current_position[1] == BOARD_SIZE()) or \
-            (user_direction == "S" and current_position[0] == BOARD_SIZE()) or \
+            (user_direction == "E" and current_position[1] == BOARD_SIZE() - 1) or \
+            (user_direction == "S" and current_position[0] == BOARD_SIZE() - 1) or \
             (user_direction == "N" and current_position[0] == 0):
         return True
     else:

@@ -23,7 +23,7 @@ class TestBattleChance(TestCase):
                                                              'max_hp': 20, 'base_damage_min': 7, 'base_damage_max': 12,
                                                              'accuracy_rate': 50}}
         expected_output = "There's someone lurking in the dark!\n" \
-                          "Paul has done 1 damage to Zelda!\n" \
+                          "Paul has used Threaten and has done 1 damage to Zelda!\n" \
                           "Zelda has 0 hp left!\n\n"
         battle_chance(player, monster)
         self.assertEqual(mock_stdout.getvalue(), expected_output)
@@ -37,7 +37,7 @@ class TestBattleChance(TestCase):
     @patch('game.press_enter_to_continue', return_value='')
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_battle_chance_heal(self, mock_stdout, mock_continue, mock_fight_again, mock_monster_run, mock_damage,
-                                  mock_attack_order, mock_decision, mock_roll_die):
+                                mock_attack_order, mock_decision, mock_roll_die):
         monster = {"name": "Zelda", "hp": 1}
         player = {'name': 'Paul', 'class': 'Warrior', 'hp': 20, 'position': [0, 0], 'level': 1, 'experience': 0,
                   'category': 'player', 'class_dictionary': {'level': 1, 'level_name': 'Apprentice Warrior',

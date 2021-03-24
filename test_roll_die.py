@@ -1,6 +1,7 @@
 from unittest import TestCase
 from game import roll_die
 
+
 class TestRollDie(TestCase):
     def test_roll_die_six_sided_once(self):
         actual = roll_die(1, 6)

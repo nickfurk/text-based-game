@@ -1,6 +1,7 @@
 from unittest import TestCase
 from game import validate_move
 
+
 class TestValidateMove(TestCase):
     def test_validate_move_bool(self):
         expected_output = validate_move([1, 2], "N")

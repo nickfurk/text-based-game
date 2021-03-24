@@ -5,10 +5,9 @@ import io
 
 
 class TestDisplayMap(TestCase):
-
     @patch('game.BOARD_SIZE', return_value=4)
     @patch('sys.stdout', new_callable=io.StringIO)
-    def test_print_correct_map(self, mock_output, mock_board):
+    def test_display_map_correct_map(self, mock_output, mock_board):
         player_info = {"position": [0, 0]}
         boss_info = {"position": [2, 2]}
         display_map(player_info, boss_info)
@@ -17,7 +16,7 @@ class TestDisplayMap(TestCase):
         self.assertEqual((mock_output.getvalue()), expected)
 
     @patch('sys.stdout', new_callable=io.StringIO)
-    def test_print_string(self, mock_output):
+    def test_display_map_print_string(self, mock_output):
         player_info = {"position": [0, 0]}
         boss_info = {"position": [2, 2]}
         display_map(player_info, boss_info)
