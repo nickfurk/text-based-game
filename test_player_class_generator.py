@@ -19,3 +19,9 @@ class TestPlayerClassGenerator(TestCase):
         actual = player_class_generator(player_dictionary)
         expected = "Thief"
         self.assertEqual(actual, expected)
+
+    @patch('builtins.input', side_effect=["4"])
+    def test_return_string(self, mock_input):
+        player_dictionary = {"class": ""}
+        actual = player_class_generator(player_dictionary)
+        self.assertEqual(type(actual), str)
