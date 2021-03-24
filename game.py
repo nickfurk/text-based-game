@@ -191,7 +191,7 @@ def MONSTER_HP() -> dict:
     }
 
 
-def MONSTER_BASE_DAMAGE() -> int:  # need to get rid of at the end
+def MONSTER_BASE_DAMAGE() -> int:
     """Return monster's base damage as 10.
 
     The number is used in the roll_die function to give an output of 1 - 10 inclusive.
@@ -662,7 +662,7 @@ def display_info(player: dict, board: dict) -> None:
     print(f'Location: {player["position"]}')
     print(f'Description: {board[tuple(coordinate)]["location_description"]}')
     print(f'Health point: {player["hp"]}/ {player["class_dictionary"]["max_hp"]}')
-    print(f'Level: {player["level"]} {player["class_dictionary"]["level_name"]}')
+    print(f'Level: {player["level"]}, {player["class_dictionary"]["level_name"]}')
     print(f'Experience: {player["experience"]}')
 
 
