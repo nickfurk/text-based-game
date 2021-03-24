@@ -785,14 +785,13 @@ def move_character(player: dict, board: dict, boss: dict) -> list:
     :return: a changed player's new position in a list
     """
     player_game_descriptions(player, board, boss)
-    if player["hp"] > 0:
-        new_direction_list = {str(keys): jobs for keys, jobs in enumerate(DIRECTION_LIST(), 1)}
+    new_direction_list = {str(keys): jobs for keys, jobs in enumerate(DIRECTION_LIST(), 1)}
+    user_input = input_checker(new_direction_list)
+    while validate_move(player['position'], user_input):
+        print("\nYou can't go that way! Choose again wisely.")
         user_input = input_checker(new_direction_list)
-        while validate_move(player['position'], user_input):
-            print("\nYou can't go that way! Choose again wisely.")
-            user_input = input_checker(new_direction_list)
-        player_movement_change(player["position"], user_input)
-        return player["position"]
+    player_movement_change(player["position"], user_input)
+    return player["position"]
 
 
 def roll_die(number_of_rolls: int, number_of_sides: int) -> int:
@@ -1287,8 +1286,8 @@ def game() -> None:
     board = make_board()
     player = make_player()
     boss = make_boss()
-    move_character(player, board, boss)
     while player['hp'] > 0:
+        move_character(player, board, boss)
         battle_chance(player, random_monster(player))
         move_character(player, board, boss)
         if player["position"] == boss["position"]:

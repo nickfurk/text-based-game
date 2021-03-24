@@ -801,6 +801,7 @@ def move_character(player: dict, board: dict, boss: dict) -> list:
         return player["position"]
 
 
+
 def roll_die(number_of_rolls: int, number_of_sides: int) -> int:
     """Generate a sum of the number_of_rolls and their results.
 
@@ -1293,8 +1294,8 @@ def game() -> None:
     board = make_board()
     player = make_player()
     boss = make_boss()
-    move_character(player, board, boss)
     while player['hp'] > 0:
+        move_character(player, board, boss)
         battle_chance(player, random_monster(player))
         move_character(player, board, boss)
         if player["position"] == boss["position"]:
