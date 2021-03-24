@@ -4,7 +4,6 @@ from game import make_board
 
 
 class TestMakeBoard(TestCase):
-
     @patch('game.BOARD_SIZE', return_value=2)
     def test_make_board(self, mock_board):
         actual = make_board()

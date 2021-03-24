@@ -5,10 +5,11 @@ import io
 
 
 class TestPlayerNameGenerator(TestCase):
-    @patch('builtins.input', side_effect=["1"])
-    def test_player_name_generator_choice_from_list(self, mock_input):
+    @patch('builtins.input', side_effect=["I would like to choose another one at random"])
+    @patch('game.random_name_generator', side_effect=["Stirring Lyrebird", "Glossy Outstanding Collie Of Politeness"])
+    def test_player_name_generator_choice_from_list(self, mock_generate, mock_input):
         actual = player_name_generator()
-        expected_output = "Paul"
+        expected_output = "Glossy Outstanding Collie Of Politeness"
         self.assertEqual(actual, expected_output)
 
     @patch('builtins.input', side_effect=["5", "Paul"])
