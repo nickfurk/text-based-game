@@ -240,7 +240,7 @@ def PICK_RANDOM_BOSS_NAME() -> str:
 
     :return: a string
     """
-    boss_names = ["Boss Zelda", "Boss Link", "Boss Bowser"]
+    boss_names = ["Kalzeruth", "Mandrasath", "Claughuth", "Felscathor"]
     return choice(boss_names)
 
 
@@ -649,27 +649,6 @@ def display_map(player: dict, boss: dict) -> None:
         print()
 
 
-def filter_information(player: dict, item_string: str):
-    """Filter player dictionary by the items string.
-
-    The function is used for filtering through taking the parameter, item_string, and matching with the keys in player
-    to filter the correct key/value from the dictionary and return the value.
-
-    :param player: a dictionary
-    :param item_string: a string
-    :precondition: player must be a proper dictionary with correct character and information
-    :postcondition: correctly returns the correct filtered value
-    :return: the correct filtered elements as a integer or string depending on value
-
-    >>> player_info = {"level": 1, "experience": 300}
-    >>> string = "level"
-    >>> filter_information(player_info, string)
-    1
-    """
-    filtered_dict = dict(filter(lambda item: item_string in item[0], player.items()))
-    return filtered_dict[item_string]
-
-
 def display_info(player: dict, board: dict) -> None:
     """Print player's position, location description, health point, level, class name, and experience point.
 
@@ -943,22 +922,6 @@ def combat_round(player: dict, monster: dict) -> None:
     :precondition: player and monster must be a proper dictionary with correct character and information
     :postcondition: correctly leads to corresponding functions depending on situation
     """
-    # if fight_or_run_decision(monster) == "Yes":
-    #     while player["hp"] > 0 and monster["hp"] > 0:
-    #         battle_start(player, monster, battle_attack_order())
-    #         if run_away_monster(monster, player) and (monster["hp"] > 0 and player["hp"] > 0):
-    #             break
-    #         elif monster["hp"] > 0 and player["hp"] > 0:
-    #             if run_or_fight_again() == "No":
-    #                 run_away_player(player, monster)
-    #                 break
-    #             else:
-    #                 continue
-    #         elif monster["hp"] < 1 and player["hp"] > 0:
-    #             continue
-    #     press_enter_to_continue()
-    # else:
-    #     run_away_player(player, monster)
     if fight_or_run_decision(monster) == "Yes":
         while player["hp"] > 0 and monster["hp"] > 0:
             battle_start(player, monster, battle_attack_order())
@@ -966,6 +929,7 @@ def combat_round(player: dict, monster: dict) -> None:
                 break
             if (monster["hp"] > 0 and player["hp"] > 0) and run_or_fight_again() == "No":
                 run_away_player(player, monster)
+                press_enter_to_continue()
                 break
             else:
                 continue
@@ -996,7 +960,6 @@ def run_away_player(player: dict, monster: dict) -> None:
     else:
         delayed_message(f"You've run away successfully from {monster['name']}!\n"
                         f"You were very lucky this time...\n", 1)
-    press_enter_to_continue()
 
 
 def run_or_fight_again() -> str:
@@ -1032,7 +995,6 @@ def run_away_monster(monster: dict, player: dict) -> bool:
         run_away_number = roll_die(1, RUN_AWAY_PROBABILITY())
         if run_away_number == 1:
             delayed_message(f"{monster['name']} ran away!", 1)
-            # press_enter_to_continue()
             return True
         else:
             return False
@@ -1112,7 +1074,6 @@ def leveling_package(player: dict) -> None:
     'experience_needed': 200, 'attack_name': 'Threaten', 'max_hp': 20, 'base_damage_min': 7, 'base_damage_max': 12,
     'accuracy_rate': 50}, 'experience': 100, 'hp': 20, 'level': 1, 'name': 'Leo', 'position': [0, 0]}
     """
-    # player["experience"] += 100
     check_level(player)
     player_class_dictionary(player)
 
