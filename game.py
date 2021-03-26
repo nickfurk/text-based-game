@@ -516,7 +516,7 @@ def player_name_generator() -> str:
         user_input = input("What will your name be for this game?: ")
         while user_input == "":
             print("You can't have nothing for your name, but anything else works! Try again.")
-            user_input = input("What will your name be for this game?: ").title()
+            user_input = input("What will your name be for this game?: ")
     print(f"\nWelcome to the game, \u001b[32;1m{user_input}\u001b[0m.\n")
     sleep(1)
     return user_input
