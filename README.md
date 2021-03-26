@@ -6,6 +6,15 @@
 
 #### ** Add any comments for me below this line **
 
+***Modules Used***
+
+- coolname
+- os
+- itertools
+- time
+- random
+- doctest
+
 ***Table of Elements***
 
 | Required element | Location (line number) |

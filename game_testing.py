@@ -4,39 +4,53 @@ import itertools
 def BASE_MAGE_HP():
     return 20
 
+
 def MAGE_HP_INCREMENT():
     return 10
+
 
 def BASE_THIEF_HP():
     return 20
 
+
 def THIEF_HP_INCREMENT():
     return 10
+
 
 def BASE_RANGER_HP():
     return 20
 
+
 def RANGER_HP_INCREMENT():
     return 10
+
 
 def BASE_WARRIOR_HP():
     return 20
 
+
 def WARRIOR_HP_INCREMENT():
     return 10
+
 
 def MAX_MONSTER_HP():
     return 10
 
+
 def MONSTER_HP_INCREMENT():
     return 5
+
+
 # print(MAX_MONSTER_HP() + (MONSTER_HP_INCREMENT() * 2))
 
 def MAX_MONSTER_DAMAGE():
     return 10
 
+
 def MONSTER_DAMAGE_INCREMENT():
     return 5
+
+
 # print(MAX_MONSTER_DAMAGE() + (MONSTER_DAMAGE_INCREMENT() * 2))
 
 
@@ -50,7 +64,9 @@ def MAGE():
         3: {"level": 3, "level_name": "Arch Mage", "attack_name": "Hellfire",
             "max_hp": BASE_MAGE_HP() + (MAGE_HP_INCREMENT() * 2), "base_damage_min": 25, "base_damage_max": 30,
             "accuracy_rate": 50}
-        }
+    }
+
+
 def THIEF():
     return {
         1: {"level": 1, "level_name": "Apprentice Thief", "experience_needed": 500, "attack_name": "Pickpocket",
@@ -61,7 +77,8 @@ def THIEF():
         3: {"level": 3, "level_name": "Hermit", "attack_name": "Assassinate",
             "max_hp": BASE_THIEF_HP() + (THIEF_HP_INCREMENT() * 2), "base_damage_min": 10, "base_damage_max": 15,
             "accuracy_rate": 100}
-        }
+    }
+
 
 def RANGER():
     return {
@@ -73,7 +90,9 @@ def RANGER():
         3: {"level": 3, "level_name": "Marksman", "attack_name": "Dragon's Breath",
             "max_hp": BASE_RANGER_HP() + (RANGER_HP_INCREMENT() * 2), "base_damage_min": 15, "base_damage_max": 20,
             "accuracy_rate": 75}
-        }
+    }
+
+
 def WARRIOR():
     return {
         1: {"level": 1, "level_name": "Apprentice Warrior", "experience_needed": 500, "attack_name": "Threaten",
@@ -85,6 +104,7 @@ def WARRIOR():
             "max_hp": BASE_WARRIOR_HP() + (WARRIOR_HP_INCREMENT() * 2), "base_damage_min": 18, "base_damage_max": 24,
             "accuracy_rate": 50}
     }
+
 
 # def MONSTER_DAMAGE():
 #     return {
@@ -99,6 +119,7 @@ def MONSTER_HP():
         2: {"level": 2, "hp": MAX_MONSTER_HP() + MONSTER_HP_INCREMENT()},
         3: {"level": 3, "hp": MAX_MONSTER_HP() + (MONSTER_HP_INCREMENT() * 2)}
     }
+
 
 # def check_class_choice(user_choice):
 #     if user_choice == "Mage":
@@ -130,6 +151,8 @@ def check_level(player):
     if player["experience"] >= class_dictionary[2]["experience_needed"]:
         level += 1
     return level
+
+
 # #testing function
 # player_info = {"class": "warrior", "experience": 1000}
 # print(check_level(player_info))
@@ -139,9 +162,13 @@ def change_player_class_dictionary(player):
     current_dictionary = return_class_dictionary(player)
     current_level = check_level(player)
     player["class_dictionary"] = current_dictionary[current_level]
+
+
 # #testing function
 player_info = {"class": "warrior", "class_dictionary": "placeholder", "experience": 1000}
 change_player_class_dictionary(player_info)
+
+
 # print(player_info)
 
 
@@ -149,6 +176,8 @@ def update_monster_hp(monster, player):
     player_current_level = check_level(player)
     monster_hp_dictionary = MONSTER_HP()
     monster["hp"] = monster_hp_dictionary[player_current_level]["hp"]
+
+
 # #testing function
 # monster_info = {"hp": 10}
 # player_info = {"class": "warrior", "experience": 1000}
@@ -162,12 +191,14 @@ def MONSTER_DAMAGE():
         3: {"level": 3, "damage": MAX_MONSTER_DAMAGE() + (MONSTER_DAMAGE_INCREMENT() * 2)},
     }
 
+
 def make_boss():
     boss = {"name": PICK_RANDOM_BOSS_NAME(),
             "hp": MAX_BOSS_HP(),
             "damage": MAX_BOSS_DAMAGE(),
             "position": [2, 2]}
     return boss
+
 
 def random_monster(player):
     monster_info = {"name": random_monster_name,
@@ -178,10 +209,13 @@ def random_monster(player):
     check_monster_hp(player, monster_info)
     return monster_info
 
+
 def update_monster_damage(monster, player):
     player_current_level = check_level(player)
     monster_damage_dictionary = MONSTER_DAMAGE()
     monster["damage"] = monster_damage_dictionary[player_current_level]["damage"]
+
+
 # #testing function
 monster_info = {"damage": 10}
 player_info = {"class": "warrior", "experience": 1000}
@@ -229,6 +263,7 @@ def player_job_generator():
 
 import random
 
+
 def attacking_round(attacker, opponent):
     """Simulate a single attack to the opponent.
 
@@ -246,25 +281,64 @@ def attacking_round(attacker, opponent):
     if attacker["category"] == "player":
         accuracy_roll = random.randint(1, 100)
         if accuracy_roll <= attacker["class_dictionary"]["accuracy_rate"]:
-            player_damage = random.randint(attacker["class_dictionary"]["base_damage_min"], attacker["class_dictionary"]["base_damage_max"])
+            player_damage = random.randint(attacker["class_dictionary"]["base_damage_min"],
+                                           attacker["class_dictionary"]["base_damage_max"])
             opponent["hp"] -= player_damage
-        else: print(f'poor accuracy!')
+        else:
+            print(f'poor accuracy!')
     else:
-        monster_damage = random.randint(1, attacker["damage"]) #switch to roll_dice function for this in production
+        monster_damage = random.randint(1, attacker["damage"])  # switch to roll_dice function for this in production
         opponent["hp"] -= monster_damage
     # delayed_message(f"{attacker['name']} has done {damage} damage to {opponent['name']}!"
     #                 f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
     return opponent
-#testing function
+
+
+# testing function
 # monster_info = {"damage": 10, "hp": 20, "category": "monster"}
 # player_info = {'name': 'leo', 'class': 'Warrior', 'hp': 20, 'position': [0, 0], 'level': 1, 'damage': 10, 'experience': 0, 'category': 'player', 'class_dictionary': {'level': 1, 'level_name': 'Apprentice Warrior', 'experience_needed': 200, 'attack_name': 'Threaten', 'max_hp': 20, 'base_damage_min': 7, 'base_damage_max': 12, 'accuracy_rate': 50}}
 # print(attacking_round(player_info, monster_info))
-#NEED TO ADD CATEGORY INTO BOTH PLAYER AND MONSTER LIST
+# NEED TO ADD CATEGORY INTO BOTH PLAYER AND MONSTER LIST
 
+# def input_checker(dict_of_options: dict) -> str:
+#     print(str(dict_of_options).replace(",", "\n"))
+#     user_input = input("\nPlease choose from the following list of options by typing in the corresponding number: \n")
+#
+#     while (user_input.isnumeric() is False) or (int(user_input) not in dict_of_options):
+#         print("That's not in the list of options. Please choose again!")
+#         print(str(dict_of_options).replace(",", "\n"))
+#         user_input = input("\nPlease choose from the following list of options by typing in the corresponding "
+#                            "number: \n")
+#     return dict_of_options[int(user_input)]
+#
+#
+# def random_name_generator() -> str:
+#     random_name = ' '.join(name.capitalize() for name in generate())
+#     print(f"\n\u001b[32;1m{random_name}\u001b[0m was created randomly! Would you like to choose your own name or create"
+#           f" another at random?\n")
+#     choices = {int(keys): names for keys, names in enumerate(PLAYER_NAME_CHOICES(), 1)}
+#     print(str(choices).replace(",", "\n"))
+#     user_input = input("\nPlease choose from the following list of options by typing in the corresponding number: \n")
+#     correct_input = filter(option_checker, user_input)
+#     while correct_input is False:
+#         print("That's not in the list of options. Please choose again!")
+#         print(str(choices).replace(",", "\n"))
+#         user_input = input("\nPlease choose from the following list of options by typing in the corresponding "
+#                            "number: \n")
+#         correct_input = filter(option_checker, user_input)
+#     return user_input
+
+# def option_checker(choice):
+#     number_option = [1, 2, 3]
+#     if choice in number_option:
+#         return True
+#     else:
+#         return False
 
 
 def choices(x, y):
     return x + " : " + y
+
 
 numbers = ["1", "2", "3", "4"]
 types = ["Mage", "Warrior", "Horse", "Duck"]
