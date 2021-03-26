@@ -5,6 +5,9 @@
 ### Your student numbers: <br> Paul: A00990811 <br> April: A01261858
 
 #### ** Add any comments for me below this line **
+
+***Table of Elements***
+
 | Required element | Location (line number) |
 | ---------------- | ---------------------- |
 | Tuple |  |
@@ -18,5 +21,15 @@
 | Enumerate ||
 | Filter or map |  |
 | Random module |  |
-Amazing day! Testing merge conflict. See what happens. THis is april's line
+
+
+***Player Class Damage & Accuracy Level***
+
+| Class | Damage level | Accuracy Level | 
+| ---------------- | ---------------------- | ---------------------- |
+| Mage | high | low |
+| Thief | low | high |
+| Ranger | normal | normal |
+| Warrior | normal | pure luck |
+
 #### ** Add any comments for me above this line **
