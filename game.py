@@ -769,7 +769,8 @@ def move_character(player: dict, board: dict, boss: dict):
     :postcondition: the player's position will correctly change according to the user's input
     :return: a changed player's new position in a list
     """
-    player_game_descriptions(player, board, boss)
+    display_map(player, boss)
+    display_info(player, board)
     new_direction_list = {int(keys): jobs for keys, jobs in enumerate(DIRECTION_LIST(), 1)}
     user_input = input_checker(new_direction_list)
     while validate_move(player['position'], user_input):
@@ -1151,22 +1152,6 @@ def attacking_round(attacker: dict, opponent: dict, damage_amount: int):
             delayed_message(f"{attacker['name']} has used {choice(attacker['attack_name'])} and "
                             f"has done {damage_amount} damage to {opponent['name']}!"
                             f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
-
-
-def player_game_descriptions(player: dict, board: dict, boss: dict):
-    """Direct to different functions that return game information for player.
-
-    The function packages different helper functions that return different game information for player. The function is
-    used to help distinguish which functions are being called to give the player game information.
-
-    :param player: a dictionary
-    :param board: a dictionary
-    :param boss: a dictionary
-    :precondition: player, board, and boss must be a proper dictionary with correct character and information
-    :postcondition: correctly run different functions that return game information
-    """
-    display_map(player, boss)
-    display_info(player, board)
 
 
 def make_boss() -> dict:
