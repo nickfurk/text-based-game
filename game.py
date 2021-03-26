@@ -673,7 +673,7 @@ def display_info(player: dict, board: dict):
     print(f'Description: {board[tuple(coordinate)]["location_description"]}')
     print(f'Health point: {player["hp"]}/{player["class_dictionary"]["max_hp"]}')
     print(f'Level: {player["level"]}, {player["class_dictionary"]["level_name"]}')
-    print(f'Experience: {player["experience"]}/{player["class_dictionary"]["experience_needed"]}')
+    print(f'Experience: {player["experience"]}')
 
 
 def validate_move(current_position: list, user_direction: str) -> bool:
@@ -969,7 +969,6 @@ def run_away_player(player: dict, monster: dict):
     else:
         delayed_message(f"You've run away successfully from {monster['name']}!\n"
                         f"You were very lucky this time...\n", 1)
-    press_enter_to_continue()
 
 
 def run_or_fight_again() -> str:
