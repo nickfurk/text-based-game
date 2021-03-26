@@ -19,17 +19,17 @@
 
 | Required element | Location (line number) |
 | ---------------- | ---------------------- |
-| Tuple |  |
-| List |  |
-| Dictionary or list comprehension |  |
+| Tuple | ~424 |
+| List | ~388  |
+| Dictionary or list comprehension | ~424,   |
 | Selection using the if-statement |  |
-| For or while loop |  |
-| Membership operator (in) |  |
-| Range function |  |
-| itertools function(s) |  |
-| Enumerate ||
-| Filter or map |  |
-| Random module |  |
+| For or while loop | ~1248, 442, 517  |
+| Membership operator (in) | ~535,  |
+| Range function | ~652, 424 |
+| itertools function(s) | ~423  |
+| Enumerate | ~496, 775|
+| Filter or map | ~751 |
+| Random module | ~797, 1104, 874 |
 
 
 ***Player Class Damage & Accuracy Level***
