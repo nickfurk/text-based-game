@@ -521,7 +521,7 @@ def player_name_generator() -> str:
     return user_input
 
 
-def player_class_generator(player: dict) -> str:
+def player_class_generator(player: dict):
     """Designate player class based on user choice.
 
     :param player: a dictionary
@@ -531,12 +531,11 @@ def player_class_generator(player: dict) -> str:
     """
     print("Below is the list of characters you can choose to play in the game. Choose wisely so that you'll be able "
           "to win the game successfully... \n")
-    new_list_for_user = {int(keys): characters for keys, characters in zip(count(start=1, step=1), CLASS_LIST())}
-    player_class = input_checker(new_list_for_user)
-    player["class"] = player_class
-    print(f"\n{player_class} is a great choice!\n")
+    choices = {int(keys): characters for keys, characters in zip(count(start=1, step=1), CLASS_LIST())}
+    user_input = input_checker(choices)
+    player["class"] = user_input
+    print(f"\n{user_input} is a great choice!\n")
     sleep(1)
-    return player_class
 
 
 def player_class_dictionary(player: dict):
