@@ -632,7 +632,7 @@ def make_player() -> dict:
               "experience": 0,
               "category": "player",
               "class_dictionary": ""}
-    player["class"] = player_class_generator(player)
+    player_class_generator(player)
     player_class_dictionary(player)
     return player
 
