@@ -224,6 +224,27 @@ def MONSTER_DAMAGE() -> dict:
     }
 
 
+def LIST_OF_MONSTERS() -> list:
+    """Return the list of monster names.
+
+    The list is put through the random module to pick a random name.
+
+    :return: a list
+    """
+    return ["Amputator", "Bone Breaker", "Dark Cultist", "Fallen Shaman", "Flesh Harvester", "Terror Bat",
+            "Dust Imp", "Demonic Hellflyer"]
+
+
+def LIST_OF_MONSTER_TYPES() -> list:
+    """Return the list of possible monster types.
+
+    The list is put through the random module to pick a random type.
+
+    :return: a list
+    """
+    return ["Cave of Alcarnus", "Necropolis Mines", "River of Kehjan", "Black Canyon Mines", "Ureh Caverns"]
+
+
 def RANDOM_MONSTER_ATTACK() -> list:
     """Return a list of attack names.
 
@@ -234,11 +255,9 @@ def RANDOM_MONSTER_ATTACK() -> list:
 
 # Boss Specifications
 def LIST_OF_BOSS_NAME() -> list:
-    """Return a random string from the list of strings.
+    """Return a list of boss names.
 
-    The function will pick a random name from the provided list of boss names.
-
-    :return: a string
+    :return: a list
     """
     return ["Kalzeruth", "Mandrasath", "Claughuth", "Felscathor"]
 
@@ -354,27 +373,6 @@ def YES_OR_NO() -> list:
     :return: a list
     """
     return ["Yes", "No"]
-
-
-def LIST_OF_MONSTERS() -> list:
-    """Return the list of monster names.
-
-    The list is put through the random module to pick a random name.
-
-    :return: a list
-    """
-    return ["Amputator", "Bone Breaker", "Dark Cultist", "Fallen Shaman", "Flesh Harvester", "Terror Bat",
-            "Dust Imp", "Demonic Hellflyer"]
-
-
-def LIST_OF_MONSTER_TYPES() -> list:
-    """Return the list of possible monster types.
-
-    The list is put through the random module to pick a random type.
-
-    :return: a list
-    """
-    return ["Cave of Alcarnus", "Necropolis Mines", "River of Kehjan", "Black Canyon Mines", "Ureh Caverns"]
 
 
 def LOCATION_DESCRIPTION() -> list:
