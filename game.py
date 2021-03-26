@@ -13,6 +13,7 @@ import doctest
 import os
 from coolname import generate
 
+
 # Player Specifications
 def PLAYER_NAME_CHOICES():
     return ["I would like to choose this name!", "I would like to choose another one at random",
@@ -287,7 +288,7 @@ def BOSS_POSITION() -> list:
 
     :return: a list with two number elements
     """
-    return [15, 15]
+    return [5, 5]
 
 
 def RANDOM_BOSS_ATTACK() -> list:
@@ -1209,6 +1210,7 @@ def fight_boss(player: dict, boss: dict):
             battle_start(player, boss, battle_attack_order())
             if (boss["hp"] > 0 and player["hp"] > 0) and run_or_fight_again() == "No":
                 run_away_player(player, boss)
+                boss["hp"] = BOSS_MAX_HP()
                 break
             elif boss["hp"] < 1 and player["hp"] > 0:
                 continue
