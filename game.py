@@ -19,10 +19,6 @@ def PLAYER_NAME_CHOICES():
             "I would like to choose my own name!"]
 
 
-def PLAYER_NAME_GENERATE() -> list:
-    return ['Paul', 'April', 'Leo', 'Michelle', "Choose my own"]
-
-
 def PLAYER_BASE_HP() -> int:
     """Return player base health point as a number 20.
 
@@ -52,6 +48,7 @@ def PLAYER_EXPERIENCE_GAIN() -> int:
 
     :return: player's experience gain as integer
     """
+    return 100
 
 
 # Class Specification
@@ -497,6 +494,11 @@ def random_name_generator() -> str:
           f" another at random?\n")
     choices = {int(keys): names for keys, names in enumerate(PLAYER_NAME_CHOICES(), 1)}
     user_choice = input_checker(choices)
+    while user_choice == "I would like to choose another one at random":
+        random_name = ' '.join(name.capitalize() for name in generate())
+        print(f"\n\u001b[32;1m{random_name}\u001b[0m was created randomly! Would you like to choose your own name or "
+              f"create another at random?\n")
+        user_choice = input_checker(choices)
     if user_choice == "I would like to choose this name!":
         user_choice = random_name
     return user_choice
@@ -509,8 +511,6 @@ def player_name_generator() -> str:
     :return: a string
     """
     user_input = random_name_generator()
-    while user_input == "I would like to choose another one at random":
-        user_input = random_name_generator()
     if user_input == "I would like to choose my own name!":
         user_input = input("What will your name be for this game?: ")
         while user_input == "":
@@ -1265,10 +1265,10 @@ def game():
         move_character(player, board, boss)
         if player["position"] == boss["position"]:
             fight_boss(player, boss)
-            if boss["hp"] < 1:
-                game_win_art()
         else:
             battle_chance(player, random_monster(player))
+    if boss["hp"] < 1:
+        game_win_art()
     player_dead_art()
 
 
