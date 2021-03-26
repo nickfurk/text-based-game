@@ -939,7 +939,6 @@ def combat_round(player: dict, monster: dict):
                 break
             if (monster["hp"] > 0 and player["hp"] > 0) and run_or_fight_again() == "No":
                 run_away_player(player, monster)
-                press_enter_to_continue()
                 break
             else:
                 continue
@@ -970,6 +969,7 @@ def run_away_player(player: dict, monster: dict):
     else:
         delayed_message(f"You've run away successfully from {monster['name']}!\n"
                         f"You were very lucky this time...\n", 1)
+    press_enter_to_continue()
 
 
 def run_or_fight_again() -> str:
@@ -1244,7 +1244,7 @@ def game():
     board = make_board()
     player = make_player()
     boss = make_boss()
-    while player['hp'] > 0:
+    while player['hp'] > 0 or boss["hp"] < 1:
         leveling_package(player)
         move_character(player, board, boss)
         if player["position"] == boss["position"]:
