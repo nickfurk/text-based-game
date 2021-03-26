@@ -6,24 +6,20 @@ import io
 
 
 class TestRandomMonster(TestCase):
-    @patch('game.LIST_OF_MONSTERS', return_value=['Zelda'])
-    @patch('game.LIST_OF_MONSTER_TYPES', return_value=['Cat'])
-    @patch('game.RANDOM_MONSTER_ATTACK', return_value='Rawr')
-    def test_random_monster_level_one(self, mock_attack, mock_type, mock_name):
+    @patch('game.choice', side_effect=['Amputator', 'Ureh Caverns'])
+    def test_random_monster_level_one(self, mock_choice):
         player = {'name': 'Paul', 'class': 'Warrior', 'hp': 20, 'position': [0, 0], 'level': 1, 'experience': 0,
                   'category': 'player', 'class_dictionary': {'level': 1, 'level_name': 'Apprentice Warrior',
                                                              'experience_needed': 200, 'attack_name': 'Threaten',
                                                              'max_hp': 20, 'base_damage_min': 7, 'base_damage_max': 12,
                                                              'accuracy_rate': 50}}
-        expected_output = {'name': '\x1b[33;1mZelda\x1b[0m', 'type': 'Cat', 'hp': 10, 'category': 'monster',
-                           'damage': 10, 'attack_name': 'Rawr'}
+        expected_output = {'name': '\x1b[33;1mAmputator\x1b[0m', 'type': 'Ureh Caverns', 'hp': 10,
+                           'category': 'monster', 'damage': 10, 'attack_name': ['Bite', 'Slash', 'Poisonous Trap']}
         actual = random_monster(player)
         self.assertEqual(expected_output, actual)
 
-    @patch('game.LIST_OF_MONSTERS', return_value=['NickFurry'])
-    @patch('game.LIST_OF_MONSTER_TYPES', return_value=['Tiger'])
-    @patch('game.RANDOM_MONSTER_ATTACK', return_value='Rawr')
-    def test_random_monster_level_two(self, mock_attack, mock_type, mock_name):
+    @patch('game.choice', side_effect=['Amputator', 'Ureh Caverns'])
+    def test_random_monster_level_two(self, mock_choice):
         player = {'category': 'player',
                   'class': 'Warrior',
                   'class_dictionary': {'accuracy_rate': 50, 'attack_name': 'Power Crash', 'base_damage_max': 15,
@@ -34,7 +30,7 @@ class TestRandomMonster(TestCase):
                   'level': 2,
                   'name': '\u001b[32;1mplayer\u001b[0m',
                   'position': [0, 0]}
-        expected_output = {'name': '\x1b[33;1mNickFurry\x1b[0m', 'type': 'Tiger', 'hp': 17, 'category': 'monster',
-                           'damage': 15, 'attack_name': 'Rawr'}
+        expected_output = {'name': '\x1b[33;1mAmputator\x1b[0m', 'type': 'Ureh Caverns', 'hp': 17,
+                           'category': 'monster', 'damage': 15, 'attack_name': ['Bite', 'Slash', 'Poisonous Trap']}
         actual = random_monster(player)
         self.assertEqual(expected_output, actual)
