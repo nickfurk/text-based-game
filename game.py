@@ -449,7 +449,7 @@ def input_checker(dict_of_options: dict) -> str:
     return dict_of_options[int(user_input)]
 
 
-def delayed_message(message: str, delay: float) -> None:
+def delayed_message(message: str, delay: float):
     """Add delays to string prints.
 
     :param message: a string
@@ -461,7 +461,7 @@ def delayed_message(message: str, delay: float) -> None:
     print(message)
 
 
-def press_enter_to_continue() -> None:
+def press_enter_to_continue():
     """Generate prompt to allow player to control the pace of the game.
 
     The function will ask user to type enter to continue. This allows the player to control the pace of the game,
@@ -473,7 +473,7 @@ def press_enter_to_continue() -> None:
         user_input = input("Press enter to continue the game!: ")
 
 
-def game_over() -> None:
+def game_over():
     """Generate a prompt to end the game.
 
     The function will run when the player chooses "quit" in move_character function. This will print a message, and
@@ -539,7 +539,7 @@ def player_class_generator(player: dict) -> str:
     return player_class
 
 
-def player_class_dictionary(player: dict) -> None:
+def player_class_dictionary(player: dict):
     """Change the "class_dictionary" value depending on player's class.
 
     The function will check the player's "class_dictionary" value based on the player's class choice.
@@ -638,7 +638,7 @@ def make_player() -> dict:
     return player
 
 
-def display_map(player: dict, boss: dict) -> None:
+def display_map(player: dict, boss: dict):
     """Print player's and boss' position on the map.
 
     Player's position will be printed as green, whereas the boss' position will be printed as red.
@@ -660,7 +660,7 @@ def display_map(player: dict, boss: dict) -> None:
         print()
 
 
-def display_info(player: dict, board: dict) -> None:
+def display_info(player: dict, board: dict):
     """Print player's position, location description, health point, level, class name, and experience point.
 
     :param player: a dictionary
@@ -721,7 +721,7 @@ def validate_move(current_position: list, user_direction: str) -> bool:
         return False
 
 
-def player_movement_change(current_position: list, user_direction: str) -> None:
+def player_movement_change(current_position: list, user_direction: str):
     """Change the current_position to the desired direction.
 
     :param current_position: a list
@@ -760,7 +760,7 @@ def player_movement_change(current_position: list, user_direction: str) -> None:
         game_over()
 
 
-def move_character(player: dict, board: dict, boss: dict) -> None:
+def move_character(player: dict, board: dict, boss: dict):
     """Change the position of the player to a new position based on user input.
 
     :param player: a dictionary
@@ -797,7 +797,7 @@ def roll_die(number_of_rolls: int, number_of_sides: int) -> int:
     return total_result
 
 
-def battle_chance(player: dict, monster: dict) -> None:
+def battle_chance(player: dict, monster: dict):
     """Roll a die to determine if the player will meet an enemy.
 
     The player has a 20% chance to meet an enemy everytime they move. This is determined by rolling a 5 sided die once,
@@ -817,7 +817,7 @@ def battle_chance(player: dict, monster: dict) -> None:
         heal_player(player)
 
 
-def heal_player(player: dict) -> None:
+def heal_player(player: dict):
     """Increase player hp by integer 4.
 
     The function will heal the player's hp by integer 4. The heal amount will only be up to the player's maximum
@@ -882,7 +882,7 @@ def random_monster(player: dict) -> dict:
     return monster
 
 
-def check_monster_hp_and_damage(player, monster) -> None:
+def check_monster_hp_and_damage(player, monster):
     """Updates monster hp and damage level depending on the level of the player.
 
     As the player levels up, the monster hp and damage amount also increases incrementally.
@@ -921,7 +921,7 @@ def fight_or_run_decision(monster: dict) -> str:
     return user_choice
 
 
-def combat_round(player: dict, monster: dict) -> None:
+def combat_round(player: dict, monster: dict):
     """Direct the player to different functions based on their input.
 
     This function gives the user an option to run or fight. Either options will send the user to other functions.
@@ -948,7 +948,7 @@ def combat_round(player: dict, monster: dict) -> None:
         run_away_player(player, monster)
 
 
-def run_away_player(player: dict, monster: dict) -> None:
+def run_away_player(player: dict, monster: dict):
     """Roll a die to determine if the player will get damaged while fleeing.
 
     The player has a 20% chance to avoid damage while running away. This is determined by rolling a 5 sided die once,
@@ -1034,7 +1034,7 @@ def battle_attack_order() -> bool:
         return False
 
 
-def battle_start(player: dict, monster: dict, attacker: bool) -> None:
+def battle_start(player: dict, monster: dict, attacker: bool):
     """Simulate a battle between two characters.
 
     The function identifies who attacks first based on the boolean value, if the opponent is still alive then the
@@ -1063,7 +1063,7 @@ def battle_start(player: dict, monster: dict, attacker: bool) -> None:
             player["experience"] += PLAYER_EXPERIENCE_GAIN()
 
 
-def leveling_package(player: dict) -> None:
+def leveling_package(player: dict):
     """Change exp value and the player's dictionary values depending on the level.
 
     The function will add 100 exp everytime the monster is dead. The function will check the exp needed for each level
@@ -1109,7 +1109,7 @@ def player_damage(player: dict) -> int:
     return damage
 
 
-def attacking_round(attacker: dict, opponent: dict, damage_amount: int) -> None:
+def attacking_round(attacker: dict, opponent: dict, damage_amount: int):
     """Simulate a single attack to the opponent.
 
     This function runs a combat simulation that changes the opponent's hp value.
@@ -1154,7 +1154,7 @@ def attacking_round(attacker: dict, opponent: dict, damage_amount: int) -> None:
                             f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
 
 
-def player_game_descriptions(player: dict, board: dict, boss: dict) -> None:
+def player_game_descriptions(player: dict, board: dict, boss: dict):
     """Direct to different functions that return game information for player.
 
     The function packages different helper functions that return different game information for player. The function is
@@ -1209,7 +1209,7 @@ def fight_or_run_decision_boss_round(boss: dict) -> str:
     return user_choice
 
 
-def fight_boss(player: dict, boss: dict) -> None:
+def fight_boss(player: dict, boss: dict):
     """Direct the user to different functions based on their input.
 
     This function will give the user an option to run or fight when meeting boss. Either options will send the user to
@@ -1234,20 +1234,20 @@ def fight_boss(player: dict, boss: dict) -> None:
         run_away_player(player, boss)
 
 
-def game_win_art() -> None:
+def game_win_art():
     """Print ASCII art to congratulate the player for winning the game."""
     print("\n\n\nyou win!")
     input("\nType anything and press enter to close the game!")
     quit()
 
 
-def player_dead_art() -> None:
+def player_dead_art():
     print("\n\n\nYou are dead!")
     input("\nType anything and press enter to close the game!")
     quit()
 
 
-def game() -> None:
+def game():
     """Execute the game.
 
     The function consists of all the functions previously written. It runs a while loop to continue the game until the
