@@ -47,6 +47,13 @@ def PLAYER_STARTING_POSITION() -> list:
     return [0, 0]
 
 
+def PLAYER_EXPERIENCE_GAIN() -> int:
+    """Return player experience gain as 100.
+
+    :return: player's experience gain as integer
+    """
+
+
 # Class Specification
 def MAGE_HP_INCREMENT() -> int:
     """Return Mage class health increment as 10.
@@ -1047,13 +1054,13 @@ def battle_start(player: dict, monster: dict, attacker: bool) -> None:
         if monster['hp'] > 0:
             attacking_round(monster, player, roll_die(1, monster["damage"]))
         else:
-            player["experience"] += 100
+            player["experience"] += PLAYER_EXPERIENCE_GAIN()
     else:
         attacking_round(monster, player, roll_die(1, monster["damage"]))
         if player['hp'] > 0:
             attacking_round(player, monster, player_damage(player))
         if monster['hp'] < 1:
-            player["experience"] += 100
+            player["experience"] += PLAYER_EXPERIENCE_GAIN()
 
 
 def leveling_package(player: dict) -> None:
