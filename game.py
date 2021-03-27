@@ -777,16 +777,56 @@ def player_movement_change(current_position: list, user_direction: str):
     >>> player_movement_change(position, direction)
     [3, 2]
     """
-    if user_direction == "W":
+    if user_direction == "West":
         current_position[1] -= 1
-    elif user_direction == "E":
+    elif user_direction == "East":
         current_position[1] += 1
-    elif user_direction == "S":
+    elif user_direction == "South":
         current_position[0] += 1
-    elif user_direction == "N":
+    elif user_direction == "North":
         current_position[0] -= 1
     else:
         game_over()
+
+
+def filter_direction(x):
+    if x["direction"] == "West" and x["position"] == 0:
+        return False
+    elif x["direction"] == "East" and x["position"] == BOARD_SIZE() - 1:
+        return False
+    elif x["direction"] == "South" and x["position"] == BOARD_SIZE() - 1:
+        return False
+    elif x["direction"] == "North" and x["position"] == 0:
+        return False
+    else:
+        return True
+
+
+def change_dict_to_list(direction_dictionary):
+    possible_directions_list = []
+    for x in direction_dictionary:
+        possible_directions_list.append(x["direction"])
+    return possible_directions_list
+
+
+# def move_character(player: dict, board: dict, boss: dict):
+#     """Change the position of the player to a new position based on user input.
+#
+#     :param player: a dictionary
+#     :param board: a dictionary
+#     :param boss: a dictionary
+#     :precondition: player, board, and boss must be a proper dictionary with correct character and information
+#     :postcondition: the player's position will correctly change according to the user's input
+#     :return: a changed player's new position in a list
+#     """
+#     display_map(player, boss)
+#     display_info(player, board)
+#     new_direction_list = {int(keys): jobs for keys, jobs in enumerate(DIRECTION_LIST(), 1)}
+#     user_input = input_checker(new_direction_list)
+#     while validate_move(player['position'], user_input):
+#         print("\nYou can't go that way! Choose again wisely.")
+#         user_input = input_checker(new_direction_list)
+#     player_movement_change(player["position"], user_input)
 
 
 def move_character(player: dict, board: dict, boss: dict):
@@ -801,11 +841,14 @@ def move_character(player: dict, board: dict, boss: dict):
     """
     display_map(player, boss)
     display_info(player, board)
-    new_direction_list = {int(keys): jobs for keys, jobs in enumerate(DIRECTION_LIST(), 1)}
+    direction_validation = [{"direction": "West", "position": player["position"][1]},
+                            {"direction": "East", "position": player["position"][1]},
+                            {"direction": "South", "position": player["position"][0]},
+                            {"direction": "North", "position": player["position"][0]},
+                            {"direction": "Quit"}]
+    possible_directions = list(filter(filter_direction, direction_validation))
+    new_direction_list = {int(keys): jobs for keys, jobs in enumerate(change_dict_to_list(possible_directions), 1)}
     user_input = input_checker(new_direction_list)
-    while validate_move(player['position'], user_input):
-        print("\nYou can't go that way! Choose again wisely.")
-        user_input = input_checker(new_direction_list)
     player_movement_change(player["position"], user_input)
 
 
