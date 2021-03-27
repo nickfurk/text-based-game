@@ -377,14 +377,14 @@ def CLASS_LIST() -> list:
     return ["Mage", "Thief", "Ranger", "Warrior"]
 
 
-def DIRECTION_LIST() -> list:
-    """Return the list of possible direction choices.
-
-    The list is put through the input checker function to allow the player to choose.
-
-    :return: a list
-    """
-    return ["W", "E", "S", "N", "quit"]
+# def DIRECTION_LIST() -> list:
+#     """Return the list of possible direction choices.
+#
+#     The list is put through the input checker function to allow the player to choose.
+#
+#     :return: a list
+#     """
+#     return ["W", "E", "S", "N", "quit"]
 
 
 def YES_OR_NO() -> list:
@@ -431,14 +431,38 @@ def LOCATION_DESCRIPTION() -> list:
 
 
 def player_colors(player_string):
+    """Return a string wrapped in ANSI escape codes.
+
+    :param player_string: a string
+    :return: a string
+
+    >>> string = "Paul"
+    "\u001b[32;1mPaul\u001b[0m"
+    """
     return f"\u001b[32;1m{player_string}\u001b[0m"
 
 
 def boss_colors(boss_string):
+    """Return a string wrapped in ANSI escape codes.
+
+    :param boss_string: a string
+    :return: a string
+
+    >>> string = "April"
+    "\u001b[31mApril\u001b[0m"
+    """
     return f"\u001b[31m{boss_string}\u001b[0m"
 
 
 def monster_colors(monster_string):
+    """Return a string wrapped in ANSI escape codes.
+
+    :param monster_string: a string
+    :return: a string
+
+    >>> string = "Zelda"
+    "\u001b[33;1mZelda\u001b[0m"
+    """
     return f"\u001b[33;1m{monster_string}\u001b[0m"
 
 
@@ -789,13 +813,13 @@ def player_movement_change(current_position: list, user_direction: str):
         game_over()
 
 
-def filter_direction(choice: dict) -> bool:
+def filter_direction(valid_direction: dict) -> bool:
     """Return boolean True or False based on available directions.
 
     Function accepts a dictionary of direction and position of the player's x or y coordinate.
     If direction moves off the board, then return False, else True.
 
-    :param choice: a dictionary
+    :param valid_direction: a dictionary
     :precondition: a dictionary with directions
     :postcondition: correctly returns True if the direction is on the board, else False if direction is off the board
     :return: boolean True or False
@@ -820,56 +844,37 @@ def filter_direction(choice: dict) -> bool:
     >>> filter_direction(direction)
     True
     """
-    if choice["direction"] == "West" and choice["position"] == 0:
+    if valid_direction["direction"] == "West" and valid_direction["position"] == 0:
         return False
-    elif choice["direction"] == "East" and choice["position"] == BOARD_SIZE() - 1:
+    elif valid_direction["direction"] == "East" and valid_direction["position"] == BOARD_SIZE() - 1:
         return False
-    elif choice["direction"] == "South" and choice["position"] == BOARD_SIZE() - 1:
+    elif valid_direction["direction"] == "South" and valid_direction["position"] == BOARD_SIZE() - 1:
         return False
-    elif choice["direction"] == "North" and choice["position"] == 0:
+    elif valid_direction["direction"] == "North" and valid_direction["position"] == 0:
         return False
     else:
         return True
 
 
-def change_dict_to_list(direction_dictionary: dict) -> list:
+def change_dict_to_list(direction_dictionary: list) -> list:
     """Change dictionary values into a list.
 
     Function takes in a list with multiple dictionaries and generate a single list with key "direction" values.
 
     :param direction_dictionary: a list with multiple dictionaries within
-    :precondition: direction_dictionary should include dictionaries within that has key "direction"
-    :postcondition: correctly returns a list of directions in a list
+    :precondition: direction_dictionary elements must be dictionaries with keys being "direction" and values being the
+                   directions
+    :postcondition: correctly returns a list of directions
     :return: a list with different directions
 
-    >>> test_dict = [{'direction': 'West'}, {'direction': 'East'}, {'direction': 'South'}, {'direction': 'North'}]
+    >>> test_dict = [{'direction': 'West'}, {'direction': 'East'}, {'direction': 'South'}, {'direction': 'Quit'}]
     >>> change_dict_to_list(test_dict)
-    ['West', 'East', 'South', 'North']
+    ['West', 'East', 'South', 'Quit']
     """
     possible_directions_list = []
     for key_pair in direction_dictionary:
         possible_directions_list.append(key_pair["direction"])
     return possible_directions_list
-
-
-# def move_character(player: dict, board: dict, boss: dict):
-#     """Change the position of the player to a new position based on user input.
-#
-#     :param player: a dictionary
-#     :param board: a dictionary
-#     :param boss: a dictionary
-#     :precondition: player, board, and boss must be a proper dictionary with correct character and information
-#     :postcondition: the player's position will correctly change according to the user's input
-#     :return: a changed player's new position in a list
-#     """
-#     display_map(player, boss)
-#     display_info(player, board)
-#     new_direction_list = {int(keys): jobs for keys, jobs in enumerate(DIRECTION_LIST(), 1)}
-#     user_input = input_checker(new_direction_list)
-#     while validate_move(player['position'], user_input):
-#         print("\nYou can't go that way! Choose again wisely.")
-#         user_input = input_checker(new_direction_list)
-#     player_movement_change(player["position"], user_input)
 
 
 def move_character(player: dict, board: dict, boss: dict):
