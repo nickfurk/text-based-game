@@ -736,24 +736,24 @@ def player_movement_change(current_position: list, user_direction: str):
     :param current_position: a list
     :param user_direction: a string
     :precondition: the list must contain two numbers within the range of 0 and 4 inclusive
-    :precondition: the string must be either "W", "E", "S", "N"
+    :precondition: the string must be either "West", "East", "South", "North"
     :postcondition: the player's position will correctly change according to user_direction
     :return: a changed list of the player's new position
 
     >>> position = [2, 2]
-    >>> direction = "W"
+    >>> direction = "West"
     >>> player_movement_change(position, direction)
     [2, 1]
     >>> position = [2, 2]
-    >>> direction = "E"
+    >>> direction = "East"
     >>> player_movement_change(position, direction)
     [2, 3]
     >>> position = [2, 2]
-    >>> direction = "N"
+    >>> direction = "North"
     >>> player_movement_change(position, direction)
     [1, 2]
     >>> position = [2, 2]
-    >>> direction = "S"
+    >>> direction = "South"
     >>> player_movement_change(position, direction)
     [3, 2]
     """
@@ -776,7 +776,7 @@ def filter_direction(valid_direction: dict) -> bool:
     If direction moves off the board, then return False, else True.
 
     :param valid_direction: a dictionary
-    :precondition: a dictionary with directions
+    :precondition: a dictionary with directions as key and position as value
     :postcondition: correctly returns True if the direction is on the board, else False if direction is off the board
     :return: boolean True or False
 
@@ -784,19 +784,11 @@ def filter_direction(valid_direction: dict) -> bool:
     >>> filter_direction(direction)
     False
 
-    >>> direction = {"direction": "East", "position": 24}
-    >>> filter_direction(direction)
-    False
-
-    >>> direction = {"direction": "South", "position": 24}
-    >>> filter_direction(direction)
-    False
-
     >>> direction = {"direction": "North", "position": 0}
     >>> filter_direction(direction)
     False
 
-    >>> direction = {"direction": "North", "position": 5}
+    >>> direction = {"direction": "Quit", "position": 0}
     >>> filter_direction(direction)
     True
     """
@@ -823,8 +815,8 @@ def change_dict_to_list(direction_dictionary: list) -> list:
     :postcondition: correctly returns a list of directions
     :return: a list with different directions
 
-    >>> test_dict = [{'direction': 'West'}, {'direction': 'East'}, {'direction': 'South'}, {'direction': 'Quit'}]
-    >>> change_dict_to_list(test_dict)
+    >>> test_list = [{'direction': 'West'}, {'direction': 'East'}, {'direction': 'South'}, {'direction': 'Quit'}]
+    >>> change_dict_to_list(test_list)
     ['West', 'East', 'South', 'Quit']
     """
     possible_directions_list = []
