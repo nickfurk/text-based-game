@@ -430,40 +430,49 @@ def LOCATION_DESCRIPTION() -> list:
     ]
 
 
-def player_colors(player_string):
-    """Return a string wrapped in ANSI escape codes.
+def color_string_green(given_string):
+    """Return a string wrapped in ANSI escape code for green.
 
-    :param player_string: a string
+    :param given_string: a string
     :return: a string
 
     >>> string = "Paul"
     "\u001b[32;1mPaul\u001b[0m"
     """
-    return f"\u001b[32;1m{player_string}\u001b[0m"
+    return f"\u001b[32;1m{given_string}\u001b[0m"
 
 
-def boss_colors(boss_string):
-    """Return a string wrapped in ANSI escape codes.
+def color_string_red(given_string):
+    """Return a string wrapped in ANSI escape code for red.
 
-    :param boss_string: a string
+    :param given_string: a string
     :return: a string
 
     >>> string = "April"
     "\u001b[31mApril\u001b[0m"
     """
-    return f"\u001b[31m{boss_string}\u001b[0m"
+    return f"\u001b[31m{given_string}\u001b[0m"
 
 
-def monster_colors(monster_string):
-    """Return a string wrapped in ANSI escape codes.
+def color_string_yellow(given_string):
+    """Return a string wrapped in ANSI escape code for yellow.
 
-    :param monster_string: a string
+    :param given_string: a string
     :return: a string
 
     >>> string = "Zelda"
     "\u001b[33;1mZelda\u001b[0m"
     """
-    return f"\u001b[33;1m{monster_string}\u001b[0m"
+    return f"\u001b[33;1m{given_string}\u001b[0m"
+
+
+def underline_string(given_string):
+    """Return a string wrapped in ANSI escape code for underline.
+
+    :param given_string: a string
+    :return: a string
+    """
+    return f"\033[4m{given_string}\u001b[0m"
 
 
 def make_board() -> dict:
@@ -544,13 +553,13 @@ def random_name_generator() -> str:
     :return: user's choice in string
     """
     random_name = ' '.join(name.capitalize() for name in generate())
-    print(f"{player_colors(random_name)} was created randomly! Would you like to choose your own name or create"
+    print(f"{color_string_green(random_name)} was created randomly! Would you like to choose your own name or create"
           f" another at random?\n")
     choices = {int(keys): names for keys, names in enumerate(PLAYER_NAME_CHOICES(), 1)}
     user_choice = input_checker(choices)
     while user_choice == "I would like to choose another one at random":
         random_name = ' '.join(name.capitalize() for name in generate())
-        print(f"\n{player_colors(random_name)} was created randomly! Would you like to choose your own name or "
+        print(f"\n{color_string_green(random_name)} was created randomly! Would you like to choose your own name or "
               f"create another at random?\n")
         user_choice = input_checker(choices)
     if user_choice == "I would like to choose this name!":
@@ -570,7 +579,7 @@ def player_name_generator() -> str:
         while user_input == "":
             print("You can't have nothing for your name, but anything else works! Try again.")
             user_input = input("What will your name be for this game?: ")
-    print(f"\nWelcome to the game, {player_colors(user_input)}\n")
+    print(f"\nWelcome to the game, {color_string_green(user_input)}\n")
     sleep(1)
     return user_input
 
@@ -678,7 +687,7 @@ def make_player() -> dict:
     :postcondition: gets user input and creates player dictionary
     :return: a dictionary
     """
-    player = {"name": player_colors(player_name_generator()),
+    player = {"name": color_string_green(player_name_generator()),
               "class": "",
               "hp": PLAYER_BASE_HP(),
               "position": PLAYER_STARTING_POSITION(),
@@ -705,9 +714,9 @@ def display_map(player: dict, boss: dict):
     for row in range(BOARD_SIZE()):
         for column in range(BOARD_SIZE()):
             if player["position"] == [row, column]:
-                print(player_colors("[X]"), end="")
+                print(color_string_green("[X]"), end="")
             elif boss["position"] == [row, column]:
-                print(boss_colors("[#]"), end="")
+                print(color_string_red("[#]"), end="")
             else:
                 print("[ ]", end="")
         print()
@@ -941,7 +950,7 @@ def random_monster(player: dict) -> dict:
     """
     random_monster_name = choice(LIST_OF_MONSTERS())
     random_monster_type = choice(LIST_OF_MONSTER_TYPES())
-    monster = {"name": monster_colors(random_monster_name),
+    monster = {"name": color_string_yellow(random_monster_name),
                "type": random_monster_type,
                "hp": "",
                "category": "monster",
@@ -1229,7 +1238,7 @@ def make_boss() -> dict:
     :return: a dictionary
     """
     boss_name = choice(LIST_OF_BOSS_NAME())
-    boss = {"name": boss_colors(boss_name),
+    boss = {"name": color_string_red(boss_name),
             "category": "boss",
             "hp": BOSS_MAX_HP(),
             "damage": BOSS_MAX_DAMAGE(),
