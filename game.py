@@ -930,8 +930,8 @@ def check_monster_hp_and_damage(player, monster):
     """
     player_current_level = check_level(player)
     monster_dictionary = MONSTER_HP_AND_DAMAGE()
-    monster["hp"] = monster_hp_dictionary[player_current_level]["hp"]
-    monster["damage"] = monster_damage_dictionary[player_current_level]["damage"]
+    monster["hp"] = monster_dictionary[player_current_level]["hp"]
+    monster["damage"] = roll_die(1, monster_dictionary[player_current_level]["damage"])
 
 
 def fight_or_run_decision(monster: dict) -> str:
