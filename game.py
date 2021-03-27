@@ -789,14 +789,24 @@ def player_movement_change(current_position: list, user_direction: str):
         game_over()
 
 
-def filter_direction(x):
-    if x["direction"] == "West" and x["position"] == 0:
+def filter_direction(choice: list) -> bool:
+    """Return boolean True or False based on available directions.
+
+    Function accepts a list of available directions and checks the list against the player's position.
+    If direction moves off the board, then return False, else True.
+
+    :param choice: a list
+    :precondition: a list with directions
+    :postcondition: correctly returns True if the direction is on the board, else False if direction is off the board
+    :return: boolean True or False
+    """
+    if choice["direction"] == "West" and choice["position"] == 0:
         return False
-    elif x["direction"] == "East" and x["position"] == BOARD_SIZE() - 1:
+    elif choice["direction"] == "East" and choice["position"] == BOARD_SIZE() - 1:
         return False
-    elif x["direction"] == "South" and x["position"] == BOARD_SIZE() - 1:
+    elif choice["direction"] == "South" and choice["position"] == BOARD_SIZE() - 1:
         return False
-    elif x["direction"] == "North" and x["position"] == 0:
+    elif choice["direction"] == "North" and choice["position"] == 0:
         return False
     else:
         return True
