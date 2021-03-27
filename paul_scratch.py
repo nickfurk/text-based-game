@@ -1091,6 +1091,7 @@ def battle_start(player: dict, monster: dict, attacker: bool):
     :postcondition: correctly changes the "hp" of both characters if bother are alive
     :postcondition: correctly changes the "experience" and or "level" of player if kill monster
     """
+    print(f"[HP: {monster['hp']}, DAMAGE: {monster['damage']}]")
     if attacker:
         attacking_round(player, monster, player_damage(player))
         if monster['hp'] > 0:
