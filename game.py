@@ -842,9 +842,9 @@ def change_dict_to_list(direction_dictionary: dict) -> list:
     :postcondition: correctly returns a list of directions in a list
     :return: a list with different directions
 
-    >>> test_dict = [{'direction': 'West'}, {'direction': 'East'}, {'direction': 'South'}, {'direction': 'Quit'}]
+    >>> test_dict = [{'direction': 'West'}, {'direction': 'East'}, {'direction': 'South'}, {'direction': 'North'}]
     >>> change_dict_to_list(test_dict)
-    ['West', 'East', 'South', 'Quit']
+    ['West', 'East', 'South', 'North']
     """
     possible_directions_list = []
     for key_pair in direction_dictionary:
