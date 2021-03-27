@@ -779,17 +779,16 @@ def player_movement_change(current_position: list, user_direction: str):
 
 
 def filter_direction(x):
-    for y in x["direction"]:
-        if y == "West" and x["position"] == 0:
-            return False
-        elif y == "East" and x["position"] == BOARD_SIZE() - 1:
-            return False
-        elif y == "South" and x["position"] == BOARD_SIZE() - 1:
-            return False
-        elif y == "North" and x["position"] == 0:
-            return False
-        else:
-            return True
+    if x["direction"] == "West" and x["position"] == 0:
+        return False
+    elif x["direction"] == "East" and x["position"] == BOARD_SIZE() - 1:
+        return False
+    elif x["direction"] == "South" and x["position"] == BOARD_SIZE() - 1:
+        return False
+    elif x["direction"] == "North" and x["position"] == 0:
+        return False
+    else:
+        return True
 
 
 def change_dict_to_list(direction_dictionary):
