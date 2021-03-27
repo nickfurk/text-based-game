@@ -181,19 +181,19 @@ def MONSTER_HP_INCREMENT() -> int:
     return 7
 
 
-def MONSTER_HP() -> dict:
-    """Return monster health point dictionary.
-
-    The key represents the player's level, and the value is a dictionary that indicates the monster new health point
-    when the player levels up.
-
-    :return: a dictionary
-    """
-    return {
-        1: {"level": 1, "hp": BASE_MONSTER_HP()},
-        2: {"level": 2, "hp": BASE_MONSTER_HP() + MONSTER_HP_INCREMENT()},
-        3: {"level": 3, "hp": BASE_MONSTER_HP() + (MONSTER_HP_INCREMENT() * 2)}
-    }
+# def MONSTER_HP() -> dict:
+#     """Return monster health point dictionary.
+#
+#     The key represents the player's level, and the value is a dictionary that indicates the monster new health point
+#     when the player levels up.
+#
+#     :return: a dictionary
+#     """
+#     return {
+#         1: {"level": 1, "hp": BASE_MONSTER_HP()},
+#         2: {"level": 2, "hp": BASE_MONSTER_HP() + MONSTER_HP_INCREMENT()},
+#         3: {"level": 3, "hp": BASE_MONSTER_HP() + (MONSTER_HP_INCREMENT() * 2)}
+#     }
 
 
 def MONSTER_BASE_DAMAGE() -> int:
@@ -214,18 +214,35 @@ def MONSTER_DAMAGE_INCREMENT() -> int:
     return 5
 
 
-def MONSTER_DAMAGE() -> dict:
-    """Return monster damage dictionary.
+# def MONSTER_DAMAGE() -> dict:
+#     """Return monster damage dictionary.
+#
+#     The key represents the player's level, and the value is a dictionary that indicates the monster's new damage limit
+#     when the player levels up.
+#
+#     :return: a dictionary
+#     """
+#     return {
+#         1: {"level": 1, "damage": MONSTER_BASE_DAMAGE()},
+#         2: {"level": 2, "damage": MONSTER_BASE_DAMAGE() + MONSTER_DAMAGE_INCREMENT()},
+#         3: {"level": 3, "damage": MONSTER_BASE_DAMAGE() + (MONSTER_DAMAGE_INCREMENT() * 2)},
+#     }
 
-    The key represents the player's level, and the value is a dictionary that indicates the monster's new damage limit
+
+def MONSTER_HP_AND_DAMAGE() -> dict:
+    """Return monster health point dictionary.
+
+    The key represents the player's level, and the value is a dictionary that indicates the monster new health point
     when the player levels up.
 
     :return: a dictionary
     """
     return {
-        1: {"level": 1, "damage": MONSTER_BASE_DAMAGE()},
-        2: {"level": 2, "damage": MONSTER_BASE_DAMAGE() + MONSTER_DAMAGE_INCREMENT()},
-        3: {"level": 3, "damage": MONSTER_BASE_DAMAGE() + (MONSTER_DAMAGE_INCREMENT() * 2)},
+        1: {"level": 1, "hp": BASE_MONSTER_HP(), "damage": MONSTER_BASE_DAMAGE()},
+        2: {"level": 2, "hp": BASE_MONSTER_HP() + MONSTER_HP_INCREMENT(),
+            "damage": MONSTER_BASE_DAMAGE() + MONSTER_DAMAGE_INCREMENT()},
+        3: {"level": 3, "hp": BASE_MONSTER_HP() + (MONSTER_HP_INCREMENT() * 2),
+            "damage": MONSTER_BASE_DAMAGE() + (MONSTER_DAMAGE_INCREMENT() * 2)}
     }
 
 
@@ -912,9 +929,8 @@ def check_monster_hp_and_damage(player, monster):
     {'name': 'Zelda', 'type': 'Cat', 'hp': 15, 'category': 'monster', 'damage': 15}
     """
     player_current_level = check_level(player)
-    monster_hp_dictionary = MONSTER_HP()
+    monster_dictionary = MONSTER_HP_AND_DAMAGE()
     monster["hp"] = monster_hp_dictionary[player_current_level]["hp"]
-    monster_damage_dictionary = MONSTER_DAMAGE()
     monster["damage"] = monster_damage_dictionary[player_current_level]["damage"]
 
 
