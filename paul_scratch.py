@@ -10,13 +10,14 @@ from itertools import count
 from random import randint, choice
 from time import sleep
 import doctest
-from typing import Union
 import os
 from coolname import generate
 
+
 # Player Specifications
-def PLAYER_NAME_GENERATE() -> list:
-    return ['Paul', 'April', 'Leo', 'Michelle', "Choose my own"]
+def PLAYER_NAME_CHOICES():
+    return ["I would like to choose this name!", "I would like to choose another one at random",
+            "I would like to choose my own name!"]
 
 
 def PLAYER_BASE_HP() -> int:
@@ -41,6 +42,14 @@ def PLAYER_STARTING_POSITION() -> list:
     :return: player's starting position coordinate as a list with two elements that are integers
     """
     return [0, 0]
+
+
+def PLAYER_EXPERIENCE_GAIN() -> int:
+    """Return player experience gain as 100.
+
+    :return: player's experience gain as integer
+    """
+    return 100
 
 
 # Class Specification
@@ -125,9 +134,9 @@ def RANGER() -> dict:
     :return: a dictionary
     """
     return {
-        1: {"level": 1, "level_name": "Apprentice Ranger", "experience_needed": 400, "attack_name": "Iron Arrow",
+        1: {"level": 1, "level_name": "Apprentice Ranger", "experience_needed": 300, "attack_name": "Iron Arrow",
             "max_hp": PLAYER_BASE_HP(), "base_damage_min": 5, "base_damage_max": 10, "accuracy_rate": 85},
-        2: {"level": 2, "level_name": "Sniper", "experience_needed": 800, "attack_name": "Mortal Blow",
+        2: {"level": 2, "level_name": "Sniper", "experience_needed": 600, "attack_name": "Mortal Blow",
             "max_hp": PLAYER_BASE_HP() + RANGER_HP_INCREMENT(), "base_damage_min": 10, "base_damage_max": 15,
             "accuracy_rate": 90},
         3: {"level": 3, "level_name": "Marksman", "attack_name": "Dragon's Breath",
@@ -144,9 +153,9 @@ def WARRIOR() -> dict:
     :return: a dictionary
     """
     return {
-        1: {"level": 1, "level_name": "Apprentice Warrior", "experience_needed": 500, "attack_name": "Threaten",
+        1: {"level": 1, "level_name": "Apprentice Warrior", "experience_needed": 400, "attack_name": "Threaten",
             "max_hp": PLAYER_BASE_HP(), "base_damage_min": 5, "base_damage_max": 10, "accuracy_rate": 50},
-        2: {"level": 2, "level_name": "Knight", "experience_needed": 1000, "attack_name": "Power Crash",
+        2: {"level": 2, "level_name": "Knight", "experience_needed": 700, "attack_name": "Power Crash",
             "max_hp": PLAYER_BASE_HP() + WARRIOR_HP_INCREMENT(), "base_damage_min": 10, "base_damage_max": 15,
             "accuracy_rate": 50},
         3: {"level": 3, "level_name": "Paladin", "attack_name": "Heaven's Hammer",
@@ -172,7 +181,7 @@ def MONSTER_HP_INCREMENT() -> int:
     return 7
 
 
-def MONSTER_HP() -> dict:
+def MONSTER_HP_AND_DAMAGE() -> dict:
     """Return monster health point dictionary.
 
     The key represents the player's level, and the value is a dictionary that indicates the monster new health point
@@ -181,13 +190,15 @@ def MONSTER_HP() -> dict:
     :return: a dictionary
     """
     return {
-        1: {"level": 1, "hp": BASE_MONSTER_HP()},
-        2: {"level": 2, "hp": BASE_MONSTER_HP() + MONSTER_HP_INCREMENT()},
-        3: {"level": 3, "hp": BASE_MONSTER_HP() + (MONSTER_HP_INCREMENT() * 2)}
+        1: {"level": 1, "hp": BASE_MONSTER_HP(), "damage": MONSTER_BASE_DAMAGE()},
+        2: {"level": 2, "hp": BASE_MONSTER_HP() + MONSTER_HP_INCREMENT(),
+            "damage": MONSTER_BASE_DAMAGE() + MONSTER_DAMAGE_INCREMENT()},
+        3: {"level": 3, "hp": BASE_MONSTER_HP() + (MONSTER_HP_INCREMENT() * 2),
+            "damage": MONSTER_BASE_DAMAGE() + (MONSTER_DAMAGE_INCREMENT() * 2)}
     }
 
 
-def MONSTER_BASE_DAMAGE() -> int:  # need to get rid of at the end
+def MONSTER_BASE_DAMAGE() -> int:
     """Return monster's base damage as 10.
 
     The number is used in the roll_die function to give an output of 1 - 10 inclusive.
@@ -220,6 +231,27 @@ def MONSTER_DAMAGE() -> dict:
     }
 
 
+def LIST_OF_MONSTERS() -> list:
+    """Return the list of monster names.
+
+    The list is put through the random module to pick a random name.
+
+    :return: a list
+    """
+    return ["Amputator", "Bone Breaker", "Dark Cultist", "Fallen Shaman", "Flesh Harvester", "Terror Bat",
+            "Dust Imp", "Demonic Hellflyer"]
+
+
+def LIST_OF_MONSTER_TYPES() -> list:
+    """Return the list of possible monster types.
+
+    The list is put through the random module to pick a random type.
+
+    :return: a list
+    """
+    return ["Cave of Alcarnus", "Necropolis Mines", "River of Kehjan", "Black Canyon Mines", "Ureh Caverns"]
+
+
 def RANDOM_MONSTER_ATTACK() -> list:
     """Return a list of attack names.
 
@@ -229,15 +261,12 @@ def RANDOM_MONSTER_ATTACK() -> list:
 
 
 # Boss Specifications
-def PICK_RANDOM_BOSS_NAME() -> str:
-    """Return a random string from the list of strings.
+def LIST_OF_BOSS_NAME() -> list:
+    """Return a list of boss names.
 
-    The function will pick a random name from the provided list of boss names.
-
-    :return: a string
+    :return: a list
     """
-    boss_names = ["Boss Zelda", "Boss Link", "Boss Bowser"]
-    return choice(boss_names)
+    return ["Kalzeruth", "Mandrasath", "Claughuth", "Felscathor"]
 
 
 def BOSS_MAX_HP() -> int:
@@ -261,7 +290,7 @@ def BOSS_POSITION() -> list:
 
     :return: a list with two number elements
     """
-    return [15, 15]
+    return [5, 5]
 
 
 def RANDOM_BOSS_ATTACK() -> list:
@@ -332,15 +361,15 @@ def CLASS_LIST() -> list:
     """
     return ["Mage", "Thief", "Ranger", "Warrior"]
 
-
-def DIRECTION_LIST() -> list:
-    """Return the list of possible direction choices.
-
-    The list is put through the input checker function to allow the player to choose.
-
-    :return: a list
-    """
-    return ["W", "E", "S", "N", "quit"]
+#
+# def DIRECTION_LIST() -> list:
+#     """Return the list of possible direction choices.
+#
+#     The list is put through the input checker function to allow the player to choose.
+#
+#     :return: a list
+#     """
+#     return ["W", "E", "S", "N", "quit"]
 
 
 def YES_OR_NO() -> list:
@@ -351,27 +380,6 @@ def YES_OR_NO() -> list:
     :return: a list
     """
     return ["Yes", "No"]
-
-
-def LIST_OF_MONSTERS() -> list:
-    """Return the list of monster names.
-
-    The list is put through the random module to pick a random name.
-
-    :return: a list
-    """
-    return ["Amputator", "Bone Breaker", "Dark Cultist", "Fallen Shaman", "Flesh Harvester", "Terror Bat",
-            "Dust Imp", "Demonic Hellflyer"]
-
-
-def LIST_OF_MONSTER_TYPES() -> list:
-    """Return the list of possible monster types.
-
-    The list is put through the random module to pick a random type.
-
-    :return: a list
-    """
-    return ["Cave of Alcarnus", "Necropolis Mines", "River of Kehjan", "Black Canyon Mines", "Ureh Caverns"]
 
 
 def LOCATION_DESCRIPTION() -> list:
@@ -407,9 +415,16 @@ def LOCATION_DESCRIPTION() -> list:
     ]
 
 
-def PLAYER_NAME_CHOICES():
-    return ["I would like to choose this name!", "I would like to choose another one at random",
-            "I would like to choose my own name!"]
+def player_colors(player_string):
+    return f"\u001b[32;1m{player_string}\u001b[0m"
+
+
+def boss_colors(boss_string):
+    return f"\u001b[31m{boss_string}\u001b[0m"
+
+
+def monster_colors(monster_string):
+    return f"\u001b[33;1m{monster_string}\u001b[0m"
 
 
 def make_board() -> dict:
@@ -437,17 +452,16 @@ def input_checker(dict_of_options: dict) -> str:
     :return: value of the chosen key as a string
     """
     print(str(dict_of_options).replace(",", "\n"))
-    user_input = int(input("\nPlease choose from the following list of options by typing in the corresponding "
-                           "number: \n"))
-    while user_input not in dict_of_options:
+    user_input = input("\nPlease choose from the following list of options by typing in the corresponding number: \n")
+    while (user_input.isnumeric() is False) or (int(user_input) not in dict_of_options):
         print("That's not in the list of options. Please choose again!")
         print(str(dict_of_options).replace(",", "\n"))
-        user_input = int(input("\nPlease choose from the following list of options by typing in the corresponding "
-                               "number: \n"))
-    return dict_of_options[user_input]
+        user_input = input("\nPlease choose from the following list of options by typing in the corresponding "
+                           "number: \n")
+    return dict_of_options[int(user_input)]
 
 
-def delayed_message(message: str, delay: float) -> None:
+def delayed_message(message: str, delay: float):
     """Add delays to string prints.
 
     :param message: a string
@@ -459,7 +473,7 @@ def delayed_message(message: str, delay: float) -> None:
     print(message)
 
 
-def press_enter_to_continue() -> None:
+def press_enter_to_continue():
     """Generate prompt to allow player to control the pace of the game.
 
     The function will ask user to type enter to continue. This allows the player to control the pace of the game,
@@ -471,7 +485,7 @@ def press_enter_to_continue() -> None:
         user_input = input("Press enter to continue the game!: ")
 
 
-def game_over() -> None:
+def game_over():
     """Generate a prompt to end the game.
 
     The function will run when the player chooses "quit" in move_character function. This will print a message, and
@@ -482,12 +496,24 @@ def game_over() -> None:
     quit()
 
 
-def random_name_generator():
+def random_name_generator() -> str:
+    """Generate random name.
+
+    The function will generate a random name and the player has the choice to either keep the name, choose another name
+    at random, or choose make own name.
+
+    :return: user's choice in string
+    """
     random_name = ' '.join(name.capitalize() for name in generate())
-    print(f"\n\u001b[32;1m{random_name}\u001b[0m was created randomly! Would you like to choose your own name or create"
+    print(f"{player_colors(random_name)} was created randomly! Would you like to choose your own name or create"
           f" another at random?\n")
     choices = {int(keys): names for keys, names in enumerate(PLAYER_NAME_CHOICES(), 1)}
     user_choice = input_checker(choices)
+    while user_choice == "I would like to choose another one at random":
+        random_name = ' '.join(name.capitalize() for name in generate())
+        print(f"\n{player_colors(random_name)} was created randomly! Would you like to choose your own name or "
+              f"create another at random?\n")
+        user_choice = input_checker(choices)
     if user_choice == "I would like to choose this name!":
         user_choice = random_name
     return user_choice
@@ -500,20 +526,17 @@ def player_name_generator() -> str:
     :return: a string
     """
     user_input = random_name_generator()
-    while user_input == "I would like to choose another one at random":
-        user_input = random_name_generator()
     if user_input == "I would like to choose my own name!":
         user_input = input("What will your name be for this game?: ")
         while user_input == "":
             print("You can't have nothing for your name, but anything else works! Try again.")
             user_input = input("What will your name be for this game?: ")
-    capitalized_input = user_input.title()
-    print(f"\nWelcome to the game, \u001b[32;1m{capitalized_input}\u001b[0m.\n")
+    print(f"\nWelcome to the game, {player_colors(user_input)}\n")
     sleep(1)
-    return f"\u001b[32;1m" + capitalized_input + f"\u001b[0m"
+    return user_input
 
 
-def player_class_generator(player: dict) -> str:
+def player_class_generator(player: dict):
     """Designate player class based on user choice.
 
     :param player: a dictionary
@@ -523,14 +546,14 @@ def player_class_generator(player: dict) -> str:
     """
     print("Below is the list of characters you can choose to play in the game. Choose wisely so that you'll be able "
           "to win the game successfully... \n")
-    new_list_for_user = {int(keys): characters for keys, characters in zip(count(start=1, step=1), CLASS_LIST())}
-    player_class = input_checker(new_list_for_user)
-    player["class"] = player_class
-    delayed_message(f"\n{player_class} is a great choice!\n", 0.75)
-    return player_class
+    choices = {int(keys): characters for keys, characters in zip(count(start=1, step=1), CLASS_LIST())}
+    user_input = input_checker(choices)
+    player["class"] = user_input
+    print(f"\n{user_input} is a great choice!\n")
+    sleep(1)
 
 
-def player_class_dictionary(player: dict) -> None:
+def player_class_dictionary(player: dict):
     """Change the "class_dictionary" value depending on player's class.
 
     The function will check the player's "class_dictionary" value based on the player's class choice.
@@ -616,7 +639,7 @@ def make_player() -> dict:
     :postcondition: gets user input and creates player dictionary
     :return: a dictionary
     """
-    player = {"name": player_name_generator(),
+    player = {"name": player_colors(player_name_generator()),
               "class": "",
               "hp": PLAYER_BASE_HP(),
               "position": PLAYER_STARTING_POSITION(),
@@ -624,12 +647,12 @@ def make_player() -> dict:
               "experience": 0,
               "category": "player",
               "class_dictionary": ""}
-    player["class"] = player_class_generator(player)
+    player_class_generator(player)
     player_class_dictionary(player)
     return player
 
 
-def display_map(player: dict, boss: dict) -> None:
+def display_map(player: dict, boss: dict):
     """Print player's and boss' position on the map.
 
     Player's position will be printed as green, whereas the boss' position will be printed as red.
@@ -643,36 +666,15 @@ def display_map(player: dict, boss: dict) -> None:
     for row in range(BOARD_SIZE()):
         for column in range(BOARD_SIZE()):
             if player["position"] == [row, column]:
-                print(u"\u001b[32;1m[X]\u001b[0m", end="")
+                print(player_colors("[X]"), end="")
             elif boss["position"] == [row, column]:
-                print(u"\u001b[31m[#]\u001b[0m", end="")
+                print(boss_colors("[#]"), end="")
             else:
                 print("[ ]", end="")
         print()
 
 
-def filter_information(player: dict, item_string: str) -> Union[int, str]:
-    """Filter player dictionary by the items string.
-
-    The function is used for filtering through taking the parameter, item_string, and matching with the keys in player
-    to filter the correct key/value from the dictionary and return the value.
-
-    :param player: a dictionary
-    :param item_string: a string
-    :precondition: player must be a proper dictionary with correct character and information
-    :postcondition: correctly returns the correct filtered value
-    :return: the correct filtered elements as a integer or string depending on value
-
-    >>> player_info = {"level": 1, "experience": 300}
-    >>> string = "level"
-    >>> filter_information(player_info, string)
-    1
-    """
-    filtered_dict = dict(filter(lambda item: item_string in item[0], player.items()))
-    return filtered_dict[item_string]
-
-
-def display_info(player: dict, board: dict) -> None:
+def display_info(player: dict, board: dict):
     """Print player's position, location description, health point, level, class name, and experience point.
 
     :param player: a dictionary
@@ -681,97 +683,123 @@ def display_info(player: dict, board: dict) -> None:
     :postcondition: correctly prints the f strings of player position, location description, hp, level, class name,
     and experience
     """
-    print(f'Location: {(filter_information(player, "position"))}')
-    print(f'Description: {board[tuple((filter_information(player, "position")))]["location_description"]}')
-    print(f'Health point: {(filter_information(player, "hp"))}'
-          f'/{(filter_information(player["class_dictionary"], "max_hp"))}')
-    print(f'Level: {(filter_information(player, "level"))}, '
-          f'{(filter_information(player["class_dictionary"], "level_name"))}')
-    print(f'Experience: {(filter_information(player, "experience"))}')
+    coordinate = player["position"]
+    print(f'Location: {player["position"]}')
+    print(f'Description: {board[tuple(coordinate)]["location_description"]}')
+    print(f'Health point: {player["hp"]}/{player["class_dictionary"]["max_hp"]}')
+    print(f'Level: {player["level"]}, {player["class_dictionary"]["level_name"]}')
+    print(f'Experience: {player["experience"]}')
 
 
-def validate_move(current_position: list, user_direction: str) -> bool:
-    """Determine if user_direction is possible from the current_position.
+# def validate_move(current_position: list):
+#     """Determine if user_direction is possible from the current_position.
+#
+#     The player will not be able to go outside the map, and the function will validate whether the desired movement is
+#     within the boundaries of the map. The directions will be chosen through numbers, where "W", "E", "S", and "N" or
+#     "quit" to end the game.
+#
+#     :param current_position: a list
+#     :param user_direction: a string
+#     :precondition: the list must contain two numbers within the range of 0 and 4 inclusive
+#     :precondition: the string must be either "W", "E", "S", "N", "quit"
+#     :postcondition: correctly determine if the user_direction is possible
+#     :return: a boolean that determines if the user_direction is possible
+#
+#     >>> position = [0, 0]
+#     >>> direction = "E"
+#     >>> validate_move(position, direction)
+#     False
+#     >>> position = [0, 0]
+#     >>> direction = "W"
+#     >>> validate_move(position, direction)
+#     True
+#     >>> position = [0, 0]
+#     >>> direction = "N"
+#     >>> validate_move(position, direction)
+#     True
+#     >>> position = [0, 0]
+#     >>> direction = "S"
+#     >>> validate_move(position, direction)
+#     False
+#     >>> position = [0, 1]
+#     >>> direction = "quit"
+#     >>> validate_move(position, direction)
+#     False
+#     """
+#     for direction in DIRECTION_LIST():
+#         if direction == "W" and current_position[1] == 0:
+#             return False
+#         elif direction == "E" and current_position[1] == BOARD_SIZE() - 1:
+#             return False
+#         elif direction == "S" and current_position[0] == BOARD_SIZE() - 1:
+#             return False
+#         elif direction == "N" and current_position[0] == 0:
+#             return False
+#         else:
+#             return True
 
-    The player will not be able to go outside the map, and the function will validate whether the desired movement is
-    within the boundaries of the map. The directions will be chosen through numbers, where "W", "E", "S", and "N" or
-    "quit" to end the game.
 
-    :param current_position: a list
-    :param user_direction: a string
-    :precondition: the list must contain two numbers within the range of 0 and 4 inclusive
-    :precondition: the string must be either "W", "E", "S", "N", "quit"
-    :postcondition: correctly determine if the user_direction is possible
-    :return: a boolean that determines if the user_direction is possible
-
-    >>> position = [0, 0]
-    >>> direction = "E"
-    >>> validate_move(position, direction)
-    False
-    >>> position = [0, 0]
-    >>> direction = "W"
-    >>> validate_move(position, direction)
-    True
-    >>> position = [0, 0]
-    >>> direction = "N"
-    >>> validate_move(position, direction)
-    True
-    >>> position = [0, 0]
-    >>> direction = "S"
-    >>> validate_move(position, direction)
-    False
-    >>> position = [0, 1]
-    >>> direction = "quit"
-    >>> validate_move(position, direction)
-    False
-    """
-    if (user_direction == "W" and current_position[1] == 0) or (user_direction == "E" and current_position[1] == 24) or\
-       (user_direction == "S" and current_position[0] == 24) or (user_direction == "N" and current_position[0] == 0):
-        return True
-    else:
-        return False
-
-
-def player_movement_change(current_position: list, user_direction: str) -> None:
+def player_movement_change(current_position: list, user_direction: str):
     """Change the current_position to the desired direction.
 
     :param current_position: a list
     :param user_direction: a string
     :precondition: the list must contain two numbers within the range of 0 and 4 inclusive
-    :precondition: the string must be either "W", "E", "S", "N"
+    :precondition: the string must be either "West", "East", "South", "North"
     :postcondition: the player's position will correctly change according to user_direction
     :return: a changed list of the player's new position
 
     >>> position = [2, 2]
-    >>> direction = "W"
+    >>> direction = "West"
     >>> player_movement_change(position, direction)
     [2, 1]
     >>> position = [2, 2]
-    >>> direction = "E"
+    >>> direction = "East"
     >>> player_movement_change(position, direction)
     [2, 3]
     >>> position = [2, 2]
-    >>> direction = "N"
+    >>> direction = "North"
     >>> player_movement_change(position, direction)
     [1, 2]
     >>> position = [2, 2]
-    >>> direction = "S"
+    >>> direction = "South"
     >>> player_movement_change(position, direction)
     [3, 2]
     """
-    if user_direction == "W":
+    if user_direction == "West":
         current_position[1] -= 1
-    elif user_direction == "E":
+    elif user_direction == "East":
         current_position[1] += 1
-    elif user_direction == "S":
+    elif user_direction == "South":
         current_position[0] += 1
-    elif user_direction == "N":
+    elif user_direction == "North":
         current_position[0] -= 1
     else:
         game_over()
 
 
-def move_character(player: dict, board: dict, boss: dict) -> None:
+def filter_direction(x):
+    for y in x["direction"]:
+        if y == "West" and x["position"] == 0:
+            return False
+        elif y == "East" and x["position"] == BOARD_SIZE() - 1:
+            return False
+        elif y == "South" and x["position"] == BOARD_SIZE() - 1:
+            return False
+        elif y == "North" and x["position"] == 0:
+            return False
+        else:
+            return True
+
+
+def change_dict_to_list(direction_dictionary):
+    possible_directions_list = []
+    for x in direction_dictionary:
+        possible_directions_list.append(x["direction"])
+    return possible_directions_list
+
+
+def move_character(player: dict, board: dict, boss: dict):
     """Change the position of the player to a new position based on user input.
 
     :param player: a dictionary
@@ -781,14 +809,17 @@ def move_character(player: dict, board: dict, boss: dict) -> None:
     :postcondition: the player's position will correctly change according to the user's input
     :return: a changed player's new position in a list
     """
-    player_game_descriptions(player, board, boss)
-    new_direction_list = {int(keys): jobs for keys, jobs in enumerate(DIRECTION_LIST(), 1)}
+    display_map(player, boss)
+    display_info(player, board)
+    direction_validation = [{"direction": "West", "position": player["position"][1]},   # can't make this into constant because the value changes.
+                            {"direction": "East", "position": player["position"][1]},   # we can choose to direct the whole filter things to another new function if theres too much going on here
+                            {"direction": "South", "position": player["position"][0]},
+                            {"direction": "North", "position": player["position"][0]},
+                            {"direction": "Quit"}]
+    possible_directions = list(filter(filter_direction, direction_validation))
+    new_direction_list = {int(keys): jobs for keys, jobs in enumerate(change_dict_to_list(possible_directions), 1)}
     user_input = input_checker(new_direction_list)
-    while validate_move(player['position'], user_input):
-        print("\nYou can't go that way! Choose again wisely.")
-        user_input = input_checker(new_direction_list)
     player_movement_change(player["position"], user_input)
-
 
 
 def roll_die(number_of_rolls: int, number_of_sides: int) -> int:
@@ -809,7 +840,7 @@ def roll_die(number_of_rolls: int, number_of_sides: int) -> int:
     return total_result
 
 
-def battle_chance(player: dict, monster: dict) -> None:
+def battle_chance(player: dict, monster: dict):
     """Roll a die to determine if the player will meet an enemy.
 
     The player has a 20% chance to meet an enemy everytime they move. This is determined by rolling a 5 sided die once,
@@ -829,7 +860,7 @@ def battle_chance(player: dict, monster: dict) -> None:
         heal_player(player)
 
 
-def heal_player(player: dict) -> None:
+def heal_player(player: dict):
     """Increase player hp by integer 4.
 
     The function will heal the player's hp by integer 4. The heal amount will only be up to the player's maximum
@@ -884,7 +915,7 @@ def random_monster(player: dict) -> dict:
     """
     random_monster_name = choice(LIST_OF_MONSTERS())
     random_monster_type = choice(LIST_OF_MONSTER_TYPES())
-    monster = {"name": random_monster_name,
+    monster = {"name": monster_colors(random_monster_name),
                "type": random_monster_type,
                "hp": "",
                "category": "monster",
@@ -894,7 +925,7 @@ def random_monster(player: dict) -> dict:
     return monster
 
 
-def check_monster_hp_and_damage(player, monster) -> None:
+def check_monster_hp_and_damage(player, monster):
     """Updates monster hp and damage level depending on the level of the player.
 
     As the player levels up, the monster hp and damage amount also increases incrementally.
@@ -911,10 +942,9 @@ def check_monster_hp_and_damage(player, monster) -> None:
     {'name': 'Zelda', 'type': 'Cat', 'hp': 15, 'category': 'monster', 'damage': 15}
     """
     player_current_level = check_level(player)
-    monster_hp_dictionary = MONSTER_HP()
-    monster["hp"] = monster_hp_dictionary[player_current_level]["hp"]
-    monster_damage_dictionary = MONSTER_DAMAGE()
-    monster["damage"] = monster_damage_dictionary[player_current_level]["damage"]
+    monster_dictionary = MONSTER_HP_AND_DAMAGE()
+    monster["hp"] = roll_die(1, monster_dictionary[player_current_level]["hp"])
+    monster["damage"] = roll_die(1, monster_dictionary[player_current_level]["damage"])
 
 
 def fight_or_run_decision(monster: dict) -> str:
@@ -933,7 +963,7 @@ def fight_or_run_decision(monster: dict) -> str:
     return user_choice
 
 
-def combat_round(player: dict, monster: dict) -> None:
+def combat_round(player: dict, monster: dict):
     """Direct the player to different functions based on their input.
 
     This function gives the user an option to run or fight. Either options will send the user to other functions.
@@ -959,7 +989,7 @@ def combat_round(player: dict, monster: dict) -> None:
         run_away_player(player, monster)
 
 
-def run_away_player(player: dict, monster: dict) -> None:
+def run_away_player(player: dict, monster: dict):
     """Roll a die to determine if the player will get damaged while fleeing.
 
     The player has a 20% chance to avoid damage while running away. This is determined by rolling a 5 sided die once,
@@ -978,10 +1008,11 @@ def run_away_player(player: dict, monster: dict) -> None:
         player["hp"] -= run_away_damage
         delayed_message(f"You've been damaged {run_away_damage} hp by {monster['name']} while running away!"
                         f"\nYou only have {player['hp']} hp left! Be careful {player['name']}!", 1)
+        press_enter_to_continue()
     else:
         delayed_message(f"You've run away successfully from {monster['name']}!\n"
                         f"You were very lucky this time...\n", 1)
-    press_enter_to_continue()
+        press_enter_to_continue()
 
 
 def run_or_fight_again() -> str:
@@ -1017,7 +1048,6 @@ def run_away_monster(monster: dict, player: dict) -> bool:
         run_away_number = roll_die(1, RUN_AWAY_PROBABILITY())
         if run_away_number == 1:
             delayed_message(f"{monster['name']} ran away!", 1)
-            press_enter_to_continue()
             return True
         else:
             return False
@@ -1047,7 +1077,7 @@ def battle_attack_order() -> bool:
         return False
 
 
-def battle_start(player: dict, monster: dict, attacker: bool) -> None:
+def battle_start(player: dict, monster: dict, attacker: bool):
     """Simulate a battle between two characters.
 
     The function identifies who attacks first based on the boolean value, if the opponent is still alive then the
@@ -1067,16 +1097,16 @@ def battle_start(player: dict, monster: dict, attacker: bool) -> None:
         if monster['hp'] > 0:
             attacking_round(monster, player, roll_die(1, monster["damage"]))
         else:
-            leveling_package(player)
+            player["experience"] += PLAYER_EXPERIENCE_GAIN()
     else:
         attacking_round(monster, player, roll_die(1, monster["damage"]))
         if player['hp'] > 0:
             attacking_round(player, monster, player_damage(player))
         if monster['hp'] < 1:
-            leveling_package(player)
+            player["experience"] += PLAYER_EXPERIENCE_GAIN()
 
 
-def leveling_package(player: dict) -> None:
+def leveling_package(player: dict):
     """Change exp value and the player's dictionary values depending on the level.
 
     The function will add 100 exp everytime the monster is dead. The function will check the exp needed for each level
@@ -1097,7 +1127,6 @@ def leveling_package(player: dict) -> None:
     'experience_needed': 200, 'attack_name': 'Threaten', 'max_hp': 20, 'base_damage_min': 7, 'base_damage_max': 12,
     'accuracy_rate': 50}, 'experience': 100, 'hp': 20, 'level': 1, 'name': 'Leo', 'position': [0, 0]}
     """
-    player["experience"] += 100
     check_level(player)
     player_class_dictionary(player)
 
@@ -1123,7 +1152,7 @@ def player_damage(player: dict) -> int:
     return damage
 
 
-def attacking_round(attacker: dict, opponent: dict, damage_amount: int) -> dict:
+def attacking_round(attacker: dict, opponent: dict, damage_amount: int):
     """Simulate a single attack to the opponent.
 
     This function runs a combat simulation that changes the opponent's hp value.
@@ -1168,22 +1197,6 @@ def attacking_round(attacker: dict, opponent: dict, damage_amount: int) -> dict:
                             f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
 
 
-def player_game_descriptions(player: dict, board: dict, boss: dict) -> None:
-    """Direct to different functions that return game information for player.
-
-    The function packages different helper functions that return different game information for player. The function is
-    used to help distinguish which functions are being called to give the player game information.
-
-    :param player: a dictionary
-    :param board: a dictionary
-    :param boss: a dictionary
-    :precondition: player, board, and boss must be a proper dictionary with correct character and information
-    :postcondition: correctly run different functions that return game information
-    """
-    display_map(player, boss)
-    display_info(player, board)
-
-
 def make_boss() -> dict:
     """Create a dictionary of boss that contain boss name, hp, damage, and position.
 
@@ -1191,7 +1204,8 @@ def make_boss() -> dict:
 
     :return: a dictionary
     """
-    boss = {"name": PICK_RANDOM_BOSS_NAME(),
+    boss_name = choice(LIST_OF_BOSS_NAME())
+    boss = {"name": boss_colors(boss_name),
             "category": "boss",
             "hp": BOSS_MAX_HP(),
             "damage": BOSS_MAX_DAMAGE(),
@@ -1222,7 +1236,7 @@ def fight_or_run_decision_boss_round(boss: dict) -> str:
     return user_choice
 
 
-def fight_boss(player: dict, boss: dict) -> None:
+def fight_boss(player: dict, boss: dict):
     """Direct the user to different functions based on their input.
 
     This function will give the user an option to run or fight when meeting boss. Either options will send the user to
@@ -1237,11 +1251,10 @@ def fight_boss(player: dict, boss: dict) -> None:
     if fight_or_run_decision_boss_round(boss) == "Yes":
         while player["hp"] > 0 and boss["hp"] > 0:
             battle_start(player, boss, battle_attack_order())
-            if boss["hp"] > 0 and player["hp"] > 0:
-                if run_or_fight_again() == "No":
-                    run_away_player(player, boss)
-                else:
-                    continue
+            if (boss["hp"] > 0 and player["hp"] > 0) and run_or_fight_again() == "No":
+                run_away_player(player, boss)
+                boss["hp"] = BOSS_MAX_HP()
+                break
             elif boss["hp"] < 1 and player["hp"] > 0:
                 continue
         press_enter_to_continue()
@@ -1249,20 +1262,20 @@ def fight_boss(player: dict, boss: dict) -> None:
         run_away_player(player, boss)
 
 
-def game_win_art() -> None:
+def game_win_art():
     """Print ASCII art to congratulate the player for winning the game."""
     print("\n\n\nyou win!")
     input("\nType anything and press enter to close the game!")
     quit()
 
 
-def player_dead_art() -> None:
+def player_dead_art():
     print("\n\n\nYou are dead!")
     input("\nType anything and press enter to close the game!")
     quit()
 
 
-def game() -> None:
+def game():
     """Execute the game.
 
     The function consists of all the functions previously written. It runs a while loop to continue the game until the
@@ -1275,15 +1288,15 @@ def game() -> None:
     board = make_board()
     player = make_player()
     boss = make_boss()
-    while player['hp'] > 0:
-        move_character(player, board, boss)
-        battle_chance(player, random_monster(player))
+    while player['hp'] > 0 or boss["hp"] < 1:
+        leveling_package(player)
         move_character(player, board, boss)
         if player["position"] == boss["position"]:
             fight_boss(player, boss)
-            if boss["hp"] < 1:
-                game_win_art()
-            move_character(player, board, boss)
+        else:
+            battle_chance(player, random_monster(player))
+    if boss["hp"] < 1:
+        game_win_art()
     player_dead_art()
 
 
