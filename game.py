@@ -730,50 +730,6 @@ def display_info(player: dict, board: dict):
     print(f'Experience: {player["experience"]}')
 
 
-def validate_move(current_position: list, user_direction: str) -> bool:
-    """Determine if user_direction is possible from the current_position.
-
-    The player will not be able to go outside the map, and the function will validate whether the desired movement is
-    within the boundaries of the map. The directions will be chosen through numbers, where "W", "E", "S", and "N" or
-    "quit" to end the game.
-
-    :param current_position: a list
-    :param user_direction: a string
-    :precondition: the list must contain two numbers within the range of 0 and 4 inclusive
-    :precondition: the string must be either "W", "E", "S", "N", "quit"
-    :postcondition: correctly determine if the user_direction is possible
-    :return: a boolean that determines if the user_direction is possible
-
-    >>> position = [0, 0]
-    >>> direction = "E"
-    >>> validate_move(position, direction)
-    False
-    >>> position = [0, 0]
-    >>> direction = "W"
-    >>> validate_move(position, direction)
-    True
-    >>> position = [0, 0]
-    >>> direction = "N"
-    >>> validate_move(position, direction)
-    True
-    >>> position = [0, 0]
-    >>> direction = "S"
-    >>> validate_move(position, direction)
-    False
-    >>> position = [0, 1]
-    >>> direction = "quit"
-    >>> validate_move(position, direction)
-    False
-    """
-    if (user_direction == "W" and current_position[1] == 0) or \
-            (user_direction == "E" and current_position[1] == BOARD_SIZE() - 1) or \
-            (user_direction == "S" and current_position[0] == BOARD_SIZE() - 1) or \
-            (user_direction == "N" and current_position[0] == 0):
-        return True
-    else:
-        return False
-
-
 def player_movement_change(current_position: list, user_direction: str):
     """Change the current_position to the desired direction.
 
