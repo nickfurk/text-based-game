@@ -471,6 +471,9 @@ def underline_string(given_string):
 
     :param given_string: a string
     :return: a string
+
+    >>> string = "NickFurry"
+    "\033[4mNickFurry\u001b[0m"
     """
     return f"\033[4m{given_string}\u001b[0m"
 
