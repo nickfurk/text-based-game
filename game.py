@@ -181,19 +181,12 @@ def MONSTER_HP_INCREMENT() -> int:
     return 7
 
 
-# def MONSTER_HP() -> dict:
-#     """Return monster health point dictionary.
-#
-#     The key represents the player's level, and the value is a dictionary that indicates the monster new health point
-#     when the player levels up.
-#
-#     :return: a dictionary
-#     """
-#     return {
-#         1: {"level": 1, "hp": BASE_MONSTER_HP()},
-#         2: {"level": 2, "hp": BASE_MONSTER_HP() + MONSTER_HP_INCREMENT()},
-#         3: {"level": 3, "hp": BASE_MONSTER_HP() + (MONSTER_HP_INCREMENT() * 2)}
-#     }
+def MONSTER_BASE_MINIMUM_DAMAGE():
+    """Return monster's base minimum damage as 5
+
+    :return: monster's base minimum damage as an integer 5
+    """
+    return 5
 
 
 def MONSTER_BASE_DAMAGE() -> int:
@@ -201,7 +194,7 @@ def MONSTER_BASE_DAMAGE() -> int:
 
     The number is used in the roll_die function to give an output of 1 - 10 inclusive.
 
-    :return: Monster's base damage as an integer 10
+    :return: monster's base damage as an integer 10
     """
     return 10
 
@@ -209,24 +202,9 @@ def MONSTER_BASE_DAMAGE() -> int:
 def MONSTER_DAMAGE_INCREMENT() -> int:
     """Return the monster's damage increment as 5.
 
-    :return: Monster's damage increment as an integer 5
+    :return: monster's damage increment as an integer 5
     """
     return 5
-
-
-# def MONSTER_DAMAGE() -> dict:
-#     """Return monster damage dictionary.
-#
-#     The key represents the player's level, and the value is a dictionary that indicates the monster's new damage limit
-#     when the player levels up.
-#
-#     :return: a dictionary
-#     """
-#     return {
-#         1: {"level": 1, "damage": MONSTER_BASE_DAMAGE()},
-#         2: {"level": 2, "damage": MONSTER_BASE_DAMAGE() + MONSTER_DAMAGE_INCREMENT()},
-#         3: {"level": 3, "damage": MONSTER_BASE_DAMAGE() + (MONSTER_DAMAGE_INCREMENT() * 2)},
-#     }
 
 
 def MONSTER_HP_AND_DAMAGE() -> dict:
@@ -238,11 +216,14 @@ def MONSTER_HP_AND_DAMAGE() -> dict:
     :return: a dictionary
     """
     return {
-        1: {"level": 1, "hp": BASE_MONSTER_HP(), "damage": MONSTER_BASE_DAMAGE()},
+        1: {"level": 1, "hp": BASE_MONSTER_HP(), "min_damage": MONSTER_BASE_MINIMUM_DAMAGE(),
+            "max_damage": MONSTER_BASE_DAMAGE()},
         2: {"level": 2, "hp": BASE_MONSTER_HP() + MONSTER_HP_INCREMENT(),
-            "damage": MONSTER_BASE_DAMAGE() + MONSTER_DAMAGE_INCREMENT()},
+            "min_damage": MONSTER_BASE_MINIMUM_DAMAGE() + MONSTER_DAMAGE_INCREMENT(),
+            "max_damage": MONSTER_BASE_DAMAGE() + MONSTER_DAMAGE_INCREMENT()},
         3: {"level": 3, "hp": BASE_MONSTER_HP() + (MONSTER_HP_INCREMENT() * 2),
-            "damage": MONSTER_BASE_DAMAGE() + (MONSTER_DAMAGE_INCREMENT() * 2)}
+            "min_damage": MONSTER_BASE_MINIMUM_DAMAGE() + (MONSTER_DAMAGE_INCREMENT() * 2),
+            "max_damage": MONSTER_BASE_DAMAGE() + (MONSTER_DAMAGE_INCREMENT() * 2)}
     }
 
 
@@ -377,16 +358,6 @@ def CLASS_LIST() -> list:
     return ["Mage", "Thief", "Ranger", "Warrior"]
 
 
-# def DIRECTION_LIST() -> list:
-#     """Return the list of possible direction choices.
-#
-#     The list is put through the input checker function to allow the player to choose.
-#
-#     :return: a list
-#     """
-#     return ["W", "E", "S", "N", "quit"]
-
-
 def YES_OR_NO() -> list:
     """Return a Yes or No list.
 
@@ -437,7 +408,9 @@ def color_string_green(given_string):
     :return: a string
 
     >>> string = "Paul"
-    "\u001b[32;1mPaul\u001b[0m"
+    >>> test_string = '\x1b[32;1mPaul\x1b[0m'
+    >>> test_string == color_string_green(string)
+    True
     """
     return f"\u001b[32;1m{given_string}\u001b[0m"
 
@@ -449,7 +422,9 @@ def color_string_red(given_string):
     :return: a string
 
     >>> string = "April"
-    "\u001b[31mApril\u001b[0m"
+    >>> test_string = '\x1b[31mApril\x1b[0m'
+    >>> test_string == color_string_red(string)
+    True
     """
     return f"\u001b[31m{given_string}\u001b[0m"
 
@@ -461,7 +436,9 @@ def color_string_yellow(given_string):
     :return: a string
 
     >>> string = "Zelda"
-    "\u001b[33;1mZelda\u001b[0m"
+    >>> test_string = '\x1b[33;1mZelda\x1b[0m'
+    >>> test_string == color_string_yellow(string)
+    True
     """
     return f"\u001b[33;1m{given_string}\u001b[0m"
 
@@ -473,7 +450,9 @@ def underline_string(given_string):
     :return: a string
 
     >>> string = "NickFurry"
-    "\033[4mNickFurry\u001b[0m"
+    >>> test_string = '\x1b[4mNickFurry\x1b[0m'
+    >>> test_string == underline_string(string)
+    True
     """
     return f"\033[4m{given_string}\u001b[0m"
 
@@ -617,8 +596,8 @@ def player_class_dictionary(player: dict):
     >>> player_class_dictionary(player_info)
     >>> print(player_info) #doctest: +NORMALIZE_WHITESPACE
     {'class': 'Mage', 'experience': 500, 'class_dictionary': {'level': 2, 'level_name': 'Mage',
-    'experience_needed': 1000, 'attack_name': 'Firestorm', 'max_hp': 30, 'base_damage_min': 20,
-    'base_damage_max': 25, 'accuracy_rate': 40}, 'level': 2}
+    'experience_needed': 600, 'attack_name': 'Firestorm', 'max_hp': 25, 'base_damage_min': 20,
+    'base_damage_max': 25, 'accuracy_rate': 55}, 'level': 2}
     """
     current_dictionary = return_class_dictionary(player)
     level = check_level(player)
@@ -635,11 +614,11 @@ def return_class_dictionary(player: dict) -> dict:
 
     >>> player_info = {"class": "Thief"}
     >>> return_class_dictionary(player_info) #doctest: +NORMALIZE_WHITESPACE
-    {1: {'level': 1, 'level_name': 'Apprentice Thief', 'experience_needed': 100, 'attack_name': 'Pickpocket',
-    'max_hp': 20, 'base_damage_min': 1, 'base_damage_max': 5, 'accuracy_rate': 85}, 2: {'level': 2,
-    'level_name': 'Bandit', 'experience_needed': 300, 'attack_name': 'Boomerang Step', 'max_hp': 30,
-    'base_damage_min': 5, 'base_damage_max': 10, 'accuracy_rate': 95}, 3: {'level': 3, 'level_name': 'Hermit',
-    'attack_name': 'Assassinate', 'max_hp': 40, 'base_damage_min': 10, 'base_damage_max': 15, 'accuracy_rate': 100}}
+    {1: {'level': 1, 'level_name': 'Apprentice Thief', 'experience_needed': 200, 'attack_name': 'Pickpocket',
+    'max_hp': 20, 'base_damage_min': 5, 'base_damage_max': 10, 'accuracy_rate': 65}, 2: {'level': 2,
+    'level_name': 'Bandit', 'experience_needed': 500, 'attack_name': 'Boomerang Step', 'max_hp': 40,
+    'base_damage_min': 10, 'base_damage_max': 15, 'accuracy_rate': 75}, 3: {'level': 3, 'level_name': 'Hermit',
+    'attack_name': 'Assassinate', 'max_hp': 60, 'base_damage_min': 10, 'base_damage_max': 15, 'accuracy_rate': 80}}
     """
     if player["class"] == "Mage":
         return MAGE()
@@ -755,18 +734,12 @@ def player_movement_change(current_position: list, user_direction: str):
     >>> position = [2, 2]
     >>> direction = "West"
     >>> player_movement_change(position, direction)
+    >>> position
     [2, 1]
-    >>> position = [2, 2]
-    >>> direction = "East"
-    >>> player_movement_change(position, direction)
-    [2, 3]
-    >>> position = [2, 2]
-    >>> direction = "North"
-    >>> player_movement_change(position, direction)
-    [1, 2]
     >>> position = [2, 2]
     >>> direction = "South"
     >>> player_movement_change(position, direction)
+    >>> position
     [3, 2]
     """
     if user_direction == "West":
@@ -972,17 +945,12 @@ def check_monster_hp_and_damage(player, monster):
     :param monster: a dictionary
     :precondition: player and monster must be a proper dictionary with correct character and information
     :postcondition: correctly updates the monster' "hp" and "damage" value in the monster's dictionary
-
-    >>> player_info = {'class': 'Warrior', 'level': 2, 'experience': 400,'class_dictionary': {'experience_needed': 500}}
-    >>> monster_info = {'name': 'Zelda', 'type': 'Cat', 'hp': 10, 'category': 'monster', 'damage': 10}
-    >>> check_monster_hp_and_damage(player_info, monster_info)
-    >>> print(monster_info)
-    {'name': 'Zelda', 'type': 'Cat', 'hp': 15, 'category': 'monster', 'damage': 15}
     """
     player_current_level = check_level(player)
     monster_dictionary = MONSTER_HP_AND_DAMAGE()
     monster["hp"] = monster_dictionary[player_current_level]["hp"]
-    monster["damage"] = roll_die(1, monster_dictionary[player_current_level]["damage"])
+    monster["damage"] = randint(monster_dictionary[player_current_level]["min_damage"],
+                                monster_dictionary[player_current_level]["max_damage"])
 
 
 def fight_or_run_decision(monster: dict) -> str:
@@ -1044,8 +1012,8 @@ def run_away_player(player: dict, monster: dict):
     if run_away_number == 1:
         run_away_damage = roll_die(1, RUN_AWAY_DAMAGE_RANGE())
         player["hp"] -= run_away_damage
-        delayed_message(f"You've been damaged {run_away_damage} hp by {monster['name']} while running away!"
-                        f"\nYou only have {player['hp']} hp left! Be careful {player['name']}!", 1)
+        delayed_message(f"You've been damaged {underline_string(run_away_damage)} hp by {monster['name']} while "
+                        f"running away!\nYou only have {player['hp']} hp left! Be careful {player['name']}!", 1)
     else:
         delayed_message(f"You've run away successfully from {monster['name']}!\n"
                         f"You were very lucky this time...\n", 1)
@@ -1160,8 +1128,8 @@ def leveling_package(player: dict):
     >>> leveling_package(player_info)
     >>> print(player_info) #doctest: +NORMALIZE_WHITESPACE
     {'category': 'player', 'class': 'Warrior', 'class_dictionary': {'level': 1, 'level_name': 'Apprentice Warrior',
-    'experience_needed': 200, 'attack_name': 'Threaten', 'max_hp': 20, 'base_damage_min': 7, 'base_damage_max': 12,
-    'accuracy_rate': 50}, 'experience': 100, 'hp': 20, 'level': 1, 'name': 'Leo', 'position': [0, 0]}
+    'experience_needed': 400, 'attack_name': 'Threaten', 'max_hp': 20, 'base_damage_min': 5, 'base_damage_max': 10,
+    'accuracy_rate': 50}, 'experience': 0, 'hp': 20, 'level': 1, 'name': 'Leo', 'position': [0, 0]}
     """
     check_level(player)
     player_class_dictionary(player)
@@ -1208,15 +1176,13 @@ def attacking_round(attacker: dict, opponent: dict, damage_amount: int):
     <BLANKLINE>
     Leo has missed the attack!
     <BLANKLINE>
-    {'name': 'Zelda', 'hp': 10}
 
     >>> player_info = {"name": "Leo", "category": "player", 'class_dictionary': {'attack_name': 'Pet the head'}}
     >>> monster_info = {"name": "Zelda", "hp": 10, "category": "monster", 'attack_name': 'Scratch'}
     >>> attacking_round(player_info, monster_info, 5)
-    Leo has used Pet the head and has done 5 damage to Zelda!
+    Leo has used Pet the head and has done \033[4m5\u001b[0m damage to Zelda!
     Zelda has 5 hp left!
     <BLANKLINE>
-    {'name': 'Zelda', 'hp': 5, 'category': 'monster', 'attack_name': 'Scratch'}
     """
     if damage_amount == 0:
         delayed_message(f"\n{attacker['name']} has missed the attack!\n", 0.5)
@@ -1224,12 +1190,12 @@ def attacking_round(attacker: dict, opponent: dict, damage_amount: int):
         if attacker['category'] == 'player':
             opponent['hp'] -= damage_amount
             delayed_message(f"{attacker['name']} has used {attacker['class_dictionary']['attack_name']} "
-                            f"and has done {damage_amount} damage to {opponent['name']}!"
+                            f"and has done {underline_string(damage_amount)} damage to {opponent['name']}!"
                             f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
         else:
             opponent['hp'] -= damage_amount
             delayed_message(f"{attacker['name']} has used {choice(attacker['attack_name'])} and "
-                            f"has done {damage_amount} damage to {opponent['name']}!"
+                            f"has done {underline_string(damage_amount)} damage to {opponent['name']}!"
                             f"\n{opponent['name']} has {opponent['hp']} hp left!\n", 0.5)
 
 
