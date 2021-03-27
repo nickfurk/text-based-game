@@ -181,6 +181,18 @@ def MONSTER_HP_INCREMENT() -> int:
     return 7
 
 
+def MONSTER_LVL_ONE_MIN_DAMAGE():
+    return 5
+
+
+def MONSTER_LVL_TWO_MIN_DAMAGE():
+    return 10
+
+
+def MONSTER_LVL_THREE_MIN_DAMAGE():
+    return 15
+
+
 def MONSTER_HP_AND_DAMAGE() -> dict:
     """Return monster health point dictionary.
 
@@ -190,10 +202,13 @@ def MONSTER_HP_AND_DAMAGE() -> dict:
     :return: a dictionary
     """
     return {
-        1: {"level": 1, "hp": BASE_MONSTER_HP(), "damage": MONSTER_BASE_DAMAGE()},
+        1: {"level": 1, "hp": BASE_MONSTER_HP(), 
+            "damage_min": MONSTER_LVL_ONE_MIN_DAMAGE(), "damage_max": MONSTER_BASE_DAMAGE()},
         2: {"level": 2, "hp": BASE_MONSTER_HP() + MONSTER_HP_INCREMENT(),
-            "damage": MONSTER_BASE_DAMAGE() + MONSTER_DAMAGE_INCREMENT()},
+            "damage_min": MONSTER_LVL_TWO_MIN_DAMAGE(),
+            "damage_max": MONSTER_BASE_DAMAGE() + MONSTER_DAMAGE_INCREMENT()},
         3: {"level": 3, "hp": BASE_MONSTER_HP() + (MONSTER_HP_INCREMENT() * 2),
+            "damage_min": MONSTER_LVL_THREE_MIN_DAMAGE(),
             "damage": MONSTER_BASE_DAMAGE() + (MONSTER_DAMAGE_INCREMENT() * 2)}
     }
 
@@ -942,7 +957,7 @@ def check_monster_hp_and_damage(player, monster):
     """
     player_current_level = check_level(player)
     monster_dictionary = MONSTER_HP_AND_DAMAGE()
-    monster["hp"] = roll_die(1, monster_dictionary[player_current_level]["hp"])
+    monster["hp"] = monster_dictionary[player_current_level]["hp"]
     monster["damage"] = roll_die(1, monster_dictionary[player_current_level]["damage"])
 
 
