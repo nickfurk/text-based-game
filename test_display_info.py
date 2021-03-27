@@ -1,7 +1,6 @@
 from unittest import TestCase
 from unittest.mock import patch
 from game import display_info
-import game
 import io
 
 
@@ -22,7 +21,7 @@ class TestDisplayInfo(TestCase):
                    "bit more cold.\n" \
                    "Health point: 20/20\n" \
                    "Level: 1, Apprentice Warrior\n" \
-                   "Experience: 0/200\n"
+                   "Experience: 0\n"
         display_info(player, board)
         self.assertEqual(mock_stdout.getvalue(), expected)
 
