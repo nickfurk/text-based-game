@@ -6,9 +6,10 @@ import io
 
 
 class TestMoveCharacter(TestCase):
-    @patch('game.input_checker', return_value='E')
-    @patch('game.player_game_descriptions', return_value='')
-    def test_move_character_east(self, mock_description, mock_checker):
+    @patch('game.input_checker', return_value='East')
+    @patch('game.display_map', return_value='')
+    @patch('game.display_info', return_value='')
+    def test_move_character_east(self, mock_map, mock_info, mock_checker):
         player = {'name': 'Paul', 'class': 'Warrior', 'hp': 20, 'position': [0, 0], 'level': 1, 'experience': 0,
                   'category': 'player', 'class_dictionary': {'level': 1, 'level_name': 'Apprentice Warrior',
                                                              'experience_needed': 200, 'attack_name': 'Threaten',
@@ -20,9 +21,10 @@ class TestMoveCharacter(TestCase):
         move_character(player, board, boss)
         self.assertEqual(expected_output, player["position"])
 
-    @patch('game.input_checker', return_value='W')
-    @patch('game.player_game_descriptions', return_value='')
-    def test_move_character_west(self, mock_description, mock_checker):
+    @patch('game.input_checker', return_value='West')
+    @patch('game.display_map', return_value='')
+    @patch('game.display_info', return_value='')
+    def test_move_character_west(self, mock_map, mock_info, mock_checker):
         player = {'name': 'Paul', 'class': 'Warrior', 'hp': 20, 'position': [0, 1], 'level': 1, 'experience': 0,
                   'category': 'player', 'class_dictionary': {'level': 1, 'level_name': 'Apprentice Warrior',
                                                              'experience_needed': 200, 'attack_name': 'Threaten',
@@ -34,9 +36,10 @@ class TestMoveCharacter(TestCase):
         move_character(player, board, boss)
         self.assertEqual(expected_output, player["position"])
 
-    @patch('game.input_checker', return_value='N')
-    @patch('game.player_game_descriptions', return_value='')
-    def test_move_character_north(self, mock_description, mock_checker):
+    @patch('game.input_checker', return_value='North')
+    @patch('game.display_map', return_value='')
+    @patch('game.display_info', return_value='')
+    def test_move_character_north(self, mock_map, mock_info, mock_checker):
         player = {'name': 'Paul', 'class': 'Warrior', 'hp': 20, 'position': [1, 0], 'level': 1, 'experience': 0,
                   'category': 'player', 'class_dictionary': {'level': 1, 'level_name': 'Apprentice Warrior',
                                                              'experience_needed': 200, 'attack_name': 'Threaten',
@@ -48,9 +51,10 @@ class TestMoveCharacter(TestCase):
         move_character(player, board, boss)
         self.assertEqual(expected_output, player["position"])
 
-    @patch('game.input_checker', return_value='S')
-    @patch('game.player_game_descriptions', return_value='')
-    def test_move_character_south(self, mock_description, mock_checker):
+    @patch('game.input_checker', return_value='South')
+    @patch('game.display_map', return_value='')
+    @patch('game.display_info', return_value='')
+    def test_move_character_south(self, mock_map, mock_info, mock_checker):
         player = {'name': 'Paul', 'class': 'Warrior', 'hp': 20, 'position': [0, 0], 'level': 1, 'experience': 0,
                   'category': 'player', 'class_dictionary': {'level': 1, 'level_name': 'Apprentice Warrior',
                                                              'experience_needed': 200, 'attack_name': 'Threaten',
@@ -62,9 +66,10 @@ class TestMoveCharacter(TestCase):
         move_character(player, board, boss)
         self.assertEqual(expected_output, player["position"])
 
-    @patch('game.input_checker', return_value='S')
-    @patch('game.player_game_descriptions', return_value='')
-    def test_move_character_type(self, mock_description, mock_checker):
+    @patch('game.input_checker', return_value='South')
+    @patch('game.display_map', return_value='')
+    @patch('game.display_info', return_value='')
+    def test_move_character_type(self, mock_map, mock_info, mock_checker):
         player = {'name': 'Paul', 'class': 'Warrior', 'hp': 20, 'position': [0, 0], 'level': 1, 'experience': 0,
                   'category': 'player', 'class_dictionary': {'level': 1, 'level_name': 'Apprentice Warrior',
                                                              'experience_needed': 200, 'attack_name': 'Threaten',
