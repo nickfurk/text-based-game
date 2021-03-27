@@ -832,16 +832,24 @@ def filter_direction(choice: dict) -> bool:
         return True
 
 
-def change_dict_to_list(option_dictionary: dict) -> list:
-    """Convert dictionary to list.
+def change_dict_to_list(direction_dictionary: dict) -> list:
+    """Change dictionary values into a list.
 
-    :param direction_dictionary:
-    :return:
+    Function takes in a list with multiple dictionaries and generate a single list with key "direction" values.
+
+    :param direction_dictionary: a list with multiple dictionaries within
+    :precondition: direction_dictionary should include dictionaries within that has key "direction"
+    :postcondition: correctly returns a list of directions in a list
+    :return: a list with different directions
+
+    >>> test_dict = [{'direction': 'West'}, {'direction': 'East'}, {'direction': 'South'}, {'direction': 'Quit'}]
+    >>> change_dict_to_list(test_dict)
+    ['West', 'East', 'South', 'Quit']
     """
-    option_list = []
-    for x in option_dictionary:
-        option_list.append(x["direction"])
-    return option_list
+    possible_directions_list = []
+    for key_pair in direction_dictionary:
+        possible_directions_list.append(key_pair["direction"])
+    return possible_directions_list
 
 
 # def move_character(player: dict, board: dict, boss: dict):
