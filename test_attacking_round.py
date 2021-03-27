@@ -18,7 +18,7 @@ class TestAttackingRound(TestCase):
         player = {"name": "Leo", "category": "player", 'class_dictionary': {'attack_name': 'Pet the head'}}
         monster = {"name": "Zelda", "hp": 10, "category": "monster", 'attack_name': 'Scratch'}
         attacking_round(player, monster, 5)
-        expected = "Leo has used Pet the head and has done 5 damage to Zelda!\n" \
+        expected = f"Leo has used Pet the head and has done \033[4m5\u001b[0m damage to Zelda!\n" \
                    "Zelda has 5 hp left!\n\n"
         self.assertEqual(mock_output.getvalue(), expected)
 
