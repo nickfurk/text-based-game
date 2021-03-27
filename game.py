@@ -248,7 +248,7 @@ def LIST_OF_MONSTER_TYPES() -> list:
     return ["Cave of Alcarnus", "Necropolis Mines", "River of Kehjan", "Black Canyon Mines", "Ureh Caverns"]
 
 
-def RANDOM_MONSTER_ATTACK() -> list:
+def LIST_OF_MONSTER_ATTACKS() -> list:
     """Return a list of attack names.
 
     :return: a list
@@ -499,8 +499,8 @@ def delayed_message(message: str, delay: float):
     :precondition: delay has to be a positive number
     :postcondition: prints the message with delay correctly
     """
-    sleep(delay)
     print(message)
+    sleep(delay)
 
 
 def press_enter_to_continue():
@@ -931,7 +931,7 @@ def random_monster(player: dict) -> dict:
                "hp": "",
                "category": "monster",
                "damage": "",
-               "attack_name": RANDOM_MONSTER_ATTACK()}
+               "attack_name": LIST_OF_MONSTER_ATTACKS()}
     check_monster_hp_and_damage(player, monster)
     return monster
 
