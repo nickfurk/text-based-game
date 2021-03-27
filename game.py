@@ -789,16 +789,36 @@ def player_movement_change(current_position: list, user_direction: str):
         game_over()
 
 
-def filter_direction(choice: list) -> bool:
+def filter_direction(choice: dict) -> bool:
     """Return boolean True or False based on available directions.
 
-    Function accepts a list of available directions and checks the list against the player's position.
+    Function accepts a dictionary of direction and position of the player's x or y coordinate.
     If direction moves off the board, then return False, else True.
 
-    :param choice: a list
-    :precondition: a list with directions
+    :param choice: a dictionary
+    :precondition: a dictionary with directions
     :postcondition: correctly returns True if the direction is on the board, else False if direction is off the board
     :return: boolean True or False
+
+    >>> direction = {"direction": "West", "position": 0}
+    >>> filter_direction(direction)
+    False
+
+    >>> direction = {"direction": "East", "position": 24}
+    >>> filter_direction(direction)
+    False
+
+    >>> direction = {"direction": "South", "position": 24}
+    >>> filter_direction(direction)
+    False
+
+    >>> direction = {"direction": "North", "position": 0}
+    >>> filter_direction(direction)
+    False
+
+    >>> direction = {"direction": "North", "position": 5}
+    >>> filter_direction(direction)
+    True
     """
     if choice["direction"] == "West" and choice["position"] == 0:
         return False
@@ -812,11 +832,16 @@ def filter_direction(choice: list) -> bool:
         return True
 
 
-def change_dict_to_list(direction_dictionary):
-    possible_directions_list = []
-    for x in direction_dictionary:
-        possible_directions_list.append(x["direction"])
-    return possible_directions_list
+def change_dict_to_list(option_dictionary: dict) -> list:
+    """Convert dictionary to list.
+
+    :param direction_dictionary:
+    :return:
+    """
+    option_list = []
+    for x in option_dictionary:
+        option_list.append(x["direction"])
+    return option_list
 
 
 # def move_character(player: dict, board: dict, boss: dict):
@@ -1340,7 +1365,7 @@ def game():
 
 def main():
     """Execute the program"""
-    # doctest.testmod(verbose=True)
+    doctest.testmod(verbose=True)
     os.system("")
     game()
 
