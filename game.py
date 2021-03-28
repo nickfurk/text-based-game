@@ -1293,10 +1293,17 @@ def game():
     The function consists of all the functions previously written. It runs a while loop to continue the game until the
     player types "quit" or achieves the goal of beating the boss.
     """
-    print("Welcome player, I hope you are ready for an epic adventure!\n"
-          "There's nothing too difficult about navigating around the game.\n"
-          "You will only be allowed to input numbers that correspond to the items.\n"
-          "The game will end when you defeat the boss or type quit during movements or your hp becomes 0.\n")
+    print("""
+    Welcome player, I hope you are ready for an epic adventure! There's nothing too difficult about navigating 
+    around the game. Keep in mind that you will only be allowed to input numbers that correspond to the items. If you 
+    choose the option "quit" when prompted to move, the game will end. The game will end if your hp reaches 0 or if you 
+    defeat the boss.\n
+    The monsters have a chance to run after each round, and you will also have a change to run after every round as 
+    well\n
+    Once you reach the boss location, you will be prompted to the boss round. Although the boss will not be able to 
+    run, you have an option to run after each round. If you decide to leave and come back, the boss hp will be 
+    refreshed to the max when you come back.\n
+    I wish you the best of luck!\n\n\n""")
     board = make_board()
     player = make_player()
     boss = make_boss()
