@@ -1,7 +1,6 @@
 from unittest import TestCase
 from unittest.mock import patch
 from game import run_away_monster
-import game
 import io
 
 
