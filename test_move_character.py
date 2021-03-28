@@ -7,7 +7,7 @@ class TestMoveCharacter(TestCase):
     @patch('game.input_checker', return_value='East')
     @patch('game.display_map', return_value='')
     @patch('game.display_info', return_value='')
-    def test_move_character_east(self, mock_map, mock_info, mock_checker):
+    def test_move_character_east(self, mock_info, mock_map, mock_checker):
         player = {'name': 'Paul', 'class': 'Warrior', 'hp': 20, 'position': [0, 0], 'level': 1, 'experience': 0,
                   'category': 'player', 'class_dictionary': {'level': 1, 'level_name': 'Apprentice Warrior',
                                                              'experience_needed': 200, 'attack_name': 'Threaten',
@@ -22,7 +22,7 @@ class TestMoveCharacter(TestCase):
     @patch('game.input_checker', return_value='West')
     @patch('game.display_map', return_value='')
     @patch('game.display_info', return_value='')
-    def test_move_character_west(self, mock_map, mock_info, mock_checker):
+    def test_move_character_west(self, mock_info, mock_map, mock_checker):
         player = {'name': 'Paul', 'class': 'Warrior', 'hp': 20, 'position': [0, 1], 'level': 1, 'experience': 0,
                   'category': 'player', 'class_dictionary': {'level': 1, 'level_name': 'Apprentice Warrior',
                                                              'experience_needed': 200, 'attack_name': 'Threaten',
@@ -37,7 +37,7 @@ class TestMoveCharacter(TestCase):
     @patch('game.input_checker', return_value='North')
     @patch('game.display_map', return_value='')
     @patch('game.display_info', return_value='')
-    def test_move_character_north(self, mock_map, mock_info, mock_checker):
+    def test_move_character_north(self, mock_info, mock_map, mock_checker):
         player = {'name': 'Paul', 'class': 'Warrior', 'hp': 20, 'position': [1, 0], 'level': 1, 'experience': 0,
                   'category': 'player', 'class_dictionary': {'level': 1, 'level_name': 'Apprentice Warrior',
                                                              'experience_needed': 200, 'attack_name': 'Threaten',
@@ -52,7 +52,7 @@ class TestMoveCharacter(TestCase):
     @patch('game.input_checker', return_value='South')
     @patch('game.display_map', return_value='')
     @patch('game.display_info', return_value='')
-    def test_move_character_south(self, mock_map, mock_info, mock_checker):
+    def test_move_character_south(self, mock_info, mock_map, mock_checker):
         player = {'name': 'Paul', 'class': 'Warrior', 'hp': 20, 'position': [0, 0], 'level': 1, 'experience': 0,
                   'category': 'player', 'class_dictionary': {'level': 1, 'level_name': 'Apprentice Warrior',
                                                              'experience_needed': 200, 'attack_name': 'Threaten',
@@ -67,7 +67,7 @@ class TestMoveCharacter(TestCase):
     @patch('game.input_checker', return_value='South')
     @patch('game.display_map', return_value='')
     @patch('game.display_info', return_value='')
-    def test_move_character_type(self, mock_map, mock_info, mock_checker):
+    def test_move_character_type(self, mock_info, mock_map, mock_checker):
         player = {'name': 'Paul', 'class': 'Warrior', 'hp': 20, 'position': [0, 0], 'level': 1, 'experience': 0,
                   'category': 'player', 'class_dictionary': {'level': 1, 'level_name': 'Apprentice Warrior',
                                                              'experience_needed': 200, 'attack_name': 'Threaten',
