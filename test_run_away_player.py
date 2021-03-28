@@ -1,7 +1,6 @@
 from unittest import TestCase
 from unittest.mock import patch
 from game import run_away_player
-import game
 import io
 
 
@@ -16,7 +15,7 @@ class TestRunAwayPlayer(TestCase):
                                                              'experience_needed': 200, 'attack_name': 'Threaten',
                                                              'max_hp': 20, 'base_damage_min': 7, 'base_damage_max': 12,
                                                              'accuracy_rate': 50}}
-        expected_output = "You've been damaged 1 hp by Zelda while running away!" \
+        expected_output = "You've been damaged \033[4m1\u001b[0m hp by Zelda while running away!" \
                           "\nYou only have 19 hp left! Be careful Paul!\n"
         run_away_player(player, monster)
         self.assertEqual(mock_stdout.getvalue(), expected_output)
