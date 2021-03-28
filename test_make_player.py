@@ -25,6 +25,6 @@ class TestMakePlayer(TestCase):
         self.assertEqual(make_player(), expected)
 
     @patch('game.player_name_generator', side_effect=["player"])
-    @patch('game.player_class_generator', side_effect=['Warrior'])
+    @patch('game.input_checker', side_effect=["Warrior"])
     def test_make_player_return_type(self, mock_input, mock_generator):
         self.assertEqual(type(make_player()), dict)
