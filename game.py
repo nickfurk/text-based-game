@@ -12,6 +12,7 @@ from time import sleep
 import doctest
 import os
 from coolname import generate
+import art
 
 
 # Player Specifications
@@ -1259,28 +1260,20 @@ def game_over():
     The function will run when the player chooses "quit" in move_character function. This will print a message, and
     the game will be terminated.
     """
-    print("\n\n\nThanks for playing! The game is over, goodbye!")
+    art.tprint("\n\n\nThanks for playing!\nSee you next time!")
     input("\nType anything and press enter to close the game!")
     quit()
 
 
 def game_win_art():
     """Print ASCII art to congratulate the player for winning the game."""
-    print("\n\n\n"
-          " _____                            _       _\n"
-          "/ ____|                          | |     | |\n"
-          "| |     ___  _ __   __ _ _ __ __ _| |_ ___| |\n"
-          "| |    / _ \| '_ \ / _` | '__/ _` | __/ __| |\n"
-          "| |___| (_) | | | | (_| | | | (_| | |_\__ \_|\n"
-          "\_____\___/|_| |_|\__, |_|  \__,_|\__|___(_)\n"
-          "                     __/ |                    \n"
-          "                    |___/ \n")
+    art.tprint("\n\n\nCongrats!\nYou've won!")
     input("\nType anything and press enter to close the game!")
     quit()
 
 
 def player_dead_art():
-    print("\n\n\nYou are dead!")
+    art.tprint("\n\n\nOh no!\nYou're dead!\nTry again next time!")
     input("\nType anything and press enter to close the game!")
     quit()
 
