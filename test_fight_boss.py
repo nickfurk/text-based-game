@@ -1,7 +1,6 @@
 from unittest import TestCase
 from unittest.mock import patch
 from game import fight_boss
-import game
 import io
 
 
@@ -22,11 +21,11 @@ class TestFightBoss(TestCase):
                                                              'accuracy_rate': 50}}
         boss = {'name': 'Lord Zelda', 'hp': 4, 'damage': 15, 'position': [2, 3], "category": "boss",
                 "attack_name": ["Scratch"]}
-        expected_output = "Paul has used Threaten and has done 2 damage to Lord Zelda!\n" \
+        expected_output = "Paul has used Threaten and has done \033[4m2\u001b[0m damage to Lord Zelda!\n" \
                           "Lord Zelda has 2 hp left!\n\n" \
-                          "Lord Zelda has used Scratch and has done 1 damage to Paul!\n" \
+                          "Lord Zelda has used Scratch and has done \033[4m1\u001b[0m damage to Paul!\n" \
                           "Paul has 19 hp left!\n\n" \
-                          "Paul has used Threaten and has done 2 damage to Lord Zelda!\n" \
+                          "Paul has used Threaten and has done \033[4m2\u001b[0m damage to Lord Zelda!\n" \
                           "Lord Zelda has 0 hp left!\n\n"
         fight_boss(player, boss)
         self.assertEqual(expected_output, mock_stdout.getvalue())
@@ -47,9 +46,9 @@ class TestFightBoss(TestCase):
                                                              'accuracy_rate': 50}}
         boss = {'name': 'Lord Zelda', 'hp': 4, 'damage': 15, 'position': [2, 3], "category": "boss",
                 "attack_name": ["Scratch"]}
-        expected_output = "Paul has used Threaten and has done 2 damage to Lord Zelda!\n" \
+        expected_output = "Paul has used Threaten and has done \033[4m2\u001b[0m damage to Lord Zelda!\n" \
                           "Lord Zelda has 2 hp left!\n\n" \
-                          "Lord Zelda has used Scratch and has done 1 damage to Paul!\n" \
+                          "Lord Zelda has used Scratch and has done \033[4m1\u001b[0m damage to Paul!\n" \
                           "Paul has 0 hp left!\n\n"
         fight_boss(player, boss)
         self.assertEqual(expected_output, mock_stdout.getvalue())
@@ -70,9 +69,9 @@ class TestFightBoss(TestCase):
                                                              'accuracy_rate': 50}}
         boss = {'name': 'Lord Zelda', 'hp': 4, 'damage': 15, 'position': [2, 3], "category": "boss",
                 "attack_name": ["Scratch"]}
-        expected_output = "Paul has used Threaten and has done 2 damage to Lord Zelda!\n" \
+        expected_output = "Paul has used Threaten and has done \033[4m2\u001b[0m damage to Lord Zelda!\n" \
                           "Lord Zelda has 2 hp left!\n\n" \
-                          "Lord Zelda has used Scratch and has done 5 damage to Paul!\n" \
+                          "Lord Zelda has used Scratch and has done \033[4m5\u001b[0m damage to Paul!\n" \
                           "Paul has 15 hp left!\n\n" \
                           "You've run away successfully from Lord Zelda!\n" \
                           "You were very lucky this time...\n\n"
@@ -95,11 +94,11 @@ class TestFightBoss(TestCase):
                                                              'accuracy_rate': 50}}
         boss = {'name': 'Lord Zelda', 'hp': 4, 'damage': 15, 'position': [2, 3], "category": "boss",
                 "attack_name": ["Scratch"]}
-        expected_output = "Paul has used Threaten and has done 2 damage to Lord Zelda!\n" \
+        expected_output = "Paul has used Threaten and has done \033[4m2\u001b[0m damage to Lord Zelda!\n" \
                           "Lord Zelda has 2 hp left!\n\n" \
-                          "Lord Zelda has used Scratch and has done 1 damage to Paul!\n" \
+                          "Lord Zelda has used Scratch and has done \033[4m1\u001b[0m damage to Paul!\n" \
                           "Paul has 19 hp left!\n\n" \
-                          "You've been damaged 1 hp by Lord Zelda while running away!\n" \
+                          "You've been damaged \033[4m1\u001b[0m hp by Lord Zelda while running away!\n" \
                           "You only have 18 hp left! Be careful Paul!\n"
         fight_boss(player, boss)
         self.assertEqual(expected_output, mock_stdout.getvalue())
