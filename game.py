@@ -1282,7 +1282,7 @@ def player_dead_art():
     The function will run when the player is dead at any point in game. It will use the art module to print out the
     string as ASCII art, and then terminate.
     """
-    art.tprint("\n\n\nOh no!\nYou're dead!\nTry again next time!")
+    art.tprint("\n\n\nOh no!\nYou're dead!\nTry again!")
     input("\nType anything and press enter to close the game!")
     quit()
 
