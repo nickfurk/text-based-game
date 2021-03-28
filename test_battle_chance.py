@@ -21,9 +21,9 @@ class TestBattleChance(TestCase):
                                                              'experience_needed': 200, 'attack_name': 'Threaten',
                                                              'max_hp': 20, 'base_damage_min': 7, 'base_damage_max': 12,
                                                              'accuracy_rate': 50}}
-        expected_output = f"There's someone lurking in the dark!\n" \
-                          f"Paul has used Threaten and has done \033[4m1\u001b[0m damage to Zelda!\n" \
-                          f"Zelda has 0 hp left!\n\n"
+        expected_output = "There's someone lurking in the dark!\n" \
+                          "Paul has used Threaten and has done \033[4m1\u001b[0m damage to Zelda!\n" \
+                          "Zelda has 0 hp left!\n\n"
         battle_chance(player, monster)
         self.assertEqual(mock_stdout.getvalue(), expected_output)
 

@@ -1,8 +1,6 @@
 from unittest import TestCase
 from unittest.mock import patch
 from game import run_or_fight_again
-import game
-import io
 
 
 class TestRunOrFightAgain(TestCase):
