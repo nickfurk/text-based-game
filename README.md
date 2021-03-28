@@ -42,4 +42,6 @@
 | Ranger | normal | normal |
 | Warrior | normal | pure luck |
 
+***Hint Hint***: The Mage class will be the easiest to win, if you are lucky of course 😉. 
+
 #### ** Add any comments for me above this line **
