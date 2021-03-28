@@ -5,8 +5,8 @@ from game import make_player
 
 class TestMakePlayer(TestCase):
     @patch('game.player_name_generator', side_effect=["player"])
-    @patch('game.player_class_generator', side_effect=['Warrior'])
-    def test_make_player_return_correct_player_dictionary(self, mock_generator, mock_name):
+    @patch('game.input_checker', side_effect=["Warrior"])
+    def test_make_player_return_correct_player_dictionary(self, mock_input, mock_generator):
         expected = {'category': 'player',
                     'class': 'Warrior',
                     'class_dictionary': {'accuracy_rate': 50,
@@ -26,5 +26,5 @@ class TestMakePlayer(TestCase):
 
     @patch('game.player_name_generator', side_effect=["player"])
     @patch('game.player_class_generator', side_effect=['Warrior'])
-    def test_make_player_return_type(self, mock_generator, mock_name):
+    def test_make_player_return_type(self, mock_input, mock_generator):
         self.assertEqual(type(make_player()), dict)
