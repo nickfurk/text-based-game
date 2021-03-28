@@ -1307,7 +1307,7 @@ def game():
             fight_boss(player, boss)
         else:
             battle_chance(player, random_monster(player))
-    if boss["hp"] > 0:
+    if boss["hp"] < 1:
         game_win_art()
     player_dead_art()
 
