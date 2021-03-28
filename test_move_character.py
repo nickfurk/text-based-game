@@ -1,8 +1,6 @@
 from unittest import TestCase
 from unittest.mock import patch
 from game import move_character
-import game
-import io
 
 
 class TestMoveCharacter(TestCase):
