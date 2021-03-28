@@ -1257,7 +1257,7 @@ def fight_boss(player: dict, boss: dict):
                 run_away_player(player, boss)
                 boss["hp"] = BOSS_MAX_HP()
                 break
-            elif boss["hp"] < 1 and player["hp"] > 0:
+            else:
                 continue
         press_enter_to_continue()
     else:
