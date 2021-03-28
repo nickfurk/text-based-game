@@ -1255,10 +1255,10 @@ def fight_boss(player: dict, boss: dict):
 
 
 def game_over():
-    """Generate a prompt to end the game.
+    """Print ASCII art to end the game.
 
-    The function will run when the player chooses "quit" in move_character function. This will print a message, and
-    the game will be terminated.
+    The function will run when the player chooses "quit" in move_character function. It will use the art module to
+    print out the string as ASCII art, and then terminate.
     """
     art.tprint("\n\n\nThanks for playing!\nSee you next time!")
     input("\nType anything and press enter to close the game!")
@@ -1266,13 +1266,22 @@ def game_over():
 
 
 def game_win_art():
-    """Print ASCII art to congratulate the player for winning the game."""
+    """Print ASCII art to congratulate the player for winning the game.
+
+    The function will run when the player succeeds in defeating the boss. It will use the art module to print out the
+    string as ASCII art, and then terminate.
+    """
     art.tprint("\n\n\nCongrats!\nYou've won!")
     input("\nType anything and press enter to close the game!")
     quit()
 
 
 def player_dead_art():
+    """Print ASCII art to notify the player when they are dead.
+
+    The function will run when the player is dead at any point in game. It will use the art module to print out the
+    string as ASCII art, and then terminate.
+    """
     art.tprint("\n\n\nOh no!\nYou're dead!\nTry again next time!")
     input("\nType anything and press enter to close the game!")
     quit()
