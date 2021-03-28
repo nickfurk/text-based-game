@@ -9,6 +9,7 @@
 ***Modules Used***
 
 - coolname
+- art
 - os
 - itertools
 - time
@@ -19,17 +20,17 @@
 
 | Required element | Location (line number) |
 | ---------------- | ---------------------- |
-| Tuple | ~424 |
-| List | ~388  |
-| Dictionary or list comprehension | ~424,   |
-| Selection using the if-statement |  |
-| For or while loop | ~1248, 442, 517  |
-| Membership operator (in) | ~535,  |
-| Range function | ~652, 424 |
-| itertools function(s) | ~423  |
-| Enumerate | ~496, 775|
-| Filter or map | ~751 |
-| Random module | ~797, 1104, 874 |
+| Tuple | 708, 469 |
+| List | 815, 377, 20|
+| Dictionary or list comprehension | 662, 919, 1200 |
+| Selection using the if-statement | 735, 770, 1089 |
+| For or while loop | 487, 1303, 1244 |
+| Membership operator (in) | 487, 527, 569 |
+| Range function | 686, 839 |
+| itertools function(s) | 468  |
+| Enumerate | 530, 821 |
+| Filter or map | 820 |
+| Random module | 840, 942, 1140 |
 
 
 ***Player Class Damage & Accuracy Level***
