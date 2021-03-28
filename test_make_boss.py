@@ -7,7 +7,7 @@ class TestMakeBoss(TestCase):
     @patch('game.choice', return_value='Kalzeruth')
     def test_make_boss_correct_boss(self, mock_choice):
         expected_output = {'name': '\x1b[31mKalzeruth\x1b[0m', 'category': 'boss', 'hp': 60, 'damage': 20,
-                           'position': [25, 25],
+                           'position': [14, 14],
                            'attack_name': ['Massacre', 'Demolish', 'Torture', 'Execute', 'Harvest']}
         self.assertEqual(expected_output, make_boss())
 
