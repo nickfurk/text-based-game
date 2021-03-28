@@ -286,7 +286,7 @@ def BOSS_POSITION() -> list:
 
     :return: a list with two number elements
     """
-    return [5, 5]
+    return [14, 14]
 
 
 def RANDOM_BOSS_ATTACK() -> list:
@@ -513,17 +513,6 @@ def press_enter_to_continue():
     while user_input != "":
         print("Please press enter!")
         user_input = input("Press enter to continue the game!: ")
-
-
-def game_over():
-    """Generate a prompt to end the game.
-
-    The function will run when the player chooses "quit" in move_character function. This will print a message, and
-    the game will be terminated.
-    """
-    print("\n\n\nThanks for playing! The game is over, goodbye!")
-    input("\nType anything and press enter to close the game!")
-    quit()
 
 
 def random_name_generator() -> str:
@@ -1264,9 +1253,28 @@ def fight_boss(player: dict, boss: dict):
         run_away_player(player, boss)
 
 
+def game_over():
+    """Generate a prompt to end the game.
+
+    The function will run when the player chooses "quit" in move_character function. This will print a message, and
+    the game will be terminated.
+    """
+    print("\n\n\nThanks for playing! The game is over, goodbye!")
+    input("\nType anything and press enter to close the game!")
+    quit()
+
+
 def game_win_art():
     """Print ASCII art to congratulate the player for winning the game."""
-    print("\n\n\nyou win!")
+    print("\n\n\n"
+          " _____                            _       _\n"
+          "/ ____|                          | |     | |\n"
+          "| |     ___  _ __   __ _ _ __ __ _| |_ ___| |\n"
+          "| |    / _ \| '_ \ / _` | '__/ _` | __/ __| |\n"
+          "| |___| (_) | | | | (_| | | | (_| | |_\__ \_|\n"
+          "\_____\___/|_| |_|\__, |_|  \__,_|\__|___(_)\n"
+          "                     __/ |                    \n"
+          "                    |___/ \n")
     input("\nType anything and press enter to close the game!")
     quit()
 
@@ -1290,14 +1298,14 @@ def game():
     board = make_board()
     player = make_player()
     boss = make_boss()
-    while player['hp'] > 0 or boss["hp"] < 1:
+    while player['hp'] > 0 or boss["hp"] > 0:
         leveling_package(player)
         move_character(player, board, boss)
         if player["position"] == boss["position"]:
             fight_boss(player, boss)
         else:
             battle_chance(player, random_monster(player))
-    if boss["hp"] < 1:
+    if boss["hp"] > 0:
         game_win_art()
     player_dead_art()
 
