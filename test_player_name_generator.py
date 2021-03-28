@@ -16,14 +16,9 @@ class TestPlayerNameGenerator(TestCase):
         expected_output = "Stirring Lyrebird"
         self.assertEqual(player_name_generator(), expected_output)
 
-    @patch('game.random_name_generator', side_effect=["I would like to choose another one at random", "April"])
-    def test_player_name_generator_choose_another_random(self, mock_generate):
-        expected_output = "April"
-        self.assertEqual(player_name_generator(), expected_output)
-
     @patch('game.random_name_generator', side_effect=["King Zelda"])
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_player_name_generator_correct_print(self, mock_stdout, mock_generator):
-        expected_output = "\nWelcome to the game, \u001b[32;1mKing Zelda\u001b[0m.\n\n"
+        expected_output = "\nWelcome to the game, \u001b[32;1mKing Zelda\u001b[0m\n\n"
         player_name_generator()
         self.assertEqual(mock_stdout.getvalue(), expected_output)
