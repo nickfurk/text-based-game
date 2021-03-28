@@ -1260,7 +1260,7 @@ def game_over():
     The function will run when the player chooses "quit" in move_character function. It will use the art module to
     print out the string as ASCII art, and then terminate.
     """
-    art.tprint("\n\n\nThanks for playing!\nSee you next time!")
+    art.tprint("\n\n\nThanks for playing!\nSee you later!")
     input("\nType anything and press enter to close the game!")
     quit()
 
