@@ -5,7 +5,6 @@ import io
 
 
 class TestInputChecker(TestCase):
-
     @patch('builtins.input', side_effect=['3'])
     def test_input_checker_correct_option_string_is_return(self, mock_input):
         options = {1: 'Mage', 2: 'Thief', 3: 'Ranger', 4: 'Warrior'}
