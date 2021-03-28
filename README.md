@@ -8,9 +8,9 @@
 
 ***Modules Used***
 
-- coolname
-- art
-- os
+- coolname (https://pypi.org/project/coolname/)
+- art (https://pypi.org/project/art/)
+- os 
 - itertools
 - time
 - random
