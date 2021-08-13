@@ -1321,7 +1321,9 @@ def game():
 
 def main():
     """Execute the program"""
-    doctest.testmod(verbose=True)
+    should_run_doctest = os.getenv("RUN_DOCTEST")
+    if should_run_doctest:
+        doctest.testmod(verbose=True)
     os.system("")
     game()
 
