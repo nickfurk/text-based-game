@@ -2,7 +2,16 @@
 
 ### Your names: <br>Paul Seong Uk Yeon <br> April Cheng
 
-#### ** Add any comments for me below this line **
+***How to play***
+
+On your own terminal:
+```
+git clone https://github.com/nickfurk/text-based-game.git
+cd text-based-game
+python3 -m pip install -r requirements.txt
+python3 game.py
+```
+
 
 ***Modules Used***
 
